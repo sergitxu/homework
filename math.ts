@@ -7,6 +7,8 @@ const formulario = document.getElementById('calculo');
 actualizarPuntos();
 actualizarVidas();
 
+// TODO añadir record personal
+
 // Manejo de la tecla enter
 formulario?.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {

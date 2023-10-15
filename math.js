@@ -4,6 +4,7 @@ var vidas = VIDAS_INICIALES;
 var formulario = document.getElementById('calculo');
 actualizarPuntos();
 actualizarVidas();
+// TODO añadir record personal
 // Manejo de la tecla enter
 formulario === null || formulario === void 0 ? void 0 : formulario.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
