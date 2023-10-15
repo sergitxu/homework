@@ -5,6 +5,8 @@ let vidas:number = VIDAS_INICIALES;
 actualizarPuntos();
 actualizarVidas();
 
+// TODO manejar tecla enter
+
 function actualizarPuntos() {
     document.getElementById('puntos')!.innerText = puntos.toString();
 }
