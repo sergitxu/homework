@@ -95,7 +95,6 @@ function fallar() {
 }
 function quitarError() {
     var _a;
-    console.log('limpiando');
     (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.classList.remove('error');
 }
 function randomNumber(lessThan) {
