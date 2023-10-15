@@ -11,6 +11,7 @@ function actualizarPuntos() {
 function gameOver() {
     alert('GAME OVER');
     mostrar('empezar');
+    // TODO añadir resultado correcto
 };
 
 function actualizarVidas() {
