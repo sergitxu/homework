@@ -4,9 +4,11 @@
         <link rel="stylesheet" href="homework.css">
     </head>
     <body>
-        <button onclick="crearOperaciones(5);">Crear operaciones</button>
+        <p>Vidas: <span id="vidas" class="corazon"></span></p>
+        <button id="empezar" onclick="crearOperacion();esconder('empezar')">¡Empieza!</button>
         <ul id="operaciones"> 
         </ul>
+        <p>Puntos: <span id="puntos"></span></p>
     </body>
     <script src="math.js"></script>
 </html>

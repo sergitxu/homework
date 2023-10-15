@@ -1,4 +1,8 @@
-.cifra, .operacion, .respuesta {
+li {
+    list-style: none;
+}
+
+.cifra, .operacion, .respuesta, .boton-calcular {
     font-family: fantasy;
     font-size:30px;
     color: green;
@@ -10,6 +14,16 @@
     vertical-align: bottom;
 }
 
-li {
-    list-style: none;
+.boton-calcular {
+    font-size: 27px;
+    line-height: 29px;
+}
+
+.corazon {
+    color: red;
+    font-size: 30px;
+}
+.corazon-vacio {
+    color: red;
+    font-size: 30px;
 }
