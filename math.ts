@@ -38,13 +38,14 @@ function mostrar(paraEsconder) {
     document.getElementById(`${paraEsconder}`)!.style.display = 'block';
 }
 
-function crearOperacion() {
+function resetearVidasPuntos() {
     vidas = VIDAS_INICIALES;
     puntos = 0;
-    
     actualizarVidas();
     actualizarPuntos();
+}
 
+function crearOperacion() {
     var ul = document.getElementById('operaciones');
     let operacion:string;
     let operacionAzar:number = randomNumber(2);

@@ -9,6 +9,7 @@ function actualizarPuntos() {
 function gameOver() {
     alert('GAME OVER');
     mostrar('empezar');
+    // TODO añadir resultado correcto
 }
 ;
 function actualizarVidas() {
@@ -29,11 +30,13 @@ function esconder(paraEsconder) {
 function mostrar(paraEsconder) {
     document.getElementById("".concat(paraEsconder)).style.display = 'block';
 }
-function crearOperacion() {
+function resetearVidasPuntos() {
     vidas = VIDAS_INICIALES;
     puntos = 0;
     actualizarVidas();
     actualizarPuntos();
+}
+function crearOperacion() {
     var ul = document.getElementById('operaciones');
     var operacion;
     var operacionAzar = randomNumber(2);
@@ -46,9 +49,6 @@ function crearOperacion() {
     else {
         operacion = "-";
         valor_b = randomNumber(valor_a);
-        console.log(valor_a);
-        console.log(valor_b);
-        console.log(operacion);
     }
     ul.innerHTML = "\n        <li>\n            <form id=\"calculo\">\n                <span id=\"cifra-a\" class=\"cifra\">".concat(valor_a, "</span>\n                <span id=\"operacion\" class=\"operacion\">").concat(operacion, "</span>\n                <span id=\"cifra-b\" class=\"cifra\">").concat(valor_b, "</span>\n                <span class=\"cifra\"> = </span>\n                <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\">\n                <button type=\"button\" id=\"calcularBoton\" onclick=\"calcular()\" class=\"boton-calcular\">&#9166;</button>\n            </form>\n        </li>\n        ");
 }
