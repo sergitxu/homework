@@ -1,22 +1,35 @@
+
+body {
+    font-family: fantasy;
+}
 li {
     list-style: none;
 }
 
-.cifra, .operacion, .respuesta, .boton-calcular {
-    font-family: fantasy;
+.cifra, .operacion, .respuesta, .boton-calcular, .puntos {
     font-size:30px;
+}
+.puntos {
     color: green;
+}
+.error {
+    color: red;
 }
 
 .respuesta {
     width: 50px;
     height: 30px;
     vertical-align: bottom;
+    font-family: fantasy;
 }
 
 .boton-calcular {
     font-size: 27px;
     line-height: 29px;
+}
+
+.vidas {
+    font-size: 20px;
 }
 
 .corazon {

@@ -2,19 +2,22 @@ let puntos:number = 0;
 let VIDAS_INICIALES:number = 5;
 let vidas:number = VIDAS_INICIALES;
 
+const formulario = document.getElementById('calculo');
+
 actualizarPuntos();
 actualizarVidas();
 
-// TODO manejar tecla enter
+// Manejo de la tecla enter
+formulario?.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      calcular();
+    }
+  });
 
 function actualizarPuntos() {
     document.getElementById('puntos')!.innerText = puntos.toString();
 }
-function gameOver() {
-    alert('GAME OVER');
-    mostrar('empezar');
-    // TODO añadir resultado correcto
-};
 
 function actualizarVidas() {
     
@@ -30,15 +33,13 @@ function actualizarVidas() {
     if (vidas === 0) {
         gameOver();
     }
-    
 }
 
-function esconder(paraEsconder) {
-    document.getElementById(`${paraEsconder}`)!.style.display = 'none';
-}
-function mostrar(paraEsconder) {
-    document.getElementById(`${paraEsconder}`)!.style.display = 'block';
-}
+function gameOver() {
+    alert('GAME OVER');
+    mostrar('empezar');
+    // TODO añadir resultado correcto
+};
 
 function resetearVidasPuntos() {
     vidas = VIDAS_INICIALES;
@@ -48,7 +49,6 @@ function resetearVidasPuntos() {
 }
 
 function crearOperacion() {
-    var ul = document.getElementById('operaciones');
     let operacion:string;
     let operacionAzar:number = randomNumber(2);
     let valor_a:number = randomNumber(11);
@@ -62,18 +62,15 @@ function crearOperacion() {
         valor_b = randomNumber(valor_a);
     }
 
-    ul!.innerHTML = `
-        <li>
-            <form id="calculo">
-                <span id="cifra-a" class="cifra">${valor_a}</span>
-                <span id="operacion" class="operacion">${operacion}</span>
-                <span id="cifra-b" class="cifra">${valor_b}</span>
-                <span class="cifra"> = </span>
-                <input type="number" id="respuesta" name="respuesta" class="respuesta">
-                <button type="button" id="calcularBoton" onclick="calcular()" class="boton-calcular">&#9166;</button>
-            </form>
-        </li>
+    formulario!.innerHTML = `
+            <span id="cifra-a" class="cifra">${valor_a}</span>
+            <span id="operacion" class="operacion">${operacion}</span>
+            <span id="cifra-b" class="cifra">${valor_b}</span>
+            <span class="cifra"> = </span>
+            <input type="number" id="respuesta" name="respuesta" class="respuesta" oninput="quitarError()">
+            <button type="button" id="calcularBoton" onclick="calcular()" class="boton-calcular">&#9166;</button>
         `;
+        document.getElementById(`respuesta`)?.focus();
 }
 
 function calcular() {
@@ -110,12 +107,26 @@ function acertar() {
     actualizarPuntos();
     crearOperacion();
 }
+
 function fallar() {
+    document.getElementById(`respuesta`)?.classList.add('error');
     alert('MAL, prueba otra vez.');
     vidas--;
     actualizarVidas();
 }
 
+function quitarError() {
+    document.getElementById(`respuesta`)?.classList.remove('error');
+}
+
 function randomNumber(lessThan) {    
     return Math.floor(Math.random()*lessThan);
+}
+
+function esconder(paraEsconder) {
+    document.getElementById(`${paraEsconder}`)!.style.display = 'none';
+}
+
+function mostrar(paraMostrar) {
+    document.getElementById(`${paraMostrar}`)!.style.display = 'block';
 }
