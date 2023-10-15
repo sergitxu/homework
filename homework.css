@@ -1,0 +1,15 @@
+.cifra, .operacion, .respuesta {
+    font-family: fantasy;
+    font-size:30px;
+    color: green;
+}
+
+.respuesta {
+    width: 50px;
+    height: 30px;
+    vertical-align: bottom;
+}
+
+li {
+    list-style: none;
+}
