@@ -16,7 +16,6 @@ class Homework {
         this.actualizarVidas();
 
         // TODO añadir record personal usando storage
-
         // TODO añadir juego igual / distinto
 
         addEventListener('keypress', (e) => {
@@ -114,14 +113,14 @@ class Homework {
     acertar() {
         this.puntos++;
         this.actualizarPuntos();
-        this.animar(this.puntosNumero);
+        this.animar(this.puntosNumero, 'animar-puntos-numero');
         this.crearOperacion();
     }
 
     fallar() {
         document.getElementById(`respuesta`)?.classList.add('error');
         this.vidas--;
-        this.animar(this.vidasNumero);
+        this.animar(this.vidasNumero, 'animar-vidas-numero');
         this.actualizarVidas();
     }
 
@@ -137,10 +136,10 @@ class Homework {
         `
     }
 
-    animar(animado) {
-        animado?.classList.add(`animar-${animado}`);
+    animar(animado, clase) {
+        animado?.classList.add(clase);
         setTimeout(() => {
-            animado?.classList.remove(`animar-${animado}`);
+            animado?.classList.remove(clase);
         }, 1000);
 
     }
