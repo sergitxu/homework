@@ -8,7 +8,7 @@ li {
 }
 
 .contenedor {
-    width: 13vw;
+    width: 20vw;
     border: 6px solid dodgerblue;
     border-radius: 5px;
     padding: 1rem;
@@ -52,7 +52,7 @@ li {
 .respuesta,
 .boton-calcular,
 .puntos-numero {
-    font-size: 2rem;
+    font-size: 3rem;
 }
 
 .puntos-numero,
@@ -64,7 +64,7 @@ li {
     border-top: 1px solid orange;
     padding-top: 0.4rem;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 2rem;
 }
 
 .error {
@@ -72,14 +72,14 @@ li {
 }
 
 .respuesta {
-    width: 3rem;
-    height: 2rem;
+    width: 4rem;
+    height: 3rem;
     vertical-align: bottom;
     font-family: fantasy;
 }
 
 .boton-calcular {
-    line-height: 2rem;
+    line-height: 3rem;
 }
 
 .vidas-numero {
@@ -88,7 +88,7 @@ li {
     border-bottom: 1px solid orange;
     padding-bottom: 1.2rem;
     color: red;
-    font-size: 2rem;
+    font-size: 3rem;
     position: relative;
     width: 100%;
 }
@@ -100,15 +100,15 @@ li {
 
 @keyframes atencion {
     0% {
-        font-size: 2rem;
-    }
-
-    50% {
         font-size: 3rem;
     }
 
+    50% {
+        font-size: 4rem;
+    }
+
     100% {
-        font-size: 2rem;
+        font-size: 3rem;
     }
 }
 

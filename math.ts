@@ -72,6 +72,7 @@ class Homework {
             <span id="operacion" class="operacion">${this.operacion}</span>
             <span id="cifra-b" class="cifra">${this.valor_b}</span>
             <span class="cifra"> = </span>
+            <br>
             <input type="number" id="respuesta" name="respuesta" class="respuesta" oninput="homeWork.quitarError()">
             <button type="button" id="calcularBoton" onclick="homeWork.calcular()" class="boton-calcular">&#9166;</button>
         </form>
