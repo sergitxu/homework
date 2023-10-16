@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="homework.css">
-    </head>
-    <body>
-        <p class="vidas">Vidas: <span id="vidas" class="corazon"></span></p>
-        <button id="empezar" onclick="crearOperacion();resetearVidasPuntos();esconder('empezar')">¡Empieza!</button>
-        <form id="calculo"> 
-        </form>
-        <p>Puntos: <span id="puntos" class="puntos"></span></p>
-    </body>
-    <script src="math.js"></script>
+
+<head>
+    <link rel="stylesheet" href="homework.css">
+</head>
+
+<body>
+    <div class="contenedor">
+        <div class="vidas">Vidas: <span id="vidas" class="vidas-numero"></span></div>
+        <div class="juego">
+            <button id="empezar" onclick="crearOperacion();resetearVidasPuntos();esconder('empezar')">¡A jugar!</button>
+            <form id="calculo"></form>
+        </div>
+        <div class="puntos">Puntos: <span id="puntos" class="puntos-numero"></span></div>
+    </div>
+</body>
+<script src="math.js"></script>
+
 </html>

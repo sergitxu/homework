@@ -1,17 +1,45 @@
-
 body {
     font-family: fantasy;
 }
+
 li {
     list-style: none;
 }
 
-.cifra, .operacion, .respuesta, .boton-calcular, .puntos {
-    font-size:30px;
+.contenedor {
+    width: 13vw;
+    border: 2px solid orange;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: auto;
 }
-.puntos {
+
+#calculo {
+    text-align: center;
+}
+
+.juego {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.cifra,
+.operacion,
+.respuesta,
+.boton-calcular,
+.puntos-numero {
+    font-size: 30px;
+}
+
+.puntos-numero {
     color: green;
 }
+
+.puntos {
+    border-top: 1px solid orange;
+    text-align: center;
+}
+
 .error {
     color: red;
 }
@@ -29,14 +57,14 @@ li {
 }
 
 .vidas {
-    font-size: 20px;
+    font-size: 16px;
+    margin-top: 0;
+    text-align: right;
+    border-bottom: 1px solid orange;
+    padding-bottom: 20px;
 }
 
-.corazon {
+.vidas-numero {
     color: red;
-    font-size: 30px;
-}
-.corazon-vacio {
-    color: red;
-    font-size: 30px;
+    font-size: 20px;
 }
