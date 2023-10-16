@@ -7,8 +7,6 @@ li {
     list-style: none;
 }
 
-/* TODO Mejorar la vista en movil */
-
 .contenedor {
     width: 13vw;
     border: 6px solid dodgerblue;
@@ -16,6 +14,7 @@ li {
     padding: 1rem;
     margin: 310px auto auto;
     background: #fff;
+
 }
 
 .fondo {
@@ -85,7 +84,7 @@ li {
 
 .vidas-numero {
     margin-top: 0;
-    text-align: right;
+    text-align: center;
     border-bottom: 1px solid orange;
     padding-bottom: 1.2rem;
     color: red;
@@ -111,4 +110,48 @@ li {
     100% {
         font-size: 2rem;
     }
+}
+
+@media only screen and (max-width: 980px) {
+    .contenedor {
+        width: 80vw;
+    }
+
+    .empezar,
+    .vidas-numero,
+    .cifra,
+    .operacion,
+    .respuesta,
+    .boton-calcular,
+    .puntos-numero {
+        font-size: 8rem;
+    }
+
+    .puntos {
+        font-size: 6rem;
+    }
+
+    .respuesta {
+        width: 9.6rem;
+        height: 9rem;
+    }
+
+    .boton-calcular {
+        line-height: 8rem;
+    }
+
+    @keyframes atencion {
+        0% {
+            font-size: 8rem;
+        }
+
+        50% {
+            font-size: 12rem;
+        }
+
+        100% {
+            font-size: 8rem;
+        }
+    }
+
 }
