@@ -14,6 +14,10 @@ li {
     margin: auto;
 }
 
+.empezar {
+    display: inline-block;
+}
+
 #calculo {
     text-align: center;
 }
@@ -42,6 +46,7 @@ li {
 
 .puntos {
     border-top: 1px solid orange;
+    padding-top: 0.4rem;
     text-align: center;
     font-size: 1.2rem;
 }

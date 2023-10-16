@@ -5,13 +5,12 @@ var Homework = /** @class */ (function () {
         this.VIDAS_INICIALES = 5;
         this.vidas = this.VIDAS_INICIALES;
         this.resultado = 0;
-        this.formulario = document.getElementById('calculo');
+        this.zonaCalculo = document.getElementById('zona-calculo');
         this.actualizarPuntos();
         this.actualizarVidas();
         // TODO añadir record personal usando storage
         // Manejo de la tecla enter
-        var formulario = document.getElementById('calculo');
-        formulario === null || formulario === void 0 ? void 0 : formulario.addEventListener('keypress', function (e) {
+        addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 _this.calcular();
@@ -53,16 +52,16 @@ var Homework = /** @class */ (function () {
             operacion = "-";
             valor_b = this.randomNumber(valor_a);
         }
-        this.formulario.innerHTML = "\n            <span id=\"cifra-a\" class=\"cifra\">".concat(valor_a, "</span>\n            <span id=\"operacion\" class=\"operacion\">").concat(operacion, "</span>\n            <span id=\"cifra-b\" class=\"cifra\">").concat(valor_b, "</span>\n            <span class=\"cifra\"> = </span>\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"calcular()\" class=\"boton-calcular\">&#9166;</button>\n        ");
+        this.zonaCalculo.innerHTML = "\n        <form id=\"calculo\">\n            <span id=\"cifra-a\" class=\"cifra\">".concat(valor_a, "</span>\n            <span id=\"operacion\" class=\"operacion\">").concat(operacion, "</span>\n            <span id=\"cifra-b\" class=\"cifra\">").concat(valor_b, "</span>\n            <span class=\"cifra\"> = </span>\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
     };
     Homework.prototype.calcular = function () {
         var _a;
-        if (this.vidas > 0) {
+        var respuesta = document.getElementById("respuesta").value;
+        if (this.vidas > 0 && respuesta) {
             var a = document.getElementById("cifra-a").innerText;
             var b = document.getElementById("cifra-b").innerText;
             var operacion = (_a = document.getElementById("operacion")) === null || _a === void 0 ? void 0 : _a.innerText;
-            var respuesta = document.getElementById("respuesta").value;
             a = parseInt(a);
             b = parseInt(b);
             respuesta = parseInt(respuesta);
@@ -99,8 +98,7 @@ var Homework = /** @class */ (function () {
         alert('GAME OVER');
         document.getElementById("calcularBoton").disabled = true;
         this.mostrar('empezar');
-        // TODO: Add correct result
-        this.formulario.innerHTML += "<p>La respuesta correcta es <span class=\"resultado-number\">".concat(this.resultado, "</span>.</p>");
+        this.zonaCalculo.innerHTML += "<p>La respuesta correcta es <span class=\"resultado-number\">".concat(this.resultado, "</span>.</p>");
     };
     Homework.prototype.quitarError = function () {
         var _a;
@@ -113,7 +111,7 @@ var Homework = /** @class */ (function () {
         document.getElementById(paraEsconder).style.display = 'none';
     };
     Homework.prototype.mostrar = function (paraMostrar) {
-        document.getElementById(paraMostrar).style.display = 'block';
+        document.getElementById(paraMostrar).style.display = 'inline-block';
     };
     return Homework;
 }());

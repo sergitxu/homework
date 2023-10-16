@@ -3,7 +3,7 @@ class Homework {
     VIDAS_INICIALES: number = 5;
     vidas: number = this.VIDAS_INICIALES;
     resultado: number = 0;
-    formulario = document.getElementById('calculo');
+    zonaCalculo = document.getElementById('zona-calculo');
 
     constructor() {
         this.actualizarPuntos();
@@ -12,8 +12,7 @@ class Homework {
         // TODO añadir record personal usando storage
 
         // Manejo de la tecla enter
-        const formulario = document.getElementById('calculo');
-        formulario?.addEventListener('keypress', (e) => {
+        addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 this.calcular();
@@ -63,24 +62,27 @@ class Homework {
             valor_b = this.randomNumber(valor_a);
         }
 
-        this.formulario!.innerHTML = `
+        this.zonaCalculo!.innerHTML = `
+        <form id="calculo">
             <span id="cifra-a" class="cifra">${valor_a}</span>
             <span id="operacion" class="operacion">${operacion}</span>
             <span id="cifra-b" class="cifra">${valor_b}</span>
             <span class="cifra"> = </span>
             <input type="number" id="respuesta" name="respuesta" class="respuesta" oninput="homeWork.quitarError()">
             <button type="button" id="calcularBoton" onclick="calcular()" class="boton-calcular">&#9166;</button>
+        </form>
         `;
 
         document.getElementById(`respuesta`)?.focus();
     }
 
     calcular() {
-        if (this.vidas > 0) {
+        let respuesta: string | number = (<HTMLInputElement>document.getElementById(`respuesta`)).value;
+
+        if (this.vidas > 0 && respuesta) {
             let a: string | number = document.getElementById(`cifra-a`)!.innerText;
             let b: string | number = document.getElementById(`cifra-b`)!.innerText;
             let operacion = document.getElementById(`operacion`)?.innerText;
-            let respuesta: string | number = (<HTMLInputElement>document.getElementById(`respuesta`)).value;
 
             a = parseInt(a);
             b = parseInt(b);
@@ -122,9 +124,7 @@ class Homework {
         alert('GAME OVER');
         (<HTMLInputElement>document.getElementById(`calcularBoton`))!.disabled = true;
         this.mostrar('empezar');
-
-        // TODO: Add correct result
-        this.formulario!.innerHTML += `<p>La respuesta correcta es <span class="resultado-number">${this.resultado}</span>.</p>`
+        this.zonaCalculo!.innerHTML += `<p>La respuesta correcta es <span class="resultado-number">${this.resultado}</span>.</p>`
     }
 
     quitarError() {
@@ -140,7 +140,7 @@ class Homework {
     }
 
     mostrar(paraMostrar) {
-        document.getElementById(paraMostrar)!.style.display = 'block';
+        document.getElementById(paraMostrar)!.style.display = 'inline-block';
     }
 };
 
