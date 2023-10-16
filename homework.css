@@ -1,5 +1,5 @@
 body {
-    font-family: fantasy;
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
     background-color: #9A5B00;
 }
 
@@ -27,7 +27,7 @@ li {
 .empezar {
     display: inline-block;
     font-size: 2rem;
-    font-family: fantasy;
+    font-family: inherit;
     color: green;
     background-color: transparent;
     border-radius: 5px;
@@ -75,7 +75,7 @@ li {
     width: 4rem;
     height: 3rem;
     vertical-align: bottom;
-    font-family: fantasy;
+    font-family: inherit;
 }
 
 .boton-calcular {
