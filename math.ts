@@ -115,14 +115,16 @@ class Homework {
         this.puntos++;
         this.actualizarPuntos();
         this.animar(this.puntosNumero);
+        this.sonar('acierto');
         this.crearOperacion();
     }
 
     fallar() {
         document.getElementById(`respuesta`)?.classList.add('error');
         this.vidas--;
-        this.animar(this.vidasNumero);
         this.actualizarVidas();
+        this.animar(this.vidasNumero);
+        this.sonar('error');
     }
 
     gameOver() {
@@ -159,6 +161,12 @@ class Homework {
 
     mostrar(paraMostrar) {
         document.getElementById(paraMostrar)!.style.display = 'inline-block';
+    }
+
+    sonar(evento) {
+        let random = this.randomNumber(6);
+        let audio = new Audio(`sound/${evento}/0${random}.mp3`);
+        audio.play();
     }
 };
 

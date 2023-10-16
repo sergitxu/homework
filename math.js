@@ -87,14 +87,16 @@ var Homework = /** @class */ (function () {
         this.puntos++;
         this.actualizarPuntos();
         this.animar(this.puntosNumero);
+        this.sonar('acierto');
         this.crearOperacion();
     };
     Homework.prototype.fallar = function () {
         var _a;
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.classList.add('error');
         this.vidas--;
-        this.animar(this.vidasNumero);
         this.actualizarVidas();
+        this.animar(this.vidasNumero);
+        this.sonar('error');
     };
     Homework.prototype.gameOver = function () {
         var _a;
@@ -120,6 +122,11 @@ var Homework = /** @class */ (function () {
     };
     Homework.prototype.mostrar = function (paraMostrar) {
         document.getElementById(paraMostrar).style.display = 'inline-block';
+    };
+    Homework.prototype.sonar = function (evento) {
+        var random = this.randomNumber(6);
+        var audio = new Audio("sound/".concat(evento, "/0").concat(random, ".mp3"));
+        audio.play();
     };
     return Homework;
 }());
