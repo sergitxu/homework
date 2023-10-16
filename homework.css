@@ -83,32 +83,23 @@ li {
     line-height: 2rem;
 }
 
-.vidas {
-    font-size: 1.2rem;
+.vidas-numero {
     margin-top: 0;
     text-align: right;
     border-bottom: 1px solid orange;
     padding-bottom: 1.2rem;
-}
-
-.vidas-numero {
     color: red;
-    font-size: 1.2rem;
+    font-size: 2rem;
     position: relative;
-    display: inline-block;
+    width: 100%;
 }
 
-.animar-puntos-numero {
-    animation-name: atencionPuntos;
+.animar {
+    animation-name: atencion;
     animation-duration: 1s;
 }
 
-.animar-vidas-numero {
-    animation-name: atencionVidas;
-    animation-duration: 1s;
-}
-
-@keyframes atencionPuntos {
+@keyframes atencion {
     0% {
         font-size: 2rem;
     }
@@ -119,19 +110,5 @@ li {
 
     100% {
         font-size: 2rem;
-    }
-}
-
-@keyframes atencionVidas {
-    0% {
-        font-size: 1.2rem;
-    }
-
-    50% {
-        font-size: 2rem;
-    }
-
-    100% {
-        font-size: 1.2rem;
     }
 }

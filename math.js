@@ -13,7 +13,7 @@ var Homework = /** @class */ (function () {
         this.actualizarPuntos();
         this.actualizarVidas();
         // TODO añadir record personal usando storage
-        // Manejo de la tecla enter
+        // TODO añadir juego igual / distinto
         addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -84,18 +84,16 @@ var Homework = /** @class */ (function () {
         }
     };
     Homework.prototype.acertar = function () {
-        // TODO añadir animacion de puntos actualizados
         this.puntos++;
         this.actualizarPuntos();
-        this.animar(this.puntosNumero, 'animar-puntos-numero');
+        this.animar(this.puntosNumero);
         this.crearOperacion();
     };
     Homework.prototype.fallar = function () {
         var _a;
-        // TODO añadir animacion de vidas actualizadas
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.classList.add('error');
         this.vidas--;
-        this.animar(this.vidasNumero, 'animar-vidas-numero');
+        this.animar(this.vidasNumero);
         this.actualizarVidas();
     };
     Homework.prototype.gameOver = function () {
@@ -104,10 +102,10 @@ var Homework = /** @class */ (function () {
         (_a = this.gameOverDialog) === null || _a === void 0 ? void 0 : _a.showModal();
         this.gameOverDialog.innerHTML = "\n        <h1>\u00A1ENHORABUENA!</h1>\n        <p>Has conseguido <span class=\"puntos-numero\">".concat(this.puntos, "</span> puntos.</p>\n        <p>La respuesta correcta a ").concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</p>\n        <button id=\"empezar-de-nuevo\" class=\"empezar\"\n        onclick=\"homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.gameOverDialog.close()\">\u00A1Otra vez!</button>\n        ");
     };
-    Homework.prototype.animar = function (animado, clase) {
-        animado === null || animado === void 0 ? void 0 : animado.classList.add(clase);
+    Homework.prototype.animar = function (animado) {
+        animado === null || animado === void 0 ? void 0 : animado.classList.add('animar');
         setTimeout(function () {
-            animado === null || animado === void 0 ? void 0 : animado.classList.remove(clase);
+            animado === null || animado === void 0 ? void 0 : animado.classList.remove('animar');
         }, 1000);
     };
     Homework.prototype.quitarError = function () {
@@ -126,5 +124,4 @@ var Homework = /** @class */ (function () {
     return Homework;
 }());
 ;
-// Create an instance of the MathGame class
 var homeWork = new Homework();

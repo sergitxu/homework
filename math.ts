@@ -113,14 +113,14 @@ class Homework {
     acertar() {
         this.puntos++;
         this.actualizarPuntos();
-        this.animar(this.puntosNumero, 'animar-puntos-numero');
+        this.animar(this.puntosNumero);
         this.crearOperacion();
     }
 
     fallar() {
         document.getElementById(`respuesta`)?.classList.add('error');
         this.vidas--;
-        this.animar(this.vidasNumero, 'animar-vidas-numero');
+        this.animar(this.vidasNumero);
         this.actualizarVidas();
     }
 
@@ -136,10 +136,10 @@ class Homework {
         `
     }
 
-    animar(animado, clase) {
-        animado?.classList.add(clase);
+    animar(animado) {
+        animado?.classList.add('animar');
         setTimeout(() => {
-            animado?.classList.remove(clase);
+            animado?.classList.remove('animar');
         }, 1000);
 
     }
