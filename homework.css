@@ -20,7 +20,7 @@ li {
 
 .juego {
     text-align: center;
-    padding: 20px 0;
+    padding: 1rem 0;
 }
 
 .cifra,
@@ -28,16 +28,22 @@ li {
 .respuesta,
 .boton-calcular,
 .puntos-numero {
-    font-size: 30px;
+    font-size: 2rem;
 }
 
-.puntos-numero {
+.puntos-numero,
+.resultado-number {
     color: green;
+}
+
+.resultado-number {
+    font-size: 1.8rem;
 }
 
 .puntos {
     border-top: 1px solid orange;
     text-align: center;
+    font-size: 1.2rem;
 }
 
 .error {
@@ -45,19 +51,18 @@ li {
 }
 
 .respuesta {
-    width: 50px;
-    height: 30px;
+    width: 3rem;
+    height: 2rem;
     vertical-align: bottom;
     font-family: fantasy;
 }
 
 .boton-calcular {
-    font-size: 27px;
-    line-height: 29px;
+    line-height: 2rem;
 }
 
 .vidas {
-    font-size: 16px;
+    font-size: 1.2rem;
     margin-top: 0;
     text-align: right;
     border-bottom: 1px solid orange;
