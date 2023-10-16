@@ -17,7 +17,8 @@ class Homework {
 
         // TODO añadir record personal usando storage
 
-        // Manejo de la tecla enter
+        // TODO añadir juego igual / distinto
+
         addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -111,7 +112,6 @@ class Homework {
     }
 
     acertar() {
-        // TODO añadir animacion de puntos actualizados
         this.puntos++;
         this.actualizarPuntos();
         this.animar(this.puntosNumero);
@@ -119,7 +119,6 @@ class Homework {
     }
 
     fallar() {
-        // TODO añadir animacion de vidas actualizadas
         document.getElementById(`respuesta`)?.classList.add('error');
         this.vidas--;
         this.animar(this.vidasNumero);
@@ -163,5 +162,4 @@ class Homework {
     }
 };
 
-// Create an instance of the MathGame class
 const homeWork = new Homework();
