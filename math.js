@@ -6,6 +6,10 @@ var Homework = /** @class */ (function () {
         this.vidas = this.VIDAS_INICIALES;
         this.resultado = 0;
         this.zonaCalculo = document.getElementById('zona-calculo');
+        this.valor_a = this.randomNumber(11);
+        this.gameOverDialog = document.getElementById('game-over');
+        this.vidasNumero = document.getElementById('vidas-numero');
+        this.puntosNumero = document.getElementById('puntos-numero');
         this.actualizarPuntos();
         this.actualizarVidas();
         // TODO añadir record personal usando storage
@@ -18,15 +22,15 @@ var Homework = /** @class */ (function () {
         });
     }
     Homework.prototype.actualizarPuntos = function () {
-        document.getElementById('puntos').innerText = this.puntos.toString();
+        this.puntosNumero.innerText = this.puntos.toString();
     };
     Homework.prototype.actualizarVidas = function () {
-        document.getElementById('vidas').innerHTML = '';
+        this.vidasNumero.innerHTML = '';
         for (var i = 1; i <= this.vidas; i++) {
-            document.getElementById('vidas').innerHTML += '&#9733';
+            this.vidasNumero.innerHTML += '&#9733';
         }
         for (var i = 1; i <= this.VIDAS_INICIALES - this.vidas; i++) {
-            document.getElementById('vidas').innerHTML += '&#9734';
+            this.vidasNumero.innerHTML += '&#9734';
         }
         if (this.vidas === 0) {
             this.gameOver();
@@ -40,19 +44,17 @@ var Homework = /** @class */ (function () {
     };
     Homework.prototype.crearOperacion = function () {
         var _a;
-        var operacion;
         var operacionAzar = this.randomNumber(2);
-        var valor_a = this.randomNumber(11);
-        var valor_b;
+        this.valor_a = this.randomNumber(11);
         if (operacionAzar === 0) {
-            operacion = "+";
-            valor_b = this.randomNumber(11);
+            this.operacion = "+";
+            this.valor_b = this.randomNumber(11);
         }
         else {
-            operacion = "-";
-            valor_b = this.randomNumber(valor_a);
+            this.operacion = "-";
+            this.valor_b = this.randomNumber(this.valor_a);
         }
-        this.zonaCalculo.innerHTML = "\n        <form id=\"calculo\">\n            <span id=\"cifra-a\" class=\"cifra\">".concat(valor_a, "</span>\n            <span id=\"operacion\" class=\"operacion\">").concat(operacion, "</span>\n            <span id=\"cifra-b\" class=\"cifra\">").concat(valor_b, "</span>\n            <span class=\"cifra\"> = </span>\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
+        this.zonaCalculo.innerHTML = "\n        <form id=\"calculo\">\n            <span id=\"cifra-a\" class=\"cifra\">".concat(this.valor_a, "</span>\n            <span id=\"operacion\" class=\"operacion\">").concat(this.operacion, "</span>\n            <span id=\"cifra-b\" class=\"cifra\">").concat(this.valor_b, "</span>\n            <span class=\"cifra\"> = </span>\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
     };
     Homework.prototype.calcular = function () {
@@ -82,23 +84,33 @@ var Homework = /** @class */ (function () {
         }
     };
     Homework.prototype.acertar = function () {
-        alert('BRAVO');
+        // TODO añadir animacion de puntos actualizados
         this.puntos++;
         this.actualizarPuntos();
+        this.animar('puntos-numero');
         this.crearOperacion();
     };
     Homework.prototype.fallar = function () {
         var _a;
+        // TODO añadir animacion de vidas actualizadas
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.classList.add('error');
-        alert('MAL, prueba otra vez.');
         this.vidas--;
+        this.animar('vidas-numero');
         this.actualizarVidas();
     };
     Homework.prototype.gameOver = function () {
-        alert('GAME OVER');
-        document.getElementById("calcularBoton").disabled = true;
-        this.mostrar('empezar');
-        this.zonaCalculo.innerHTML += "<p>La respuesta correcta es <span class=\"resultado-number\">".concat(this.resultado, "</span>.</p>");
+        var _a;
+        document.getElementById('calcularBoton').disabled = true;
+        (_a = this.gameOverDialog) === null || _a === void 0 ? void 0 : _a.showModal();
+        this.gameOverDialog.innerHTML = "\n        <h1>\u00A1ENHORABUENA!</h1>\n        <p>Has conseguido <span class=\"puntos-numero\">".concat(this.puntos, "</span> puntos.</p>\n        <p>La respuesta correcta a ").concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</p>\n        <button id=\"empezar-de-nuevo\" class=\"empezar\"\n        onclick=\"homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.gameOverDialog.close()\">\u00A1Otra vez!</button>\n        ");
+    };
+    Homework.prototype.animar = function (animado) {
+        var _a;
+        (_a = document.getElementById(animado)) === null || _a === void 0 ? void 0 : _a.classList.add("animar-".concat(animado));
+        setTimeout(function () {
+            var _a;
+            (_a = document.getElementById(animado)) === null || _a === void 0 ? void 0 : _a.classList.remove("animar-".concat(animado));
+        }, 1000);
     };
     Homework.prototype.quitarError = function () {
         var _a;

@@ -7,6 +7,8 @@ li {
     list-style: none;
 }
 
+/* TODO Mejorar la visa en movil */
+
 .contenedor {
     width: 13vw;
     border: 6px solid dodgerblue;
@@ -38,6 +40,10 @@ li {
     text-align: center;
 }
 
+.game-over {
+    text-align: center;
+}
+
 .juego {
     text-align: center;
     padding: 1rem 0;
@@ -54,10 +60,6 @@ li {
 .puntos-numero,
 .resultado-number {
     color: green;
-}
-
-.resultado-number {
-    font-size: 1.8rem;
 }
 
 .puntos {
@@ -87,10 +89,50 @@ li {
     margin-top: 0;
     text-align: right;
     border-bottom: 1px solid orange;
-    padding-bottom: 20px;
+    padding-bottom: 1.2rem;
 }
 
 .vidas-numero {
     color: red;
-    font-size: 20px;
+    font-size: 1.2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.animar-puntos-numero {
+    animation-name: atencionPuntos;
+    animation-duration: 1s;
+}
+
+.animar-vidas-numero {
+    animation-name: atencionVidas;
+    animation-duration: 1s;
+}
+
+@keyframes atencionPuntos {
+    0% {
+        font-size: 2rem;
+    }
+
+    50% {
+        font-size: 3rem;
+    }
+
+    100% {
+        font-size: 2rem;
+    }
+}
+
+@keyframes atencionVidas {
+    0% {
+        font-size: 1.2rem;
+    }
+
+    50% {
+        font-size: 2rem;
+    }
+
+    100% {
+        font-size: 1.2rem;
+    }
 }

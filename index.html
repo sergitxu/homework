@@ -6,17 +6,20 @@
 </head>
 
 <body>
+    <dialog id="game-over" class="game-over">
+    </dialog>
     <img src="img/buho.png" alt="" width="590x" height="" class="fondo">
     <div class="contenedor">
-        <div class="vidas">Vidas: <span id="vidas" class="vidas-numero"></span></div>
+        <div id="vidas" class="vidas">Vidas: <span id="vidas-numero" class="vidas-numero"></span></div>
         <div class="juego">
             <div id="zona-calculo"></div>
             <button id="empezar" class="empezar"
                 onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar')">¡A
                 jugar!</button>
         </div>
-        <div class="puntos">Puntos: <span id="puntos" class="puntos-numero"></span></div>
+        <div class="puntos">Puntos: <span id="puntos-numero" class="puntos-numero"></span></div>
     </div>
+
 </body>
 <script src="math.js"></script>
 

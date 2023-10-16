@@ -4,6 +4,12 @@ class Homework {
     vidas: number = this.VIDAS_INICIALES;
     resultado: number = 0;
     zonaCalculo = document.getElementById('zona-calculo');
+    valor_a: number = this.randomNumber(11);
+    valor_b: number;
+    operacion: string;
+    gameOverDialog = (<HTMLDialogElement>document.getElementById('game-over'));
+    vidasNumero = document.getElementById('vidas-numero');
+    puntosNumero = document.getElementById('puntos-numero');
 
     constructor() {
         this.actualizarPuntos();
@@ -22,18 +28,18 @@ class Homework {
 
 
     actualizarPuntos() {
-        document.getElementById('puntos')!.innerText = this.puntos.toString();
+        this.puntosNumero!.innerText = this.puntos.toString();
     }
 
     actualizarVidas() {
 
-        document.getElementById('vidas')!.innerHTML = '';
+        this.vidasNumero!.innerHTML = '';
 
         for (let i = 1; i <= this.vidas; i++) {
-            document.getElementById('vidas')!.innerHTML += '&#9733';
+            this.vidasNumero!.innerHTML += '&#9733';
         }
         for (let i = 1; i <= this.VIDAS_INICIALES - this.vidas; i++) {
-            document.getElementById('vidas')!.innerHTML += '&#9734';
+            this.vidasNumero!.innerHTML += '&#9734';
         }
 
         if (this.vidas === 0) {
@@ -49,24 +55,22 @@ class Homework {
     }
 
     crearOperacion() {
-        let operacion: string;
         let operacionAzar: number = this.randomNumber(2);
-        let valor_a: number = this.randomNumber(11);
-        let valor_b: number;
+        this.valor_a = this.randomNumber(11);
 
         if (operacionAzar === 0) {
-            operacion = "+";
-            valor_b = this.randomNumber(11);
+            this.operacion = "+";
+            this.valor_b = this.randomNumber(11);
         } else {
-            operacion = "-";
-            valor_b = this.randomNumber(valor_a);
+            this.operacion = "-";
+            this.valor_b = this.randomNumber(this.valor_a);
         }
 
         this.zonaCalculo!.innerHTML = `
         <form id="calculo">
-            <span id="cifra-a" class="cifra">${valor_a}</span>
-            <span id="operacion" class="operacion">${operacion}</span>
-            <span id="cifra-b" class="cifra">${valor_b}</span>
+            <span id="cifra-a" class="cifra">${this.valor_a}</span>
+            <span id="operacion" class="operacion">${this.operacion}</span>
+            <span id="cifra-b" class="cifra">${this.valor_b}</span>
             <span class="cifra"> = </span>
             <input type="number" id="respuesta" name="respuesta" class="respuesta" oninput="homeWork.quitarError()">
             <button type="button" id="calcularBoton" onclick="homeWork.calcular()" class="boton-calcular">&#9166;</button>
@@ -107,24 +111,39 @@ class Homework {
     }
 
     acertar() {
-        alert('BRAVO');
+        // TODO añadir animacion de puntos actualizados
         this.puntos++;
         this.actualizarPuntos();
+        this.animar(this.puntosNumero);
         this.crearOperacion();
     }
 
     fallar() {
+        // TODO añadir animacion de vidas actualizadas
         document.getElementById(`respuesta`)?.classList.add('error');
-        alert('MAL, prueba otra vez.');
         this.vidas--;
+        this.animar(this.vidasNumero);
         this.actualizarVidas();
     }
 
     gameOver() {
-        alert('GAME OVER');
-        (<HTMLInputElement>document.getElementById(`calcularBoton`))!.disabled = true;
-        this.mostrar('empezar');
-        this.zonaCalculo!.innerHTML += `<p>La respuesta correcta es <span class="resultado-number">${this.resultado}</span>.</p>`
+        (<HTMLButtonElement>document.getElementById('calcularBoton'))!.disabled = true;
+        this.gameOverDialog?.showModal();
+        this.gameOverDialog!.innerHTML = `
+        <h1>¡ENHORABUENA!</h1>
+        <p>Has conseguido <span class="puntos-numero">${this.puntos}</span> puntos.</p>
+        <p>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</p>
+        <button id="empezar-de-nuevo" class="empezar"
+        onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.gameOverDialog.close()">¡Otra vez!</button>
+        `
+    }
+
+    animar(animado) {
+        animado?.classList.add(`animar-${animado}`);
+        setTimeout(() => {
+            animado?.classList.remove(`animar-${animado}`);
+        }, 1000);
+
     }
 
     quitarError() {
