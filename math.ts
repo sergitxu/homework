@@ -14,6 +14,7 @@ class Homework {
     constructor() {
         this.actualizarPuntos();
         this.actualizarVidas();
+        this.preloadMP3();
 
         // TODO añadir record personal usando storage
         // TODO añadir juego igual / distinto
@@ -167,6 +168,17 @@ class Homework {
         let random = this.randomNumber(6);
         let audio = new Audio(`sound/${evento}/0${random}.mp3`);
         audio.play();
+    }
+
+    preloadMP3() {
+        let audioFiles: HTMLAudioElement[] = [];
+
+        for (let i = 0; i <= 6; i++) {
+            let fileName: string = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
+            let audio: HTMLAudioElement = new Audio("sound/acierto/" + fileName);
+            audio.preload = "auto";
+            audioFiles.push(audio);
+        }
     }
 };
 

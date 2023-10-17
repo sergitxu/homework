@@ -12,6 +12,7 @@ var Homework = /** @class */ (function () {
         this.puntosNumero = document.getElementById('puntos-numero');
         this.actualizarPuntos();
         this.actualizarVidas();
+        this.preloadMP3();
         // TODO añadir record personal usando storage
         // TODO añadir juego igual / distinto
         addEventListener('keypress', function (e) {
@@ -127,6 +128,15 @@ var Homework = /** @class */ (function () {
         var random = this.randomNumber(6);
         var audio = new Audio("sound/".concat(evento, "/0").concat(random, ".mp3"));
         audio.play();
+    };
+    Homework.prototype.preloadMP3 = function () {
+        var audioFiles = [];
+        for (var i = 0; i <= 6; i++) {
+            var fileName = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
+            var audio = new Audio("sound/acierto/" + fileName);
+            audio.preload = "auto";
+            audioFiles.push(audio);
+        }
     };
     return Homework;
 }());
