@@ -7,16 +7,16 @@ class Homework {
     valor_a: number = this.randomNumber(11);
     valor_b: number;
     operacion: string;
-    gameOverDialog = (<HTMLDialogElement>document.getElementById('game-over'));
-    vidasNumero = document.getElementById('vidas-numero');
-    puntosNumero = document.getElementById('puntos-numero');
+    gameOverDialog: HTMLDialogElement = (<HTMLDialogElement>document.getElementById('game-over'));
+    vidasNumero: HTMLElement | null = document.getElementById('vidas-numero');
+    puntosNumero: HTMLElement | null = document.getElementById('puntos-numero');
+    hayNuevoRecordPersonal: boolean = false;
 
     constructor() {
         this.actualizarPuntos();
         this.actualizarVidas();
         this.preloadMP3();
 
-        // TODO añadir record personal usando storage
         // TODO añadir juego igual / distinto
 
         addEventListener('keypress', (e) => {
@@ -129,15 +129,40 @@ class Homework {
     }
 
     gameOver() {
+        this.manejarRecord();
         (<HTMLButtonElement>document.getElementById('calcularBoton'))!.disabled = true;
         this.gameOverDialog?.showModal();
         this.gameOverDialog!.innerHTML = `
         <h1>¡ENHORABUENA!</h1>
-        <p>Has conseguido <span class="puntos-numero">${this.puntos}</span> puntos.</p>
-        <p>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</p>
+        <p>Has conseguido <span class="puntos-numero">${this.puntos}</span> puntos.</p>`
+        if (this.hayNuevoRecordPersonal) {
+            this.gameOverDialog!.innerHTML += `
+            <h2>¡¡Has mejorado tu record personal!!</h2>
+            `
+        }
+        this.gameOverDialog!.innerHTML += `<small>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</small><br>
         <button id="empezar-de-nuevo" class="empezar"
-        onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.gameOverDialog.close()">¡Otra vez!</button>
+        onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.gameOverDialog.close();homeWork.borrarHTML('this.gameOverDialog')">¡Otra vez!</button>
         `
+    }
+
+    borrarHTML(elementoHTML) {
+        elementoHTML!.innerHTML = '';
+    }
+
+    manejarRecord() {
+        let recordPersonal = localStorage.getItem('record');
+        if (!recordPersonal) {
+            this.hayNuevoRecordPersonal = true;
+            localStorage.setItem('record', this.puntos.toString());
+        }
+        else if (this.puntos > Number(recordPersonal)) {
+            this.hayNuevoRecordPersonal = true;
+            localStorage.setItem('record', this.puntos.toString());
+        } else {
+            this.hayNuevoRecordPersonal = false;
+        }
+
     }
 
     animar(animado) {

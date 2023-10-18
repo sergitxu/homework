@@ -10,6 +10,7 @@ var Homework = /** @class */ (function () {
         this.gameOverDialog = document.getElementById('game-over');
         this.vidasNumero = document.getElementById('vidas-numero');
         this.puntosNumero = document.getElementById('puntos-numero');
+        this.hayNuevoRecordPersonal = false;
         this.actualizarPuntos();
         this.actualizarVidas();
         this.preloadMP3();
@@ -101,9 +102,31 @@ var Homework = /** @class */ (function () {
     };
     Homework.prototype.gameOver = function () {
         var _a;
+        this.manejarRecord();
         document.getElementById('calcularBoton').disabled = true;
         (_a = this.gameOverDialog) === null || _a === void 0 ? void 0 : _a.showModal();
-        this.gameOverDialog.innerHTML = "\n        <h1>\u00A1ENHORABUENA!</h1>\n        <p>Has conseguido <span class=\"puntos-numero\">".concat(this.puntos, "</span> puntos.</p>\n        <p>La respuesta correcta a ").concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</p>\n        <button id=\"empezar-de-nuevo\" class=\"empezar\"\n        onclick=\"homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.gameOverDialog.close()\">\u00A1Otra vez!</button>\n        ");
+        this.gameOverDialog.innerHTML = "\n        <h1>\u00A1ENHORABUENA!</h1>\n        <p>Has conseguido <span class=\"puntos-numero\">".concat(this.puntos, "</span> puntos.</p>");
+        if (this.hayNuevoRecordPersonal) {
+            this.gameOverDialog.innerHTML += "\n            <h2>\u00A1\u00A1Has mejorado tu record personal!!</h2>\n            ";
+        }
+        this.gameOverDialog.innerHTML += "<small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small>\n        <button id=\"empezar-de-nuevo\" class=\"empezar\"\n        onclick=\"homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.gameOverDialog.close();homeWork.borrarHTML('this.gameOverDialog')\">\u00A1Otra vez!</button>\n        ");
+    };
+    Homework.prototype.borrarHTML = function (elementoHTML) {
+        elementoHTML.innerHTML = '';
+    };
+    Homework.prototype.manejarRecord = function () {
+        var recordPersonal = localStorage.getItem('record');
+        if (!recordPersonal) {
+            this.hayNuevoRecordPersonal = true;
+            localStorage.setItem('record', this.puntos.toString());
+        }
+        else if (this.puntos > Number(recordPersonal)) {
+            this.hayNuevoRecordPersonal = true;
+            localStorage.setItem('record', this.puntos.toString());
+        }
+        else {
+            this.hayNuevoRecordPersonal = false;
+        }
     };
     Homework.prototype.animar = function (animado) {
         animado === null || animado === void 0 ? void 0 : animado.classList.add('animar');
