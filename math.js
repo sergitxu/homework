@@ -12,7 +12,7 @@ var Homework = /** @class */ (function () {
     function Homework() {
         var _this = this;
         this.puntos = 0;
-        this.VIDAS_INICIALES = 5;
+        this.VIDAS_INICIALES = 3;
         this.vidas = this.VIDAS_INICIALES;
         this.resultado = 0;
         this.zonaCalculo = document.getElementById('zona-calculo');

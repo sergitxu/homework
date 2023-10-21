@@ -14,7 +14,7 @@ interface Cosa {
 class Homework {
     juegoActual: Juego;
     puntos: number = 0;
-    VIDAS_INICIALES: number = 5;
+    VIDAS_INICIALES: number = 3;
     vidas: number = this.VIDAS_INICIALES;
     resultado: number = 0;
     zonaCalculo = document.getElementById('zona-calculo');
