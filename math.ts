@@ -1,6 +1,12 @@
 enum Juego {
-    Reto = "reto",
-    SumaResta = "sumaResta",
+    Reto, SumaResta
+}
+enum Genero {
+    masculino, femenino
+}
+enum Cosas {
+    nombre = "",
+    genero = Genero.masculino
 }
 
 // TODO añadir cerrar al popup final y resetear
@@ -212,9 +218,38 @@ class Homework {
     // Retos
     crearReto() {
         this.juegoActual = Juego.Reto;
-        // TODO añadir toos los nombres y más juguetes
+        // TODO añadir todos los nombres y más juguetes
         let nombres: string[] = ['Jon', 'Adri', 'Yago', 'Jacob', 'David', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'María', 'Xabi', 'Alba', 'Sophie', 'Valentina', 'Carla', 'Salomé', 'Jaime', 'Nicholas', 'Eva', 'Boris', 'Diana', 'Marina', 'Alex', 'Sergio', 'David'];
-        let cosas: string[] = ['cartas pokemon', 'balones', 'bakugan', 'cubos de Rubik', 'superthings', 'pokeballs', 'muñecos'];
+        let cosas = [
+            {
+                nombre: 'cartas pokemon',
+                genero: Genero.femenino
+            },
+            {
+                nombre: 'balones',
+                genero: Genero.masculino
+            },
+            {
+                nombre: 'Bakugan',
+                genero: Genero.masculino
+            },
+            {
+                nombre: 'cubos de Rubik',
+                genero: Genero.masculino
+            },
+            {
+                nombre: 'superthings',
+                genero: Genero.masculino
+            },
+            {
+                nombre: 'pokeballs',
+                genero: Genero.femenino
+            },
+            {
+                nombre: 'muñecas',
+                genero: Genero.femenino
+            }
+        ]
 
         let nombre_a = nombres[this.randomNumber(nombres.length)];
         let nombres_salvo_nombre_a = nombres.filter(nombre => nombre !== nombre_a);
@@ -233,22 +268,30 @@ class Homework {
         }
 
         this.zonaCalculo!.innerHTML = `
-        ${nombre_a} tiene ${this.valor_a} ${cosa_x}
+        ${nombre_a} tiene <span class="puntos-numero">${this.valor_a}</span> ${cosa_x.nombre}.
         `
         if (this.operacion === '+') {
             this.zonaCalculo!.innerHTML += `
-            .<br>${nombre_b} le da ${this.valor_b} ${cosa_x}.
+            <br>
+            ${nombre_b} le da <span class="puntos-numero">${this.valor_b}</span> ${cosa_x.nombre}.
             `
         } else if (this.operacion === '-') {
             this.zonaCalculo!.innerHTML += `
-            , le regala ${this.valor_b} ${cosa_x} a ${nombre_b}.
+            <br>
+            Pierde <span class="puntos-numero">${this.valor_b}</span> ${cosa_x.nombre}.
             `
         } else (
             console.error('No sé que operación es esa.')
         )
 
+        if (cosa_x.genero === Genero.masculino) {
+            this.zonaCalculo!.innerHTML += `<br>¿Cuántos`
+        } else {
+            this.zonaCalculo!.innerHTML += `<br>¿Cuántas`
+        }
+
         this.zonaCalculo!.innerHTML += `
-        ¿qué cantidad de ${cosa_x} tiene ${nombre_a} ahora?
+        ${cosa_x.nombre} tiene ahora ${nombre_a}?
         
         <form id="calculo">
             <input type="number" id="respuesta" name="respuesta" class="respuesta" oninput="homeWork.quitarError()">
