@@ -4,6 +4,10 @@
 <head>
     <link rel="stylesheet" href="homework.css">
     <title>Aprende jugando</title>
+    <script>
+        var exports = {};
+
+    </script>
 </head>
 
 <body>
@@ -14,9 +18,14 @@
         <div id="vidas-numero" class="vidas-numero"></div>
         <div class="juego">
             <div id="zona-calculo"></div>
-            <button id="empezar" class="empezar"
-                onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar')">¡A
-                jugar!</button>
+            <div id="empezar">
+                <button class="empezar"
+                    onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar')">Sumas
+                    y
+                    restas</button>
+                <button class="empezar"
+                    onclick="homeWork.crearReto();homeWork.resetearVidasPuntos();homeWork.esconder('empezar')">Reto</button>
+            </div>
         </div>
         <div class="puntos">Puntos: <span id="puntos-numero" class="puntos-numero"></span></div>
     </div>

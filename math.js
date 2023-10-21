@@ -1,3 +1,8 @@
+var Juego;
+(function (Juego) {
+    Juego["Reto"] = "reto";
+    Juego["SumaResta"] = "sumaResta";
+})(Juego || (Juego = {}));
 var Homework = /** @class */ (function () {
     function Homework() {
         var _this = this;
@@ -14,7 +19,6 @@ var Homework = /** @class */ (function () {
         this.actualizarPuntos();
         this.actualizarVidas();
         this.preloadMP3();
-        // TODO añadir record personal usando storage
         // TODO añadir juego igual / distinto
         addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
@@ -46,6 +50,7 @@ var Homework = /** @class */ (function () {
     };
     Homework.prototype.crearOperacion = function () {
         var _a;
+        this.juegoActual = Juego.SumaResta;
         var operacionAzar = this.randomNumber(2);
         this.valor_a = this.randomNumber(11);
         if (operacionAzar === 0) {
@@ -60,25 +65,25 @@ var Homework = /** @class */ (function () {
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
     };
     Homework.prototype.calcular = function () {
-        var _a;
         var respuesta = document.getElementById("respuesta").value;
         if (this.vidas > 0 && respuesta) {
-            var a = document.getElementById("cifra-a").innerText;
-            var b = document.getElementById("cifra-b").innerText;
-            var operacion = (_a = document.getElementById("operacion")) === null || _a === void 0 ? void 0 : _a.innerText;
-            a = parseInt(a);
-            b = parseInt(b);
             respuesta = parseInt(respuesta);
-            if (operacion === '+') {
-                this.resultado = a + b;
+            if (this.operacion === '+') {
+                this.resultado = this.valor_a + this.valor_b;
             }
-            else if (operacion === '-') {
-                this.resultado = a - b;
+            else if (this.operacion === '-') {
+                this.resultado = this.valor_a - this.valor_b;
             }
             else
                 (console.error('No sé que operación es esa.'));
             if (respuesta === this.resultado) {
                 this.acertar();
+                if (this.juegoActual === Juego.SumaResta) {
+                    this.crearOperacion();
+                }
+                else {
+                    this.crearReto();
+                }
             }
             else {
                 this.fallar();
@@ -90,7 +95,6 @@ var Homework = /** @class */ (function () {
         this.actualizarPuntos();
         this.animar(this.puntosNumero);
         this.sonar('acierto');
-        this.crearOperacion();
     };
     Homework.prototype.fallar = function () {
         var _a;
@@ -109,7 +113,7 @@ var Homework = /** @class */ (function () {
         if (this.hayNuevoRecordPersonal) {
             this.gameOverDialog.innerHTML += "\n            <h2>\u00A1\u00A1Has mejorado tu record personal!!</h2>\n            ";
         }
-        this.gameOverDialog.innerHTML += "<small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small>\n        <button id=\"empezar-de-nuevo\" class=\"empezar\"\n        onclick=\"homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.gameOverDialog.close();homeWork.borrarHTML('this.gameOverDialog')\">\u00A1Otra vez!</button>\n        ");
+        this.gameOverDialog.innerHTML += "\n        <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n        ");
     };
     Homework.prototype.borrarHTML = function (elementoHTML) {
         elementoHTML.innerHTML = '';
@@ -160,6 +164,36 @@ var Homework = /** @class */ (function () {
             audio.preload = "auto";
             audioFiles.push(audio);
         }
+    };
+    // Retos
+    Homework.prototype.crearReto = function () {
+        this.juegoActual = Juego.Reto;
+        var nombres = ['Jon', 'Adri', 'Yago', 'Jacob'];
+        var cosas = ['cartas pokemon', 'pelotas', 'bakugan'];
+        var nombre_a = nombres[this.randomNumber(nombres.length)];
+        var nombres_salvo_nombre_a = nombres.filter(function (nombre) { return nombre !== nombre_a; });
+        var nombre_b = nombres_salvo_nombre_a[this.randomNumber(nombres_salvo_nombre_a.length)];
+        var cosa_x = cosas[this.randomNumber(cosas.length)];
+        var operacionAzar = this.randomNumber(2);
+        this.valor_a = this.randomNumber(11);
+        if (operacionAzar === 0) {
+            this.operacion = "+";
+            this.valor_b = this.randomNumber(11);
+        }
+        else {
+            this.operacion = "-";
+            this.valor_b = this.randomNumber(this.valor_a);
+        }
+        this.zonaCalculo.innerHTML = "\n        ".concat(nombre_a, " tiene ").concat(this.valor_a, " ").concat(cosa_x, "\n        ");
+        if (this.operacion === '+') {
+            this.zonaCalculo.innerHTML += "\n            .<br>".concat(nombre_b, " le da ").concat(this.valor_b, " ").concat(cosa_x, ".\n            ");
+        }
+        else if (this.operacion === '-') {
+            this.zonaCalculo.innerHTML += "\n            , le regala ".concat(this.valor_b, " ").concat(cosa_x, " a ").concat(nombre_b, ".\n            ");
+        }
+        else
+            (console.error('No sé que operación es esa.'));
+        this.zonaCalculo.innerHTML += "\n        \u00BFqu\u00E9 cantidad de ".concat(cosa_x, " tiene ").concat(nombre_a, " ahora?\n        \n        <form id=\"calculo\">\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
     };
     return Homework;
 }());

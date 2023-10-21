@@ -1,4 +1,12 @@
+enum Juego {
+    Reto = "reto",
+    SumaResta = "sumaResta",
+}
+
+// TODO añadir cerrar al popup final y resetear
+
 class Homework {
+    juegoActual: Juego;
     puntos: number = 0;
     VIDAS_INICIALES: number = 5;
     vidas: number = this.VIDAS_INICIALES;
@@ -56,6 +64,7 @@ class Homework {
     }
 
     crearOperacion() {
+        this.juegoActual = Juego.SumaResta;
         let operacionAzar: number = this.randomNumber(2);
         this.valor_a = this.randomNumber(11);
 
@@ -86,26 +95,23 @@ class Homework {
         let respuesta: string | number = (<HTMLInputElement>document.getElementById(`respuesta`)).value;
 
         if (this.vidas > 0 && respuesta) {
-            let a: string | number = document.getElementById(`cifra-a`)!.innerText;
-            let b: string | number = document.getElementById(`cifra-b`)!.innerText;
-            let operacion = document.getElementById(`operacion`)?.innerText;
-
-            a = parseInt(a);
-            b = parseInt(b);
             respuesta = parseInt(respuesta);
 
-            if (operacion === '+') {
-                this.resultado = a + b;
-            }
-            else if (operacion === '-') {
-                this.resultado = a - b;
-            }
-            else (
+            if (this.operacion === '+') {
+                this.resultado = this.valor_a + this.valor_b;
+            } else if (this.operacion === '-') {
+                this.resultado = this.valor_a - this.valor_b;
+            } else (
                 console.error('No sé que operación es esa.')
             )
 
             if (respuesta === this.resultado) {
                 this.acertar();
+                if (this.juegoActual === Juego.SumaResta) {
+                    this.crearOperacion();
+                } else {
+                    this.crearReto();
+                }
             } else {
                 this.fallar();
             }
@@ -117,7 +123,6 @@ class Homework {
         this.actualizarPuntos();
         this.animar(this.puntosNumero);
         this.sonar('acierto');
-        this.crearOperacion();
     }
 
     fallar() {
@@ -140,9 +145,8 @@ class Homework {
             <h2>¡¡Has mejorado tu record personal!!</h2>
             `
         }
-        this.gameOverDialog!.innerHTML += `<small>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</small><br>
-        <button id="empezar-de-nuevo" class="empezar"
-        onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.gameOverDialog.close();homeWork.borrarHTML('this.gameOverDialog')">¡Otra vez!</button>
+        this.gameOverDialog!.innerHTML += `
+        <small>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</small><br>
         `
     }
 
@@ -155,8 +159,7 @@ class Homework {
         if (!recordPersonal) {
             this.hayNuevoRecordPersonal = true;
             localStorage.setItem('record', this.puntos.toString());
-        }
-        else if (this.puntos > Number(recordPersonal)) {
+        } else if (this.puntos > Number(recordPersonal)) {
             this.hayNuevoRecordPersonal = true;
             localStorage.setItem('record', this.puntos.toString());
         } else {
@@ -204,6 +207,55 @@ class Homework {
             audio.preload = "auto";
             audioFiles.push(audio);
         }
+    }
+
+    // Retos
+    crearReto() {
+        this.juegoActual = Juego.Reto;
+        // TODO añadir toos los nombres y más juguetes
+        let nombres: string[] = ['Jon', 'Adri', 'Yago', 'Jacob', 'David', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'María', 'Xabi', 'Alba', 'Sophie', 'Valentina', 'Carla', 'Salomé', 'Jaime', 'Nicholas', 'Eva', 'Boris', 'Diana', 'Marina', 'Alex', 'Sergio', 'David'];
+        let cosas: string[] = ['cartas pokemon', 'balones', 'bakugan', 'cubos de Rubik', 'superthings', 'pokeballs', 'muñecos'];
+
+        let nombre_a = nombres[this.randomNumber(nombres.length)];
+        let nombres_salvo_nombre_a = nombres.filter(nombre => nombre !== nombre_a);
+        let nombre_b = nombres_salvo_nombre_a[this.randomNumber(nombres_salvo_nombre_a.length)];
+        let cosa_x = cosas[this.randomNumber(cosas.length)];
+
+        let operacionAzar: number = this.randomNumber(2);
+        this.valor_a = this.randomNumber(11);
+
+        if (operacionAzar === 0) {
+            this.operacion = "+";
+            this.valor_b = this.randomNumber(11);
+        } else {
+            this.operacion = "-";
+            this.valor_b = this.randomNumber(this.valor_a);
+        }
+
+        this.zonaCalculo!.innerHTML = `
+        ${nombre_a} tiene ${this.valor_a} ${cosa_x}
+        `
+        if (this.operacion === '+') {
+            this.zonaCalculo!.innerHTML += `
+            .<br>${nombre_b} le da ${this.valor_b} ${cosa_x}.
+            `
+        } else if (this.operacion === '-') {
+            this.zonaCalculo!.innerHTML += `
+            , le regala ${this.valor_b} ${cosa_x} a ${nombre_b}.
+            `
+        } else (
+            console.error('No sé que operación es esa.')
+        )
+
+        this.zonaCalculo!.innerHTML += `
+        ¿qué cantidad de ${cosa_x} tiene ${nombre_a} ahora?
+        
+        <form id="calculo">
+            <input type="number" id="respuesta" name="respuesta" class="respuesta" oninput="homeWork.quitarError()">
+            <button type="button" id="calcularBoton" onclick="homeWork.calcular()" class="boton-calcular">&#9166;</button>
+        </form>
+        `;
+
     }
 };
 

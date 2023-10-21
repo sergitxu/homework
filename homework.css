@@ -33,6 +33,10 @@ li {
     background-color: transparent;
     border-radius: 5px;
     cursor: pointer;
+
+    &:first-child {
+        margin-bottom: 20px;
+    }
 }
 
 #calculo {
