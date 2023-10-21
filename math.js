@@ -8,11 +8,6 @@ var Genero;
     Genero[Genero["masculino"] = 0] = "masculino";
     Genero[Genero["femenino"] = 1] = "femenino";
 })(Genero || (Genero = {}));
-var Cosas;
-(function (Cosas) {
-    Cosas["nombre"] = "";
-    Cosas[Cosas["genero"] = 0] = "genero";
-})(Cosas || (Cosas = {}));
 // TODO añadir cerrar al popup final y resetear
 var Homework = /** @class */ (function () {
     function Homework() {
@@ -124,7 +119,7 @@ var Homework = /** @class */ (function () {
         if (this.hayNuevoRecordPersonal) {
             this.gameOverDialog.innerHTML += "\n            <h2>\u00A1\u00A1Has mejorado tu record personal!!</h2>\n            ";
         }
-        this.gameOverDialog.innerHTML += "\n        <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n        ");
+        this.gameOverDialog.innerHTML += "\n        <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n        <form method=\"dialog\">\n            <button class=\"empezar\">OK</button>\n        </form>\n        ");
     };
     Homework.prototype.borrarHTML = function (elementoHTML) {
         elementoHTML.innerHTML = '';
@@ -178,36 +173,44 @@ var Homework = /** @class */ (function () {
     };
     // Retos
     Homework.prototype.crearReto = function () {
+        var _a;
         this.juegoActual = Juego.Reto;
         // TODO añadir todos los nombres y más juguetes
         var nombres = ['Jon', 'Adri', 'Yago', 'Jacob', 'David', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'María', 'Xabi', 'Alba', 'Sophie', 'Valentina', 'Carla', 'Salomé', 'Jaime', 'Nicholas', 'Eva', 'Boris', 'Diana', 'Marina', 'Alex', 'Sergio', 'David'];
         var cosas = [
             {
-                nombre: 'cartas pokemon',
+                nombre_singular: 'carta pokemon',
+                nombre_plural: 'cartas pokemon',
                 genero: Genero.femenino
             },
             {
-                nombre: 'balones',
+                nombre_singular: 'balón',
+                nombre_plural: 'balones',
                 genero: Genero.masculino
             },
             {
-                nombre: 'Bakugan',
+                nombre_singular: 'Bakugan',
+                nombre_plural: 'Bakugans',
                 genero: Genero.masculino
             },
             {
-                nombre: 'cubos de Rubik',
+                nombre_singular: 'cubo de Rubik',
+                nombre_plural: 'cubos de Rubik',
                 genero: Genero.masculino
             },
             {
-                nombre: 'superthings',
+                nombre_singular: 'Superthing',
+                nombre_plural: 'Superthings',
                 genero: Genero.masculino
             },
             {
-                nombre: 'pokeballs',
-                genero: Genero.masculino
+                nombre_singular: 'Pokeball',
+                nombre_plural: 'Pokeballs',
+                genero: Genero.femenino
             },
             {
-                nombre: 'muñecas',
+                nombre_singular: 'muñeca',
+                nombre_plural: 'muñecas',
                 genero: Genero.femenino
             }
         ];
@@ -216,7 +219,7 @@ var Homework = /** @class */ (function () {
         var nombre_b = nombres_salvo_nombre_a[this.randomNumber(nombres_salvo_nombre_a.length)];
         var cosa_x = cosas[this.randomNumber(cosas.length)];
         var operacionAzar = this.randomNumber(2);
-        this.valor_a = this.randomNumber(11);
+        this.valor_a = this.randomNumber(2);
         if (operacionAzar === 0) {
             this.operacion = "+";
             this.valor_b = this.randomNumber(11);
@@ -225,12 +228,18 @@ var Homework = /** @class */ (function () {
             this.operacion = "-";
             this.valor_b = this.randomNumber(this.valor_a);
         }
-        this.zonaCalculo.innerHTML = "\n        ".concat(nombre_a, " tiene <span class=\"puntos-numero\">").concat(this.valor_a, "</span> ").concat(cosa_x.nombre, ".\n        ");
+        this.zonaCalculo.innerHTML = "\n        ".concat(nombre_a, " tiene <span class=\"puntos-numero\">").concat(this.valor_a, "</span> \n        ");
+        if (this.valor_a === 1) {
+            this.zonaCalculo.innerHTML += "\n            ".concat(cosa_x.nombre_singular, ".\n            ");
+        }
+        else {
+            this.zonaCalculo.innerHTML += "\n            ".concat(cosa_x.nombre_plural, ".\n            ");
+        }
         if (this.operacion === '+') {
-            this.zonaCalculo.innerHTML += "\n            <br>\n            ".concat(nombre_b, " le da <span class=\"puntos-numero\">").concat(this.valor_b, "</span> ").concat(cosa_x.nombre, ".\n            ");
+            this.zonaCalculo.innerHTML += "\n            <br>\n            ".concat(nombre_b, " le da <span class=\"puntos-numero\">").concat(this.valor_b, "</span>.\n            ");
         }
         else if (this.operacion === '-') {
-            this.zonaCalculo.innerHTML += "\n            <br>\n            Pierde <span class=\"puntos-numero\">".concat(this.valor_b, "</span> ").concat(cosa_x.nombre, ".\n            ");
+            this.zonaCalculo.innerHTML += "\n            <br>\n            Pierde <span class=\"puntos-numero\">".concat(this.valor_b, "</span>.\n            ");
         }
         else
             (console.error('No sé que operación es esa.'));
@@ -240,7 +249,8 @@ var Homework = /** @class */ (function () {
         else {
             this.zonaCalculo.innerHTML += "<br>\u00BFCu\u00E1ntas";
         }
-        this.zonaCalculo.innerHTML += "\n        ".concat(cosa_x.nombre, " tiene ahora ").concat(nombre_a, "?\n        \n        <form id=\"calculo\">\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
+        this.zonaCalculo.innerHTML += "\n        ".concat(cosa_x.nombre_plural, " tiene ahora ").concat(nombre_a, "?\n        \n        <form id=\"calculo\">\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
+        (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
     };
     return Homework;
 }());

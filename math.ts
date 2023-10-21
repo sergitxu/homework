@@ -4,9 +4,11 @@ enum Juego {
 enum Genero {
     masculino, femenino
 }
-enum Cosas {
-    nombre = "",
-    genero = Genero.masculino
+
+interface Cosa {
+    nombre_singular: string,
+    nombre_plural: string,
+    genero: Genero
 }
 
 // TODO añadir cerrar al popup final y resetear
@@ -153,6 +155,9 @@ class Homework {
         }
         this.gameOverDialog!.innerHTML += `
         <small>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</small><br>
+        <form method="dialog">
+            <button class="empezar">OK</button>
+        </form>
         `
     }
 
@@ -220,36 +225,44 @@ class Homework {
         this.juegoActual = Juego.Reto;
         // TODO añadir todos los nombres y más juguetes
         let nombres: string[] = ['Jon', 'Adri', 'Yago', 'Jacob', 'David', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'María', 'Xabi', 'Alba', 'Sophie', 'Valentina', 'Carla', 'Salomé', 'Jaime', 'Nicholas', 'Eva', 'Boris', 'Diana', 'Marina', 'Alex', 'Sergio', 'David'];
-        let cosas = [
+
+        let cosas: Cosa[] = [
             {
-                nombre: 'cartas pokemon',
+                nombre_singular: 'carta pokemon',
+                nombre_plural: 'cartas pokemon',
                 genero: Genero.femenino
             },
             {
-                nombre: 'balones',
+                nombre_singular: 'balón',
+                nombre_plural: 'balones',
                 genero: Genero.masculino
             },
             {
-                nombre: 'Bakugan',
+                nombre_singular: 'Bakugan',
+                nombre_plural: 'Bakugans',
                 genero: Genero.masculino
             },
             {
-                nombre: 'cubos de Rubik',
+                nombre_singular: 'cubo de Rubik',
+                nombre_plural: 'cubos de Rubik',
                 genero: Genero.masculino
             },
             {
-                nombre: 'superthings',
+                nombre_singular: 'Superthing',
+                nombre_plural: 'Superthings',
                 genero: Genero.masculino
             },
             {
-                nombre: 'pokeballs',
+                nombre_singular: 'Pokeball',
+                nombre_plural: 'Pokeballs',
                 genero: Genero.femenino
             },
             {
-                nombre: 'muñecas',
+                nombre_singular: 'muñeca',
+                nombre_plural: 'muñecas',
                 genero: Genero.femenino
             }
-        ]
+        ];
 
         let nombre_a = nombres[this.randomNumber(nombres.length)];
         let nombres_salvo_nombre_a = nombres.filter(nombre => nombre !== nombre_a);
@@ -257,7 +270,7 @@ class Homework {
         let cosa_x = cosas[this.randomNumber(cosas.length)];
 
         let operacionAzar: number = this.randomNumber(2);
-        this.valor_a = this.randomNumber(11);
+        this.valor_a = this.randomNumber(2);
 
         if (operacionAzar === 0) {
             this.operacion = "+";
@@ -268,17 +281,27 @@ class Homework {
         }
 
         this.zonaCalculo!.innerHTML = `
-        ${nombre_a} tiene <span class="puntos-numero">${this.valor_a}</span> ${cosa_x.nombre}.
+        ${nombre_a} tiene <span class="puntos-numero">${this.valor_a}</span> 
         `
+        if (this.valor_a === 1) {
+            this.zonaCalculo!.innerHTML += `
+            ${cosa_x.nombre_singular}.
+            `
+        } else {
+            this.zonaCalculo!.innerHTML += `
+            ${cosa_x.nombre_plural}.
+            `
+        }
+
         if (this.operacion === '+') {
             this.zonaCalculo!.innerHTML += `
             <br>
-            ${nombre_b} le da <span class="puntos-numero">${this.valor_b}</span> ${cosa_x.nombre}.
+            ${nombre_b} le da <span class="puntos-numero">${this.valor_b}</span>.
             `
         } else if (this.operacion === '-') {
             this.zonaCalculo!.innerHTML += `
             <br>
-            Pierde <span class="puntos-numero">${this.valor_b}</span> ${cosa_x.nombre}.
+            Pierde <span class="puntos-numero">${this.valor_b}</span>.
             `
         } else (
             console.error('No sé que operación es esa.')
@@ -291,7 +314,7 @@ class Homework {
         }
 
         this.zonaCalculo!.innerHTML += `
-        ${cosa_x.nombre} tiene ahora ${nombre_a}?
+        ${cosa_x.nombre_plural} tiene ahora ${nombre_a}?
         
         <form id="calculo">
             <input type="number" id="respuesta" name="respuesta" class="respuesta" oninput="homeWork.quitarError()">
@@ -299,6 +322,7 @@ class Homework {
         </form>
         `;
 
+        document.getElementById(`respuesta`)?.focus();
     }
 };
 
