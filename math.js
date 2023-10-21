@@ -3,6 +3,7 @@ var Juego;
     Juego["Reto"] = "reto";
     Juego["SumaResta"] = "sumaResta";
 })(Juego || (Juego = {}));
+// TODO añadir cerrar al popup final y resetear
 var Homework = /** @class */ (function () {
     function Homework() {
         var _this = this;
@@ -168,8 +169,9 @@ var Homework = /** @class */ (function () {
     // Retos
     Homework.prototype.crearReto = function () {
         this.juegoActual = Juego.Reto;
-        var nombres = ['Jon', 'Adri', 'Yago', 'Jacob'];
-        var cosas = ['cartas pokemon', 'pelotas', 'bakugan'];
+        // TODO añadir toos los nombres y más juguetes
+        var nombres = ['Jon', 'Adri', 'Yago', 'Jacob', 'David', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'María', 'Xabi', 'Alba', 'Sophie', 'Valentina', 'Carla', 'Salomé', 'Jaime', 'Nicholas', 'Eva', 'Boris', 'Diana', 'Marina', 'Alex', 'Sergio', 'David'];
+        var cosas = ['cartas pokemon', 'balones', 'bakugan', 'cubos de Rubik', 'superthings', 'pokeballs', 'muñecos'];
         var nombre_a = nombres[this.randomNumber(nombres.length)];
         var nombres_salvo_nombre_a = nombres.filter(function (nombre) { return nombre !== nombre_a; });
         var nombre_b = nombres_salvo_nombre_a[this.randomNumber(nombres_salvo_nombre_a.length)];
