@@ -8,7 +8,6 @@ var Genero;
     Genero[Genero["masculino"] = 0] = "masculino";
     Genero[Genero["femenino"] = 1] = "femenino";
 })(Genero || (Genero = {}));
-// TODO añadir cerrar al popup final y resetear
 var Homework = /** @class */ (function () {
     function Homework() {
         var _this = this;
@@ -54,21 +53,10 @@ var Homework = /** @class */ (function () {
         this.actualizarVidas();
         this.actualizarPuntos();
     };
-    Homework.prototype.crearOperacion = function () {
-        var _a;
-        this.juegoActual = Juego.SumaResta;
-        var operacionAzar = this.randomNumber(2);
-        this.valor_a = this.randomNumber(11);
-        if (operacionAzar === 0) {
-            this.operacion = "+";
-            this.valor_b = this.randomNumber(11);
-        }
-        else {
-            this.operacion = "-";
-            this.valor_b = this.randomNumber(this.valor_a);
-        }
-        this.zonaCalculo.innerHTML = "\n        <form id=\"calculo\">\n            <span id=\"cifra-a\" class=\"cifra\">".concat(this.valor_a, "</span>\n            <span id=\"operacion\" class=\"operacion\">").concat(this.operacion, "</span>\n            <span id=\"cifra-b\" class=\"cifra\">").concat(this.valor_b, "</span>\n            <span class=\"cifra\"> = </span>\n            <br>\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
-        (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
+    Homework.prototype.reiniciarJuego = function () {
+        this.resetearVidasPuntos();
+        this.esconder('zona-calculo');
+        this.mostrar('empezar');
     };
     Homework.prototype.calcular = function () {
         var respuesta = document.getElementById("respuesta").value;
@@ -119,10 +107,7 @@ var Homework = /** @class */ (function () {
         if (this.hayNuevoRecordPersonal) {
             this.gameOverDialog.innerHTML += "\n            <h2>\u00A1\u00A1Has mejorado tu record personal!!</h2>\n            ";
         }
-        this.gameOverDialog.innerHTML += "\n        <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n        <form method=\"dialog\">\n            <button class=\"empezar\">OK</button>\n        </form>\n        ");
-    };
-    Homework.prototype.borrarHTML = function (elementoHTML) {
-        elementoHTML.innerHTML = '';
+        this.gameOverDialog.innerHTML += "\n        <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n        <form method=\"dialog\">\n            <button class=\"empezar\" onclick=\"homeWork.reiniciarJuego();\">OK</button>\n        </form>\n        ");
     };
     Homework.prototype.manejarRecord = function () {
         var recordPersonal = localStorage.getItem('record');
@@ -136,39 +121,6 @@ var Homework = /** @class */ (function () {
         }
         else {
             this.hayNuevoRecordPersonal = false;
-        }
-    };
-    Homework.prototype.animar = function (animado) {
-        animado === null || animado === void 0 ? void 0 : animado.classList.add('animar');
-        setTimeout(function () {
-            animado === null || animado === void 0 ? void 0 : animado.classList.remove('animar');
-        }, 1000);
-    };
-    Homework.prototype.quitarError = function () {
-        var _a;
-        (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.classList.remove('error');
-    };
-    Homework.prototype.randomNumber = function (lessThan) {
-        return Math.floor(Math.random() * lessThan);
-    };
-    Homework.prototype.esconder = function (paraEsconder) {
-        document.getElementById(paraEsconder).style.display = 'none';
-    };
-    Homework.prototype.mostrar = function (paraMostrar) {
-        document.getElementById(paraMostrar).style.display = 'inline-block';
-    };
-    Homework.prototype.sonar = function (evento) {
-        var random = this.randomNumber(6);
-        var audio = new Audio("sound/".concat(evento, "/0").concat(random, ".mp3"));
-        audio.play();
-    };
-    Homework.prototype.preloadMP3 = function () {
-        var audioFiles = [];
-        for (var i = 0; i <= 6; i++) {
-            var fileName = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
-            var audio = new Audio("sound/acierto/" + fileName);
-            audio.preload = "auto";
-            audioFiles.push(audio);
         }
     };
     // Retos
@@ -228,6 +180,7 @@ var Homework = /** @class */ (function () {
             this.operacion = "-";
             this.valor_b = this.randomNumber(this.valor_a);
         }
+        this.mostrar('zona-calculo');
         this.zonaCalculo.innerHTML = "\n        ".concat(nombre_a, " tiene <span class=\"puntos-numero\">").concat(this.valor_a, "</span> \n        ");
         if (this.valor_a === 1) {
             this.zonaCalculo.innerHTML += "\n            ".concat(cosa_x.nombre_singular, ".\n            ");
@@ -251,6 +204,61 @@ var Homework = /** @class */ (function () {
         }
         this.zonaCalculo.innerHTML += "\n        ".concat(cosa_x.nombre_plural, " tiene ahora ").concat(nombre_a, "?\n        \n        <form id=\"calculo\">\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
+    };
+    // Operacion de sumas y restas
+    Homework.prototype.crearOperacion = function () {
+        var _a;
+        this.juegoActual = Juego.SumaResta;
+        var operacionAzar = this.randomNumber(2);
+        this.valor_a = this.randomNumber(11);
+        if (operacionAzar === 0) {
+            this.operacion = "+";
+            this.valor_b = this.randomNumber(11);
+        }
+        else {
+            this.operacion = "-";
+            this.valor_b = this.randomNumber(this.valor_a);
+        }
+        this.mostrar('zona-calculo');
+        this.zonaCalculo.innerHTML = "\n        <form id=\"calculo\">\n            <span id=\"cifra-a\" class=\"cifra\">".concat(this.valor_a, "</span>\n            <span id=\"operacion\" class=\"operacion\">").concat(this.operacion, "</span>\n            <span id=\"cifra-b\" class=\"cifra\">").concat(this.valor_b, "</span>\n            <span class=\"cifra\"> = </span>\n            <br>\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
+        (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
+    };
+    // Métodos genéricos
+    Homework.prototype.animar = function (animado) {
+        animado === null || animado === void 0 ? void 0 : animado.classList.add('animar');
+        setTimeout(function () {
+            animado === null || animado === void 0 ? void 0 : animado.classList.remove('animar');
+        }, 1000);
+    };
+    Homework.prototype.quitarError = function () {
+        var _a;
+        (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.classList.remove('error');
+    };
+    Homework.prototype.randomNumber = function (lessThan) {
+        return Math.floor(Math.random() * lessThan);
+    };
+    Homework.prototype.esconder = function (paraEsconder) {
+        document.getElementById(paraEsconder).style.display = 'none';
+    };
+    Homework.prototype.mostrar = function (paraMostrar) {
+        document.getElementById(paraMostrar).style.display = 'inline-block';
+    };
+    Homework.prototype.sonar = function (evento) {
+        var random = this.randomNumber(6);
+        var audio = new Audio("sound/".concat(evento, "/0").concat(random, ".mp3"));
+        audio.play();
+    };
+    Homework.prototype.preloadMP3 = function () {
+        var audioFiles = [];
+        for (var i = 0; i <= 6; i++) {
+            var fileName = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
+            var audio = new Audio("sound/acierto/" + fileName);
+            audio.preload = "auto";
+            audioFiles.push(audio);
+        }
+    };
+    Homework.prototype.borrarHTML = function (elementoHTML) {
+        elementoHTML.innerHTML = '';
     };
     return Homework;
 }());

@@ -11,8 +11,6 @@ interface Cosa {
     genero: Genero
 }
 
-// TODO añadir cerrar al popup final y resetear
-
 class Homework {
     juegoActual: Juego;
     puntos: number = 0;
@@ -49,7 +47,6 @@ class Homework {
     }
 
     actualizarVidas() {
-
         this.vidasNumero!.innerHTML = '';
 
         for (let i = 1; i <= this.vidas; i++) {
@@ -71,32 +68,10 @@ class Homework {
         this.actualizarPuntos();
     }
 
-    crearOperacion() {
-        this.juegoActual = Juego.SumaResta;
-        let operacionAzar: number = this.randomNumber(2);
-        this.valor_a = this.randomNumber(11);
-
-        if (operacionAzar === 0) {
-            this.operacion = "+";
-            this.valor_b = this.randomNumber(11);
-        } else {
-            this.operacion = "-";
-            this.valor_b = this.randomNumber(this.valor_a);
-        }
-
-        this.zonaCalculo!.innerHTML = `
-        <form id="calculo">
-            <span id="cifra-a" class="cifra">${this.valor_a}</span>
-            <span id="operacion" class="operacion">${this.operacion}</span>
-            <span id="cifra-b" class="cifra">${this.valor_b}</span>
-            <span class="cifra"> = </span>
-            <br>
-            <input type="number" id="respuesta" name="respuesta" class="respuesta" oninput="homeWork.quitarError()">
-            <button type="button" id="calcularBoton" onclick="homeWork.calcular()" class="boton-calcular">&#9166;</button>
-        </form>
-        `;
-
-        document.getElementById(`respuesta`)?.focus();
+    reiniciarJuego() {
+        this.resetearVidasPuntos();
+        this.esconder('zona-calculo');
+        this.mostrar('empezar');
     }
 
     calcular() {
@@ -156,13 +131,9 @@ class Homework {
         this.gameOverDialog!.innerHTML += `
         <small>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</small><br>
         <form method="dialog">
-            <button class="empezar">OK</button>
+            <button class="empezar" onclick="homeWork.reiniciarJuego();">OK</button>
         </form>
         `
-    }
-
-    borrarHTML(elementoHTML) {
-        elementoHTML!.innerHTML = '';
     }
 
     manejarRecord() {
@@ -177,47 +148,6 @@ class Homework {
             this.hayNuevoRecordPersonal = false;
         }
 
-    }
-
-    animar(animado) {
-        animado?.classList.add('animar');
-        setTimeout(() => {
-            animado?.classList.remove('animar');
-        }, 1000);
-
-    }
-
-    quitarError() {
-        document.getElementById(`respuesta`)?.classList.remove('error');
-    }
-
-    randomNumber(lessThan) {
-        return Math.floor(Math.random() * lessThan);
-    }
-
-    esconder(paraEsconder) {
-        document.getElementById(paraEsconder)!.style.display = 'none';
-    }
-
-    mostrar(paraMostrar) {
-        document.getElementById(paraMostrar)!.style.display = 'inline-block';
-    }
-
-    sonar(evento) {
-        let random = this.randomNumber(6);
-        let audio = new Audio(`sound/${evento}/0${random}.mp3`);
-        audio.play();
-    }
-
-    preloadMP3() {
-        let audioFiles: HTMLAudioElement[] = [];
-
-        for (let i = 0; i <= 6; i++) {
-            let fileName: string = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
-            let audio: HTMLAudioElement = new Audio("sound/acierto/" + fileName);
-            audio.preload = "auto";
-            audioFiles.push(audio);
-        }
     }
 
     // Retos
@@ -280,6 +210,8 @@ class Homework {
             this.valor_b = this.randomNumber(this.valor_a);
         }
 
+        this.mostrar('zona-calculo');
+
         this.zonaCalculo!.innerHTML = `
         ${nombre_a} tiene <span class="puntos-numero">${this.valor_a}</span> 
         `
@@ -323,6 +255,83 @@ class Homework {
         `;
 
         document.getElementById(`respuesta`)?.focus();
+    }
+
+    // Operacion de sumas y restas
+    crearOperacion() {
+        this.juegoActual = Juego.SumaResta;
+        let operacionAzar: number = this.randomNumber(2);
+        this.valor_a = this.randomNumber(11);
+
+        if (operacionAzar === 0) {
+            this.operacion = "+";
+            this.valor_b = this.randomNumber(11);
+        } else {
+            this.operacion = "-";
+            this.valor_b = this.randomNumber(this.valor_a);
+        }
+
+        this.mostrar('zona-calculo');
+
+        this.zonaCalculo!.innerHTML = `
+        <form id="calculo">
+            <span id="cifra-a" class="cifra">${this.valor_a}</span>
+            <span id="operacion" class="operacion">${this.operacion}</span>
+            <span id="cifra-b" class="cifra">${this.valor_b}</span>
+            <span class="cifra"> = </span>
+            <br>
+            <input type="number" id="respuesta" name="respuesta" class="respuesta" oninput="homeWork.quitarError()">
+            <button type="button" id="calcularBoton" onclick="homeWork.calcular()" class="boton-calcular">&#9166;</button>
+        </form>
+        `;
+
+        document.getElementById(`respuesta`)?.focus();
+    }
+
+    // Métodos genéricos
+    animar(animado) {
+        animado?.classList.add('animar');
+        setTimeout(() => {
+            animado?.classList.remove('animar');
+        }, 1000);
+
+    }
+
+    quitarError() {
+        document.getElementById(`respuesta`)?.classList.remove('error');
+    }
+
+    randomNumber(lessThan) {
+        return Math.floor(Math.random() * lessThan);
+    }
+
+    esconder(paraEsconder) {
+        document.getElementById(paraEsconder)!.style.display = 'none';
+    }
+
+    mostrar(paraMostrar) {
+        document.getElementById(paraMostrar)!.style.display = 'inline-block';
+    }
+
+    sonar(evento) {
+        let random = this.randomNumber(6);
+        let audio = new Audio(`sound/${evento}/0${random}.mp3`);
+        audio.play();
+    }
+
+    preloadMP3() {
+        let audioFiles: HTMLAudioElement[] = [];
+
+        for (let i = 0; i <= 6; i++) {
+            let fileName: string = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
+            let audio: HTMLAudioElement = new Audio("sound/acierto/" + fileName);
+            audio.preload = "auto";
+            audioFiles.push(audio);
+        }
+    }
+
+    borrarHTML(elementoHTML) {
+        elementoHTML!.innerHTML = '';
     }
 };
 
