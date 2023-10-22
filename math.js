@@ -198,7 +198,7 @@ var Homework = /** @class */ (function () {
         else {
             this.operacion = "-";
             this.valor_a = this.randomNumber(11, 2);
-            this.valor_b = this.randomNumber(this.valor_a);
+            this.valor_b = this.randomNumber(this.valor_a, 1);
         }
         this.mostrar('zona-calculo');
         this.zonaCalculo.innerHTML = "\n        ".concat(nombre_a, " tiene <span class=\"puntos-numero\">").concat(this.valor_a, "</span> \n        ");

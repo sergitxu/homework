@@ -226,7 +226,7 @@ class Homework {
         } else {
             this.operacion = "-";
             this.valor_a = this.randomNumber(11, 2);
-            this.valor_b = this.randomNumber(this.valor_a);
+            this.valor_b = this.randomNumber(this.valor_a, 1);
         }
 
         this.mostrar('zona-calculo');
