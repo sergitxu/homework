@@ -1,3 +1,6 @@
+// TODO añadir juego igual / distinto
+// TODO separar código en módulos
+
 enum Juego {
     Reto, SumaResta
 }
@@ -32,8 +35,6 @@ class Homework {
         this.actualizarVidas();
         this.preloadMP3();
         this.mostrarRecord();
-
-        // TODO añadir juego igual / distinto
 
         addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
