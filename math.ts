@@ -1,5 +1,6 @@
 // TODO añadir juego igual / distinto
 // TODO separar código en módulos
+// TODO Añadir tests
 
 enum Juego {
     Reto, SumaResta
