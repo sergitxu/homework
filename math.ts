@@ -25,13 +25,16 @@ class Homework {
     vidasNumero: HTMLElement | null = document.getElementById('vidas-numero');
     puntosNumero: HTMLElement | null = document.getElementById('puntos-numero');
     hayNuevoRecordPersonal: boolean = false;
+    recordPersonal = localStorage.getItem('record');
 
     constructor() {
         this.actualizarPuntos();
         this.actualizarVidas();
         this.preloadMP3();
+        this.mostrarRecord();
 
         // TODO añadir juego igual / distinto
+        // TODO al clicar esc con el dialog que se reinicie
 
         addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -72,6 +75,14 @@ class Homework {
         this.resetearVidasPuntos();
         this.esconder('zona-calculo');
         this.mostrar('empezar');
+        this.mostrarRecord();
+    }
+
+    mostrarRecord() {
+        if (this.recordPersonal) {
+            document.getElementById('puntos-record')!.innerText = this.recordPersonal;
+            this.mostrar('record');
+        }
     }
 
     calcular() {
@@ -120,9 +131,12 @@ class Homework {
         this.manejarRecord();
         (<HTMLButtonElement>document.getElementById('calcularBoton'))!.disabled = true;
         this.gameOverDialog?.showModal();
-        this.gameOverDialog!.innerHTML = `
-        <h1>¡ENHORABUENA!</h1>
-        <p>Has conseguido <span class="puntos-numero">${this.puntos}</span> puntos.</p>`
+        this.gameOverDialog!.innerHTML = `<h1>¡ENHORABUENA!</h1>`;
+        if (this.puntos === 1) {
+            this.gameOverDialog!.innerHTML += `<p>Has conseguido <span class="puntos-numero">${this.puntos}</span> punto.</p>`;
+        } else {
+            this.gameOverDialog!.innerHTML += `<p>Has conseguido <span class="puntos-numero">${this.puntos}</span> puntos.</p>`;
+        }
         if (this.hayNuevoRecordPersonal) {
             this.gameOverDialog!.innerHTML += `
             <h2>¡¡Has mejorado tu record personal!!</h2>
@@ -137,15 +151,10 @@ class Homework {
     }
 
     manejarRecord() {
-        let recordPersonal = localStorage.getItem('record');
-        if (!recordPersonal || this.puntos > Number(recordPersonal)) {
+        if (!this.recordPersonal || this.puntos > Number(this.recordPersonal)) {
             this.hayNuevoRecordPersonal = true;
             localStorage.setItem('record', this.puntos.toString());
-            recordPersonal = this.puntos.toString();
-            if (recordPersonal) {
-                document.getElementById('puntos-record')!.innerText = recordPersonal;
-            }
-            this.mostrar('record');
+            this.recordPersonal = this.puntos.toString();
         } else {
             this.hayNuevoRecordPersonal = false;
         }

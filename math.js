@@ -21,10 +21,13 @@ var Homework = /** @class */ (function () {
         this.vidasNumero = document.getElementById('vidas-numero');
         this.puntosNumero = document.getElementById('puntos-numero');
         this.hayNuevoRecordPersonal = false;
+        this.recordPersonal = localStorage.getItem('record');
         this.actualizarPuntos();
         this.actualizarVidas();
         this.preloadMP3();
+        this.mostrarRecord();
         // TODO añadir juego igual / distinto
+        // TODO al clicar esc con el dialog que se reinicie
         addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -57,6 +60,13 @@ var Homework = /** @class */ (function () {
         this.resetearVidasPuntos();
         this.esconder('zona-calculo');
         this.mostrar('empezar');
+        this.mostrarRecord();
+    };
+    Homework.prototype.mostrarRecord = function () {
+        if (this.recordPersonal) {
+            document.getElementById('puntos-record').innerText = this.recordPersonal;
+            this.mostrar('record');
+        }
     };
     Homework.prototype.calcular = function () {
         var respuesta = document.getElementById("respuesta").value;
@@ -103,22 +113,23 @@ var Homework = /** @class */ (function () {
         this.manejarRecord();
         document.getElementById('calcularBoton').disabled = true;
         (_a = this.gameOverDialog) === null || _a === void 0 ? void 0 : _a.showModal();
-        this.gameOverDialog.innerHTML = "\n        <h1>\u00A1ENHORABUENA!</h1>\n        <p>Has conseguido <span class=\"puntos-numero\">".concat(this.puntos, "</span> puntos.</p>");
+        this.gameOverDialog.innerHTML = "<h1>\u00A1ENHORABUENA!</h1>";
+        if (this.puntos === 1) {
+            this.gameOverDialog.innerHTML += "<p>Has conseguido <span class=\"puntos-numero\">".concat(this.puntos, "</span> punto.</p>");
+        }
+        else {
+            this.gameOverDialog.innerHTML += "<p>Has conseguido <span class=\"puntos-numero\">".concat(this.puntos, "</span> puntos.</p>");
+        }
         if (this.hayNuevoRecordPersonal) {
             this.gameOverDialog.innerHTML += "\n            <h2>\u00A1\u00A1Has mejorado tu record personal!!</h2>\n            ";
         }
         this.gameOverDialog.innerHTML += "\n        <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n        <form method=\"dialog\">\n            <button class=\"empezar\" onclick=\"homeWork.reiniciarJuego();\">OK</button>\n        </form>\n        ");
     };
     Homework.prototype.manejarRecord = function () {
-        var recordPersonal = localStorage.getItem('record');
-        if (!recordPersonal || this.puntos > Number(recordPersonal)) {
+        if (!this.recordPersonal || this.puntos > Number(this.recordPersonal)) {
             this.hayNuevoRecordPersonal = true;
             localStorage.setItem('record', this.puntos.toString());
-            recordPersonal = this.puntos.toString();
-            if (recordPersonal) {
-                document.getElementById('puntos-record').innerText = recordPersonal;
-            }
-            this.mostrar('record');
+            this.recordPersonal = this.puntos.toString();
         }
         else {
             this.hayNuevoRecordPersonal = false;
