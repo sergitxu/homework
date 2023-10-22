@@ -222,6 +222,7 @@ class Homework {
             this.valor_b = this.randomNumber(11);
         } else {
             this.operacion = "-";
+            this.valor_a = this.randomNumber(11, 2);
             this.valor_b = this.randomNumber(this.valor_a);
         }
 
@@ -283,6 +284,7 @@ class Homework {
             this.valor_b = this.randomNumber(11);
         } else {
             this.operacion = "-";
+            this.valor_a = this.randomNumber(11, 2);
             this.valor_b = this.randomNumber(this.valor_a);
         }
 
@@ -316,8 +318,8 @@ class Homework {
         document.getElementById(`respuesta`)?.classList.remove('error');
     }
 
-    randomNumber(lessThan) {
-        return Math.floor(Math.random() * lessThan);
+    randomNumber(lessThan, min = 0) {
+        return Math.floor(Math.random() * (lessThan - min)) + min;
     }
 
     esconder(paraEsconder) {

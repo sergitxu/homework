@@ -195,6 +195,7 @@ var Homework = /** @class */ (function () {
         }
         else {
             this.operacion = "-";
+            this.valor_a = this.randomNumber(11, 2);
             this.valor_b = this.randomNumber(this.valor_a);
         }
         this.mostrar('zona-calculo');
@@ -234,6 +235,7 @@ var Homework = /** @class */ (function () {
         }
         else {
             this.operacion = "-";
+            this.valor_a = this.randomNumber(11, 2);
             this.valor_b = this.randomNumber(this.valor_a);
         }
         this.mostrar('zona-calculo');
@@ -251,8 +253,9 @@ var Homework = /** @class */ (function () {
         var _a;
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.classList.remove('error');
     };
-    Homework.prototype.randomNumber = function (lessThan) {
-        return Math.floor(Math.random() * lessThan);
+    Homework.prototype.randomNumber = function (lessThan, min) {
+        if (min === void 0) { min = 0; }
+        return Math.floor(Math.random() * (lessThan - min)) + min;
     };
     Homework.prototype.esconder = function (paraEsconder) {
         document.getElementById(paraEsconder).style.display = 'none';
