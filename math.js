@@ -1,3 +1,5 @@
+// TODO añadir juego igual / distinto
+// TODO separar código en módulos
 var Juego;
 (function (Juego) {
     Juego[Juego["Reto"] = 0] = "Reto";
@@ -26,7 +28,6 @@ var Homework = /** @class */ (function () {
         this.actualizarVidas();
         this.preloadMP3();
         this.mostrarRecord();
-        // TODO añadir juego igual / distinto
         addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -141,7 +142,6 @@ var Homework = /** @class */ (function () {
     Homework.prototype.crearReto = function () {
         var _a;
         this.juegoActual = Juego.Reto;
-        // TODO añadir todos los nombres y más juguetes
         var nombres = ['Jon', 'Adri', 'Yago', 'Jacob', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'Maria',
             'Xabi', 'Alba', 'Sophie', 'Valentina', 'Carla', 'Salomé', 'Jaime', 'Nicholas', 'Eva', 'Boris', 'Diana', 'Marina', 'Alex',
             'Sergio', 'David', 'Leonor', 'Bruna', 'Alaia', 'Sofía', 'Ángela', 'Nor', 'Sarah', 'Valeria', 'David', 'Manuel', 'Paula',
