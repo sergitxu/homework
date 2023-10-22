@@ -27,12 +27,14 @@ var Homework = /** @class */ (function () {
         this.preloadMP3();
         this.mostrarRecord();
         // TODO añadir juego igual / distinto
-        // TODO al clicar esc con el dialog que se reinicie
         addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 _this.calcular();
             }
+        });
+        this.gameOverDialog.addEventListener("close", function (event) {
+            _this.reiniciarJuego();
         });
     }
     Homework.prototype.actualizarPuntos = function () {
@@ -123,7 +125,7 @@ var Homework = /** @class */ (function () {
         if (this.hayNuevoRecordPersonal) {
             this.gameOverDialog.innerHTML += "\n            <h2>\u00A1\u00A1Has mejorado tu record personal!!</h2>\n            ";
         }
-        this.gameOverDialog.innerHTML += "\n        <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n        <form method=\"dialog\">\n            <button class=\"empezar\" onclick=\"homeWork.reiniciarJuego();\">OK</button>\n        </form>\n        ");
+        this.gameOverDialog.innerHTML += "\n        <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n        <form method=\"dialog\">\n            <button class=\"empezar\">OK</button>\n        </form>\n        ");
     };
     Homework.prototype.manejarRecord = function () {
         if (!this.recordPersonal || this.puntos > Number(this.recordPersonal)) {

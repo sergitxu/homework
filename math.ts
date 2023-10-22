@@ -34,13 +34,16 @@ class Homework {
         this.mostrarRecord();
 
         // TODO añadir juego igual / distinto
-        // TODO al clicar esc con el dialog que se reinicie
 
         addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 this.calcular();
             }
+        });
+
+        this.gameOverDialog.addEventListener("close", (event) => {
+            this.reiniciarJuego();
         });
     }
 
@@ -145,7 +148,7 @@ class Homework {
         this.gameOverDialog!.innerHTML += `
         <small>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</small><br>
         <form method="dialog">
-            <button class="empezar" onclick="homeWork.reiniciarJuego();">OK</button>
+            <button class="empezar">OK</button>
         </form>
         `
     }
