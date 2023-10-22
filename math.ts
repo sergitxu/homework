@@ -93,6 +93,7 @@ class Homework {
         let respuesta: string | number = (<HTMLInputElement>document.getElementById(`respuesta`)).value;
 
         if (this.vidas > 0 && respuesta) {
+
             respuesta = parseInt(respuesta);
 
             if (this.operacion === '+') {
