@@ -93,6 +93,11 @@ li {
     width: 100%;
 }
 
+.record {
+    display: none;
+    text-align: center;
+}
+
 .animar {
     animation-name: atencion;
     animation-duration: 1s;

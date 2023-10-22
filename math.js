@@ -111,13 +111,14 @@ var Homework = /** @class */ (function () {
     };
     Homework.prototype.manejarRecord = function () {
         var recordPersonal = localStorage.getItem('record');
-        if (!recordPersonal) {
+        if (!recordPersonal || this.puntos > Number(recordPersonal)) {
             this.hayNuevoRecordPersonal = true;
             localStorage.setItem('record', this.puntos.toString());
-        }
-        else if (this.puntos > Number(recordPersonal)) {
-            this.hayNuevoRecordPersonal = true;
-            localStorage.setItem('record', this.puntos.toString());
+            recordPersonal = this.puntos.toString();
+            if (recordPersonal) {
+                document.getElementById('puntos-record').innerText = recordPersonal;
+            }
+            this.mostrar('record');
         }
         else {
             this.hayNuevoRecordPersonal = false;
@@ -164,6 +165,11 @@ var Homework = /** @class */ (function () {
                 nombre_singular: 'muñeca',
                 nombre_plural: 'muñecas',
                 genero: Genero.femenino
+            },
+            {
+                nombre_singular: 'Bungee',
+                nombre_plural: 'Bungees',
+                genero: Genero.masculino
             }
         ];
         var nombre_a = nombres[this.randomNumber(nombres.length)];
@@ -171,7 +177,7 @@ var Homework = /** @class */ (function () {
         var nombre_b = nombres_salvo_nombre_a[this.randomNumber(nombres_salvo_nombre_a.length)];
         var cosa_x = cosas[this.randomNumber(cosas.length)];
         var operacionAzar = this.randomNumber(2);
-        this.valor_a = this.randomNumber(2);
+        this.valor_a = this.randomNumber(11);
         if (operacionAzar === 0) {
             this.operacion = "+";
             this.valor_b = this.randomNumber(11);
@@ -241,7 +247,7 @@ var Homework = /** @class */ (function () {
         document.getElementById(paraEsconder).style.display = 'none';
     };
     Homework.prototype.mostrar = function (paraMostrar) {
-        document.getElementById(paraMostrar).style.display = 'inline-block';
+        document.getElementById(paraMostrar).style.display = 'block';
     };
     Homework.prototype.sonar = function (evento) {
         var random = this.randomNumber(6);

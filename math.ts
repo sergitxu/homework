@@ -138,12 +138,14 @@ class Homework {
 
     manejarRecord() {
         let recordPersonal = localStorage.getItem('record');
-        if (!recordPersonal) {
+        if (!recordPersonal || this.puntos > Number(recordPersonal)) {
             this.hayNuevoRecordPersonal = true;
             localStorage.setItem('record', this.puntos.toString());
-        } else if (this.puntos > Number(recordPersonal)) {
-            this.hayNuevoRecordPersonal = true;
-            localStorage.setItem('record', this.puntos.toString());
+            recordPersonal = this.puntos.toString();
+            if (recordPersonal) {
+                document.getElementById('puntos-record')!.innerText = recordPersonal;
+            }
+            this.mostrar('record');
         } else {
             this.hayNuevoRecordPersonal = false;
         }
@@ -190,6 +192,11 @@ class Homework {
                 nombre_singular: 'muñeca',
                 nombre_plural: 'muñecas',
                 genero: Genero.femenino
+            },
+            {
+                nombre_singular: 'Bungee',
+                nombre_plural: 'Bungees',
+                genero: Genero.masculino
             }
         ];
 
@@ -199,7 +206,7 @@ class Homework {
         let cosa_x = cosas[this.randomNumber(cosas.length)];
 
         let operacionAzar: number = this.randomNumber(2);
-        this.valor_a = this.randomNumber(2);
+        this.valor_a = this.randomNumber(11);
 
         if (operacionAzar === 0) {
             this.operacion = "+";
@@ -309,7 +316,7 @@ class Homework {
     }
 
     mostrar(paraMostrar) {
-        document.getElementById(paraMostrar)!.style.display = 'inline-block';
+        document.getElementById(paraMostrar)!.style.display = 'block';
     }
 
     sonar(evento) {
