@@ -1,5 +1,6 @@
 // TODO añadir juego igual / distinto
 // TODO separar código en módulos
+// TODO Añadir tests
 var Juego;
 (function (Juego) {
     Juego[Juego["Reto"] = 0] = "Reto";
@@ -15,6 +16,7 @@ var Homework = /** @class */ (function () {
         var _this = this;
         this.puntos = 0;
         this.VIDAS_INICIALES = 3;
+        this.AUDIO_CANTIDAD = 6;
         this.vidas = this.VIDAS_INICIALES;
         this.resultado = 0;
         this.zonaCalculo = document.getElementById('zona-calculo');
@@ -269,17 +271,20 @@ var Homework = /** @class */ (function () {
         document.getElementById(paraMostrar).style.display = 'block';
     };
     Homework.prototype.sonar = function (evento) {
-        var random = this.randomNumber(6);
+        var random = this.randomNumber(this.AUDIO_CANTIDAD + 1);
         var audio = new Audio("sound/".concat(evento, "/0").concat(random, ".mp3"));
         audio.play();
     };
     Homework.prototype.preloadMP3 = function () {
         var audioFiles = [];
-        for (var i = 0; i <= 6; i++) {
+        for (var i = 0; i <= this.AUDIO_CANTIDAD; i++) {
             var fileName = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
-            var audio = new Audio("sound/acierto/" + fileName);
-            audio.preload = "auto";
-            audioFiles.push(audio);
+            var audioAcierto = new Audio("sound/acierto/" + fileName);
+            var audioError = new Audio("sound/error/" + fileName);
+            audioAcierto.preload = "auto";
+            audioError.preload = "auto";
+            audioFiles.push(audioAcierto);
+            audioFiles.push(audioError);
         }
     };
     Homework.prototype.borrarHTML = function (elementoHTML) {

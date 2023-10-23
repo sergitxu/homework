@@ -19,6 +19,7 @@ class Homework {
     juegoActual: Juego;
     puntos: number = 0;
     VIDAS_INICIALES: number = 3;
+    AUDIO_CANTIDAD: number = 6;
     vidas: number = this.VIDAS_INICIALES;
     resultado: number = 0;
     zonaCalculo = document.getElementById('zona-calculo');
@@ -340,7 +341,7 @@ class Homework {
     }
 
     sonar(evento) {
-        let random = this.randomNumber(6);
+        let random = this.randomNumber(this.AUDIO_CANTIDAD + 1);
         let audio = new Audio(`sound/${evento}/0${random}.mp3`);
         audio.play();
     }
@@ -348,11 +349,14 @@ class Homework {
     preloadMP3() {
         let audioFiles: HTMLAudioElement[] = [];
 
-        for (let i = 0; i <= 6; i++) {
+        for (let i = 0; i <= this.AUDIO_CANTIDAD; i++) {
             let fileName: string = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
-            let audio: HTMLAudioElement = new Audio("sound/acierto/" + fileName);
-            audio.preload = "auto";
-            audioFiles.push(audio);
+            let audioAcierto: HTMLAudioElement = new Audio("sound/acierto/" + fileName);
+            let audioError: HTMLAudioElement = new Audio("sound/error/" + fileName);
+            audioAcierto.preload = "auto";
+            audioError.preload = "auto";
+            audioFiles.push(audioAcierto);
+            audioFiles.push(audioError);
         }
     }
 
