@@ -16,7 +16,7 @@ var Homework = /** @class */ (function () {
         var _this = this;
         this.puntos = 0;
         this.VIDAS_INICIALES = 3;
-        this.AUDIO_CANTIDAD = 6;
+        this.AUDIO_CANTIDAD = 7;
         this.vidas = this.VIDAS_INICIALES;
         this.resultado = 0;
         this.zonaCalculo = document.getElementById('zona-calculo');
@@ -277,7 +277,7 @@ var Homework = /** @class */ (function () {
     };
     Homework.prototype.preloadMP3 = function () {
         var audioFiles = [];
-        for (var i = 0; i <= this.AUDIO_CANTIDAD; i++) {
+        for (var i = 0; i <= this.AUDIO_CANTIDAD - 1; i++) {
             var fileName = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
             var audioAcierto = new Audio("sound/acierto/" + fileName);
             var audioError = new Audio("sound/error/" + fileName);
@@ -286,6 +286,7 @@ var Homework = /** @class */ (function () {
             audioFiles.push(audioAcierto);
             audioFiles.push(audioError);
         }
+        console.log(audioFiles);
     };
     Homework.prototype.borrarHTML = function (elementoHTML) {
         elementoHTML.innerHTML = '';
