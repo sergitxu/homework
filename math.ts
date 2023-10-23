@@ -341,7 +341,7 @@ class Homework {
     }
 
     sonar(evento) {
-        let random = this.randomNumber(this.AUDIO_CANTIDAD + 1);
+        let random = this.randomNumber(this.AUDIO_CANTIDAD);
         let audio = new Audio(`sound/${evento}/0${random}.mp3`);
         audio.play();
     }
