@@ -271,7 +271,7 @@ var Homework = /** @class */ (function () {
         document.getElementById(paraMostrar).style.display = 'block';
     };
     Homework.prototype.sonar = function (evento) {
-        var random = this.randomNumber(this.AUDIO_CANTIDAD + 1);
+        var random = this.randomNumber(this.AUDIO_CANTIDAD);
         var audio = new Audio("sound/".concat(evento, "/0").concat(random, ".mp3"));
         audio.play();
     };
@@ -286,7 +286,6 @@ var Homework = /** @class */ (function () {
             audioFiles.push(audioAcierto);
             audioFiles.push(audioError);
         }
-        console.log(audioFiles);
     };
     Homework.prototype.borrarHTML = function (elementoHTML) {
         elementoHTML.innerHTML = '';

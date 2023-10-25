@@ -358,7 +358,6 @@ class Homework {
             audioFiles.push(audioAcierto);
             audioFiles.push(audioError);
         }
-        console.log(audioFiles);
     }
 
     borrarHTML(elementoHTML) {
