@@ -76,6 +76,10 @@ li {
     height: 3rem;
     vertical-align: bottom;
     font-family: inherit;
+
+    &.respuesta-larga {
+        width: 13rem;
+    }
 }
 
 .boton-calcular {
