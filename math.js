@@ -5,12 +5,18 @@ var Juego;
 (function (Juego) {
     Juego[Juego["Reto"] = 0] = "Reto";
     Juego[Juego["SumaResta"] = 1] = "SumaResta";
+    Juego[Juego["Oxidacion"] = 2] = "Oxidacion";
 })(Juego || (Juego = {}));
 var Genero;
 (function (Genero) {
     Genero[Genero["masculino"] = 0] = "masculino";
     Genero[Genero["femenino"] = 1] = "femenino";
 })(Genero || (Genero = {}));
+var ElementoTipo;
+(function (ElementoTipo) {
+    ElementoTipo[ElementoTipo["metal"] = 0] = "metal";
+    ElementoTipo[ElementoTipo["no metal"] = 1] = "no metal";
+})(ElementoTipo || (ElementoTipo = {}));
 var Homework = /** @class */ (function () {
     function Homework() {
         var _this = this;
@@ -29,14 +35,44 @@ var Homework = /** @class */ (function () {
         this.puntosNumero = document.getElementById('puntos-numero');
         this.hayNuevoRecordPersonal = false;
         this.recordPersonal = localStorage.getItem('record');
+        this.elementos = [
+            {
+                tipo: ElementoTipo.metal,
+                nombre: 'Oro',
+                simbolo: 'AU',
+                num_oxidacion: '1 3'
+            },
+            {
+                tipo: ElementoTipo.metal,
+                nombre: 'Cobre',
+                simbolo: 'CU',
+                num_oxidacion: '1'
+            },
+            {
+                tipo: ElementoTipo["no metal"],
+                nombre: 'Hidrógeno',
+                simbolo: 'H',
+                num_oxidacion: '1'
+            }
+        ];
+        this.elementoPregunta = {
+            tipo: ElementoTipo.metal,
+            simbolo: '',
+            nombre: '',
+            num_oxidacion: ''
+        };
         this.actualizarPuntos();
         this.actualizarVidas();
         this.preloadMP3();
         this.mostrarRecord();
         addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && _this.juegoActual !== Juego.Oxidacion) {
                 e.preventDefault();
                 _this.calcular();
+            }
+            else if (e.key === 'Enter' && _this.juegoActual === Juego.Oxidacion) {
+                e.preventDefault();
+                _this.resolverOxidacion();
             }
         });
         this.gameOverDialog.addEventListener("close", function (event) {
@@ -251,6 +287,32 @@ var Homework = /** @class */ (function () {
         this.mostrar('zona-calculo');
         this.zonaCalculo.innerHTML = "\n        <form id=\"calculo\">\n            <span id=\"cifra-a\" class=\"cifra\">".concat(this.valor_a, "</span>\n            <span id=\"operacion\" class=\"operacion\">").concat(this.operacion, "</span>\n            <span id=\"cifra-b\" class=\"cifra\">").concat(this.valor_b, "</span>\n            <span class=\"cifra\"> = </span>\n            <br>\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
+    };
+    Homework.prototype.Oxidacion = function () {
+        var _a;
+        this.juegoActual = Juego.Oxidacion;
+        this.mostrar('zona-calculo');
+        // tomar un elemento al azar
+        this.elementoPregunta = this.elementos[this.randomNumber(this.elementos.length)];
+        this.zonaCalculo.innerHTML = "\n        <p>\u00BFCu\u00E1l es n\u00FAmero de oxidaci\u00F3n del ".concat(this.elementoPregunta.nombre, " - ").concat(this.elementoPregunta.simbolo, "?</p>\n        ");
+        this.zonaCalculo.innerHTML += "\n        <form id=\"calculo\">\n            <input type=\"text\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n        ";
+        if (this.elementoPregunta.tipo === ElementoTipo["no metal"]) {
+            this.zonaCalculo.innerHTML += "\n                <input type=\"text\" id=\"respuestaUro\" name=\"respuestaUro\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            ";
+        }
+        this.zonaCalculo.innerHTML += "\n            <button type=\"button\" id=\"calcularOxidacion\" onclick=\"homeWork.resolverOxidacion()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ";
+        (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
+    };
+    Homework.prototype.resolverOxidacion = function () {
+        var respuestaOxidacion = document.getElementById("respuesta").value;
+        if (this.vidas > 0 && respuestaOxidacion) {
+            if (respuestaOxidacion === this.elementoPregunta.num_oxidacion) {
+                this.acertar();
+                this.Oxidacion();
+            }
+            else {
+                this.fallar();
+            }
+        }
     };
     // Métodos genéricos
     Homework.prototype.animar = function (animado) {

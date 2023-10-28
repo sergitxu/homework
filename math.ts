@@ -3,7 +3,7 @@
 // TODO Añadir tests
 
 enum Juego {
-    Reto, SumaResta
+    Reto, SumaResta, Oxidacion
 }
 enum Genero {
     masculino, femenino
@@ -13,6 +13,17 @@ interface Cosa {
     nombre_singular: string,
     nombre_plural: string,
     genero: Genero
+}
+
+enum ElementoTipo {
+    'metal', 'no metal'
+}
+
+interface Elemento {
+    tipo: ElementoTipo,
+    nombre: string,
+    simbolo: string,
+    num_oxidacion: string
 }
 
 class Homework {
@@ -32,6 +43,34 @@ class Homework {
     hayNuevoRecordPersonal: boolean = false;
     recordPersonal = localStorage.getItem('record');
 
+    elementos: Elemento[] = [
+        {
+            tipo: ElementoTipo.metal,
+            nombre: 'Oro',
+            simbolo: 'AU',
+            num_oxidacion: '1 3'
+        },
+        {
+            tipo: ElementoTipo.metal,
+            nombre: 'Cobre',
+            simbolo: 'CU',
+            num_oxidacion: '1'
+        },
+        {
+            tipo: ElementoTipo["no metal"],
+            nombre: 'Hidrógeno',
+            simbolo: 'H',
+            num_oxidacion: '1'
+        }
+    ];
+
+    elementoPregunta: Elemento = {
+        tipo: ElementoTipo.metal,
+        simbolo: '',
+        nombre: '',
+        num_oxidacion: ''
+    }
+
     constructor() {
         this.actualizarPuntos();
         this.actualizarVidas();
@@ -39,9 +78,12 @@ class Homework {
         this.mostrarRecord();
 
         addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && this.juegoActual !== Juego.Oxidacion) {
                 e.preventDefault();
                 this.calcular();
+            } else if (e.key === 'Enter' && this.juegoActual === Juego.Oxidacion) {
+                e.preventDefault();
+                this.resolverOxidacion();
             }
         });
 
@@ -313,6 +355,41 @@ class Homework {
         `;
 
         document.getElementById(`respuesta`)?.focus();
+    }
+
+    Oxidacion() {
+        this.juegoActual = Juego.Oxidacion;
+
+        this.mostrar('zona-calculo');
+
+        // tomar un elemento al azar
+        this.elementoPregunta = this.elementos[this.randomNumber(this.elementos.length)];
+
+        this.zonaCalculo!.innerHTML = `
+        <p>¿Cuál es número de oxidación del ${this.elementoPregunta.nombre} - ${this.elementoPregunta.simbolo}?</p>
+        `
+        this.zonaCalculo!.innerHTML += `
+        <form id="calculo">
+            <input type="text" id="respuesta" name="respuesta" class="respuesta" oninput="homeWork.quitarError()">
+            <button type="button" id="calcularOxidacion" onclick="homeWork.resolverOxidacion()" class="boton-calcular">&#9166;</button>
+        </form>
+        `;
+
+        document.getElementById(`respuesta`)?.focus();
+    }
+
+    resolverOxidacion() {
+        let respuestaOxidacion: string | number = (<HTMLInputElement>document.getElementById(`respuesta`)).value;
+
+        if (this.vidas > 0 && respuestaOxidacion) {
+            if (respuestaOxidacion === this.elementoPregunta.num_oxidacion) {
+
+                this.acertar();
+                this.Oxidacion();
+            } else {
+                this.fallar();
+            }
+        }
     }
 
     // Métodos genéricos
