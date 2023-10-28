@@ -1,6 +1,9 @@
 // TODO añadir juego igual / distinto
 // TODO separar código en módulos
 // TODO Añadir tests
+// TODO organizar juegos por temática / edad. Mostrar sólo enlaces a juegos sin puntos ni récord.
+// TODO asociar record a cada juego
+// TODO crear url por edad
 
 enum Juego {
     Reto, SumaResta, Oxidacion
