@@ -171,7 +171,7 @@ var Homework = /** @class */ (function () {
             },
             {
                 tipo: ElementoTipo.metal,
-                nombre: 'Magnaneso',
+                nombre: 'Manganeso',
                 simbolo: 'Mn',
                 num_oxidacion: '2 3'
             },
