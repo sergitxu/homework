@@ -357,6 +357,7 @@ var Homework = /** @class */ (function () {
         this.resetearVidasPuntos();
         this.esconder('zona-calculo');
         this.mostrar('empezar');
+        this.mostrar('boton-oxidacion');
         this.mostrarRecord();
     };
     Homework.prototype.mostrarRecord = function () {
