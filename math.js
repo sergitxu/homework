@@ -14,6 +14,7 @@ var Genero;
 var Homework = /** @class */ (function () {
     function Homework() {
         var _this = this;
+        this.juegoActual = Juego.Reto;
         this.puntos = 0;
         this.VIDAS_INICIALES = 3;
         this.AUDIO_CANTIDAD = 7;
@@ -21,6 +22,8 @@ var Homework = /** @class */ (function () {
         this.resultado = 0;
         this.zonaCalculo = document.getElementById('zona-calculo');
         this.valor_a = this.randomNumber(11);
+        this.valor_b = 0;
+        this.operacion = '+';
         this.gameOverDialog = document.getElementById('game-over');
         this.vidasNumero = document.getElementById('vidas-numero');
         this.puntosNumero = document.getElementById('puntos-numero');

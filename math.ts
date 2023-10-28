@@ -16,7 +16,7 @@ interface Cosa {
 }
 
 class Homework {
-    juegoActual: Juego;
+    juegoActual: Juego = Juego.Reto;
     puntos: number = 0;
     VIDAS_INICIALES: number = 3;
     AUDIO_CANTIDAD: number = 7;
@@ -24,8 +24,8 @@ class Homework {
     resultado: number = 0;
     zonaCalculo = document.getElementById('zona-calculo');
     valor_a: number = this.randomNumber(11);
-    valor_b: number;
-    operacion: string;
+    valor_b: number = 0;
+    operacion: string = '+';
     gameOverDialog: HTMLDialogElement = (<HTMLDialogElement>document.getElementById('game-over'));
     vidasNumero: HTMLElement | null = document.getElementById('vidas-numero');
     puntosNumero: HTMLElement | null = document.getElementById('puntos-numero');
@@ -316,7 +316,7 @@ class Homework {
     }
 
     // Métodos genéricos
-    animar(animado) {
+    animar(animado: HTMLElement | null) {
         animado?.classList.add('animar');
         setTimeout(() => {
             animado?.classList.remove('animar');
@@ -328,19 +328,19 @@ class Homework {
         document.getElementById(`respuesta`)?.classList.remove('error');
     }
 
-    randomNumber(lessThan, min = 0) {
+    randomNumber(lessThan: number, min = 0) {
         return Math.floor(Math.random() * (lessThan - min)) + min;
     }
 
-    esconder(paraEsconder) {
+    esconder(paraEsconder: string) {
         document.getElementById(paraEsconder)!.style.display = 'none';
     }
 
-    mostrar(paraMostrar) {
+    mostrar(paraMostrar: string) {
         document.getElementById(paraMostrar)!.style.display = 'block';
     }
 
-    sonar(evento) {
+    sonar(evento: string) {
         let random = this.randomNumber(this.AUDIO_CANTIDAD);
         let audio = new Audio(`sound/${evento}/0${random}.mp3`);
         audio.play();
@@ -360,7 +360,7 @@ class Homework {
         }
     }
 
-    borrarHTML(elementoHTML) {
+    borrarHTML(elementoHTML: HTMLElement) {
         elementoHTML!.innerHTML = '';
     }
 };
