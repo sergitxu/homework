@@ -652,7 +652,6 @@ class Homework {
                 this.acertar();
                 this.Oxidacion();
             } else {
-                console.log('FALLO');
                 this.fallar();
             }
         }

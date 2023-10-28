@@ -1,6 +1,9 @@
 // TODO añadir juego igual / distinto
 // TODO separar código en módulos
 // TODO Añadir tests
+// TODO organizar juegos por temática / edad. Mostrar sólo enlaces a juegos sin puntos ni récord.
+// TODO asociar record a cada juego
+// TODO crear url por edad
 var Juego;
 (function (Juego) {
     Juego[Juego["Reto"] = 0] = "Reto";
@@ -564,7 +567,6 @@ var Homework = /** @class */ (function () {
                 this.Oxidacion();
             }
             else {
-                console.log('FALLO');
                 this.fallar();
             }
         }
