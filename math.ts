@@ -2,6 +2,8 @@
 // TODO separar código en módulos
 // TODO Añadir tests
 
+import * as genericos from "./genericos";
+
 enum Juego {
     Reto, SumaResta
 }
@@ -16,16 +18,16 @@ interface Cosa {
 }
 
 class Homework {
-    juegoActual: Juego;
+    juegoActual: Juego = Juego.Reto;
     puntos: number = 0;
     VIDAS_INICIALES: number = 3;
     AUDIO_CANTIDAD: number = 7;
     vidas: number = this.VIDAS_INICIALES;
     resultado: number = 0;
     zonaCalculo = document.getElementById('zona-calculo');
-    valor_a: number = this.randomNumber(11);
-    valor_b: number;
-    operacion: string;
+    valor_a: number = genericos.randomNumber(11);
+    valor_b: number = 0;
+    operacion: string = '+';
     gameOverDialog: HTMLDialogElement = (<HTMLDialogElement>document.getElementById('game-over'));
     vidasNumero: HTMLElement | null = document.getElementById('vidas-numero');
     puntosNumero: HTMLElement | null = document.getElementById('puntos-numero');
@@ -35,7 +37,7 @@ class Homework {
     constructor() {
         this.actualizarPuntos();
         this.actualizarVidas();
-        this.preloadMP3();
+        genericos.preloadMP3();
         this.mostrarRecord();
 
         addEventListener('keypress', (e) => {
@@ -79,15 +81,15 @@ class Homework {
 
     reiniciarJuego() {
         this.resetearVidasPuntos();
-        this.esconder('zona-calculo');
-        this.mostrar('empezar');
+        genericos.esconder('zona-calculo');
+        genericos.mostrar('empezar');
         this.mostrarRecord();
     }
 
     mostrarRecord() {
         if (this.recordPersonal) {
             document.getElementById('puntos-record')!.innerText = this.recordPersonal;
-            this.mostrar('record');
+            genericos.mostrar('record');
         }
     }
 
@@ -98,13 +100,7 @@ class Homework {
 
             respuesta = parseInt(respuesta);
 
-            if (this.operacion === '+') {
-                this.resultado = this.valor_a + this.valor_b;
-            } else if (this.operacion === '-') {
-                this.resultado = this.valor_a - this.valor_b;
-            } else (
-                console.error('No sé que operación es esa.')
-            )
+            this.resultado = eval(this.valor_a + this.operacion + this.valor_b);
 
             if (respuesta === this.resultado) {
                 this.acertar();
@@ -122,16 +118,16 @@ class Homework {
     acertar() {
         this.puntos++;
         this.actualizarPuntos();
-        this.animar(this.puntosNumero);
-        this.sonar('acierto');
+        genericos.animar(this.puntosNumero);
+        genericos.sonar('acierto');
     }
 
     fallar() {
         document.getElementById(`respuesta`)?.classList.add('error');
         this.vidas--;
         this.actualizarVidas();
-        this.animar(this.vidasNumero);
-        this.sonar('error');
+        genericos.animar(this.vidasNumero);
+        genericos.sonar('error');
     }
 
     gameOver() {
@@ -219,24 +215,24 @@ class Homework {
             }
         ];
 
-        let nombre_a = nombres[this.randomNumber(nombres.length)];
+        let nombre_a = nombres[genericos.randomNumber(nombres.length)];
         let nombres_salvo_nombre_a = nombres.filter(nombre => nombre !== nombre_a);
-        let nombre_b = nombres_salvo_nombre_a[this.randomNumber(nombres_salvo_nombre_a.length)];
-        let cosa_x = cosas[this.randomNumber(cosas.length)];
+        let nombre_b = nombres_salvo_nombre_a[genericos.randomNumber(nombres_salvo_nombre_a.length)];
+        let cosa_x = cosas[genericos.randomNumber(cosas.length)];
 
-        let operacionAzar: number = this.randomNumber(2);
-        this.valor_a = this.randomNumber(11);
+        let operacionAzar: number = genericos.randomNumber(2);
+        this.valor_a = genericos.randomNumber(11);
 
         if (operacionAzar === 0) {
             this.operacion = "+";
-            this.valor_b = this.randomNumber(11);
+            this.valor_b = genericos.randomNumber(11);
         } else {
             this.operacion = "-";
-            this.valor_a = this.randomNumber(11, 2);
-            this.valor_b = this.randomNumber(this.valor_a, 1);
+            this.valor_a = genericos.randomNumber(11, 2);
+            this.valor_b = genericos.randomNumber(this.valor_a, 1);
         }
 
-        this.mostrar('zona-calculo');
+        genericos.mostrar('zona-calculo');
 
         this.zonaCalculo!.innerHTML = `
         ${nombre_a} tiene <span class="puntos-numero">${this.valor_a}</span> 
@@ -286,19 +282,19 @@ class Homework {
     // Operacion de sumas y restas
     crearOperacion() {
         this.juegoActual = Juego.SumaResta;
-        let operacionAzar: number = this.randomNumber(2);
-        this.valor_a = this.randomNumber(11);
+        let operacionAzar: number = genericos.randomNumber(2);
+        this.valor_a = genericos.randomNumber(11);
 
         if (operacionAzar === 0) {
             this.operacion = "+";
-            this.valor_b = this.randomNumber(11);
+            this.valor_b = genericos.randomNumber(11);
         } else {
             this.operacion = "-";
-            this.valor_a = this.randomNumber(11, 2);
-            this.valor_b = this.randomNumber(this.valor_a);
+            this.valor_a = genericos.randomNumber(11, 2);
+            this.valor_b = genericos.randomNumber(this.valor_a);
         }
 
-        this.mostrar('zona-calculo');
+        genericos.mostrar('zona-calculo');
 
         this.zonaCalculo!.innerHTML = `
         <form id="calculo">
@@ -315,54 +311,6 @@ class Homework {
         document.getElementById(`respuesta`)?.focus();
     }
 
-    // Métodos genéricos
-    animar(animado) {
-        animado?.classList.add('animar');
-        setTimeout(() => {
-            animado?.classList.remove('animar');
-        }, 1000);
-
-    }
-
-    quitarError() {
-        document.getElementById(`respuesta`)?.classList.remove('error');
-    }
-
-    randomNumber(lessThan, min = 0) {
-        return Math.floor(Math.random() * (lessThan - min)) + min;
-    }
-
-    esconder(paraEsconder) {
-        document.getElementById(paraEsconder)!.style.display = 'none';
-    }
-
-    mostrar(paraMostrar) {
-        document.getElementById(paraMostrar)!.style.display = 'block';
-    }
-
-    sonar(evento) {
-        let random = this.randomNumber(this.AUDIO_CANTIDAD);
-        let audio = new Audio(`sound/${evento}/0${random}.mp3`);
-        audio.play();
-    }
-
-    preloadMP3() {
-        let audioFiles: HTMLAudioElement[] = [];
-
-        for (let i = 0; i <= this.AUDIO_CANTIDAD - 1; i++) {
-            let fileName: string = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
-            let audioAcierto: HTMLAudioElement = new Audio("sound/acierto/" + fileName);
-            let audioError: HTMLAudioElement = new Audio("sound/error/" + fileName);
-            audioAcierto.preload = "auto";
-            audioError.preload = "auto";
-            audioFiles.push(audioAcierto);
-            audioFiles.push(audioError);
-        }
-    }
-
-    borrarHTML(elementoHTML) {
-        elementoHTML!.innerHTML = '';
-    }
 };
 
 const homeWork = new Homework();
