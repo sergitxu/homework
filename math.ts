@@ -181,7 +181,9 @@ class Homework {
 
     gameOver() {
         this.manejarRecord();
-        (<HTMLButtonElement>document.getElementById('calcularBoton'))!.disabled = true;
+        if ((<HTMLButtonElement>document.getElementById('calcularBoton'))) {
+            (<HTMLButtonElement>document.getElementById('calcularBoton')).disabled = true;
+        }
         this.gameOverDialog?.showModal();
         this.gameOverDialog!.innerHTML = `<h1>¡ENHORABUENA!</h1>`;
         if (this.puntos === 1) {
@@ -194,20 +196,31 @@ class Homework {
             <h2>¡¡Has mejorado tu record personal!!</h2>
             `
         }
-        if (this.juegoActual === Juego.Oxidacion) {
-            this.gameOverDialog!.innerHTML += `
-            <small>El número de oxidación del ${this.elementoPregunta.nombre} - ${this.elementoPregunta.simbolo} era <span class="resultado-number">${this.elementoPregunta.num_oxidacion}</span>.</small><br>
-            <form method="dialog">
-                <button class="empezar">OK</button>
-            </form>
-            `
-        } else {
-            this.gameOverDialog!.innerHTML += `
-            <small>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</small><br>
-            <form method="dialog">
-                <button class="empezar">OK</button>
-            </form>
-            `
+
+
+        switch (this.juegoActual) {
+            case Juego.Oxidacion:
+                this.gameOverDialog!.innerHTML += `
+                <small>El número de oxidación del ${this.elementoPregunta.nombre} - ${this.elementoPregunta.simbolo} era <span class="resultado-number">${this.elementoPregunta.num_oxidacion}</span>.</small><br>
+                <form method="dialog">
+                    <button class="empezar">OK</button>
+                </form>
+                `
+                break;
+            case Juego.Reto || Juego.SumaResta:
+                this.gameOverDialog!.innerHTML += `
+                <small>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</small><br>
+                <form method="dialog">
+                    <button class="empezar">OK</button>
+                </form>
+                `
+            case Juego.EnglishVocabulary:
+                this.gameOverDialog!.innerHTML += `
+                <small>La respuesta correcta era <span class="resultado-number">${this.englishWordPregunta.texto}</span>.</small><br>
+                <form method="dialog">
+                    <button class="empezar">OK</button>
+                </form>
+                `
         }
     }
 
@@ -702,11 +715,13 @@ class Homework {
     }
 
     resolverEnglishVocabulary(respuesta: number) {
-        if (document.getElementById('calcularBoton' + respuesta)?.innerHTML === this.englishWordPregunta.texto) {
-            this.acertar();
-            this.EnglishVocabulary();
-        } else {
-            this.fallar();
+        if (this.vidas > 0) {
+            if (document.getElementById('calcularBoton' + respuesta)?.innerHTML === this.englishWordPregunta.texto) {
+                this.acertar();
+                this.EnglishVocabulary();
+            } else {
+                this.fallar();
+            }
         }
     }
 

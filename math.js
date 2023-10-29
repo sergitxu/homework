@@ -726,7 +726,9 @@ var Homework = /** @class */ (function () {
     Homework.prototype.gameOver = function () {
         var _a;
         this.manejarRecord();
-        document.getElementById('calcularBoton').disabled = true;
+        if (document.getElementById('calcularBoton')) {
+            document.getElementById('calcularBoton').disabled = true;
+        }
         (_a = this.gameOverDialog) === null || _a === void 0 ? void 0 : _a.showModal();
         this.gameOverDialog.innerHTML = "<h1>\u00A1ENHORABUENA!</h1>";
         if (this.puntos === 1) {
@@ -738,11 +740,14 @@ var Homework = /** @class */ (function () {
         if (this.hayNuevoRecordPersonal) {
             this.gameOverDialog.innerHTML += "\n            <h2>\u00A1\u00A1Has mejorado tu record personal!!</h2>\n            ";
         }
-        if (this.juegoActual === Juego.Oxidacion) {
-            this.gameOverDialog.innerHTML += "\n            <small>El n\u00FAmero de oxidaci\u00F3n del ".concat(this.elementoPregunta.nombre, " - ").concat(this.elementoPregunta.simbolo, " era <span class=\"resultado-number\">").concat(this.elementoPregunta.num_oxidacion, "</span>.</small><br>\n            <form method=\"dialog\">\n                <button class=\"empezar\">OK</button>\n            </form>\n            ");
-        }
-        else {
-            this.gameOverDialog.innerHTML += "\n            <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n            <form method=\"dialog\">\n                <button class=\"empezar\">OK</button>\n            </form>\n            ");
+        switch (this.juegoActual) {
+            case Juego.Oxidacion:
+                this.gameOverDialog.innerHTML += "\n                <small>El n\u00FAmero de oxidaci\u00F3n del ".concat(this.elementoPregunta.nombre, " - ").concat(this.elementoPregunta.simbolo, " era <span class=\"resultado-number\">").concat(this.elementoPregunta.num_oxidacion, "</span>.</small><br>\n                <form method=\"dialog\">\n                    <button class=\"empezar\">OK</button>\n                </form>\n                ");
+                break;
+            case Juego.Reto || Juego.SumaResta:
+                this.gameOverDialog.innerHTML += "\n                <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n                <form method=\"dialog\">\n                    <button class=\"empezar\">OK</button>\n                </form>\n                ");
+            case Juego.EnglishVocabulary:
+                this.gameOverDialog.innerHTML += "\n                <small>La respuesta correcta era <span class=\"resultado-number\">".concat(this.englishWordPregunta.texto, "</span>.</small><br>\n                <form method=\"dialog\">\n                    <button class=\"empezar\">OK</button>\n                </form>\n                ");
         }
     };
     Homework.prototype.manejarRecord = function () {
@@ -886,12 +891,14 @@ var Homework = /** @class */ (function () {
     };
     Homework.prototype.resolverEnglishVocabulary = function (respuesta) {
         var _a;
-        if (((_a = document.getElementById('calcularBoton' + respuesta)) === null || _a === void 0 ? void 0 : _a.innerHTML) === this.englishWordPregunta.texto) {
-            this.acertar();
-            this.EnglishVocabulary();
-        }
-        else {
-            this.fallar();
+        if (this.vidas > 0) {
+            if (((_a = document.getElementById('calcularBoton' + respuesta)) === null || _a === void 0 ? void 0 : _a.innerHTML) === this.englishWordPregunta.texto) {
+                this.acertar();
+                this.EnglishVocabulary();
+            }
+            else {
+                this.fallar();
+            }
         }
     };
     Homework.prototype.Oxidacion = function () {
