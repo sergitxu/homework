@@ -4,7 +4,6 @@
 // TODO organizar juegos por temática / edad. Mostrar sólo enlaces a juegos sin puntos ni récord.
 // TODO asociar record a cada juego
 // TODO crear url por edad
-// TODO crear English vocabulary
 var Juego;
 (function (Juego) {
     Juego[Juego["Reto"] = 0] = "Reto";
@@ -50,8 +49,11 @@ var Homework = /** @class */ (function () {
         this.vidasNumero = document.getElementById('vidas-numero');
         this.puntosNumero = document.getElementById('puntos-numero');
         this.hayNuevoRecordPersonal = false;
-        this.recordPersonal = localStorage.getItem('record');
-        this.host = 'http://sergitxu.github.io/homework';
+        this.recordPersonalReto = localStorage.getItem('record-reto');
+        this.recordPersonalSumaResta = localStorage.getItem('record-sumaresta');
+        this.recordPersonalOxidacion = localStorage.getItem('record-oxidacion');
+        this.recordPersonalEnglish = localStorage.getItem('record-english');
+        this.HOST = 'http://sergitxu.github.io/homework';
         this.HOSTLOCAL = '.';
         this.elementoPregunta = {
             tipo: ElementoTipo.metal,
@@ -634,7 +636,6 @@ var Homework = /** @class */ (function () {
         this.actualizarPuntos();
         this.actualizarVidas();
         this.preloadMP3();
-        this.mostrarRecord();
         addEventListener('keypress', function (e) {
             if (e.key === 'Enter' && _this.juegoActual !== Juego.Oxidacion) {
                 e.preventDefault();
@@ -678,9 +679,47 @@ var Homework = /** @class */ (function () {
         this.mostrarRecord();
     };
     Homework.prototype.mostrarRecord = function () {
-        if (this.recordPersonal) {
-            document.getElementById('puntos-record').innerText = this.recordPersonal;
-            this.mostrar('record');
+        switch (this.juegoActual) {
+            case Juego.Reto: {
+                if (this.recordPersonalReto) {
+                    document.getElementById('puntos-record').innerText = this.recordPersonalReto;
+                    this.mostrar('record');
+                }
+                else {
+                    this.hayNuevoRecordPersonal = false;
+                }
+                break;
+            }
+            case Juego.SumaResta: {
+                if (this.recordPersonalSumaResta) {
+                    document.getElementById('puntos-record').innerText = this.recordPersonalSumaResta;
+                    this.mostrar('record');
+                }
+                else {
+                    this.hayNuevoRecordPersonal = false;
+                }
+                break;
+            }
+            case Juego.Oxidacion: {
+                if (this.recordPersonalOxidacion) {
+                    document.getElementById('puntos-record').innerText = this.recordPersonalOxidacion;
+                    this.mostrar('record');
+                }
+                else {
+                    this.hayNuevoRecordPersonal = false;
+                }
+                break;
+            }
+            case Juego.EnglishVocabulary: {
+                if (this.recordPersonalEnglish) {
+                    document.getElementById('puntos-record').innerText = this.recordPersonalEnglish;
+                    this.mostrar('record');
+                }
+                else {
+                    this.hayNuevoRecordPersonal = false;
+                }
+                break;
+            }
         }
     };
     Homework.prototype.calcular = function () {
@@ -741,29 +780,77 @@ var Homework = /** @class */ (function () {
             this.gameOverDialog.innerHTML += "\n            <h2>\u00A1\u00A1Has mejorado tu record personal!!</h2>\n            ";
         }
         switch (this.juegoActual) {
-            case Juego.Oxidacion:
+            case Juego.Oxidacion: {
                 this.gameOverDialog.innerHTML += "\n                <small>El n\u00FAmero de oxidaci\u00F3n del ".concat(this.elementoPregunta.nombre, " - ").concat(this.elementoPregunta.simbolo, " era <span class=\"resultado-number\">").concat(this.elementoPregunta.num_oxidacion, "</span>.</small><br>\n                <form method=\"dialog\">\n                    <button class=\"empezar\">OK</button>\n                </form>\n                ");
                 break;
-            case Juego.Reto || Juego.SumaResta:
+            }
+            case Juego.Reto: {
                 this.gameOverDialog.innerHTML += "\n                <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n                <form method=\"dialog\">\n                    <button class=\"empezar\">OK</button>\n                </form>\n                ");
-            case Juego.EnglishVocabulary:
+                break;
+            }
+            case Juego.SumaResta: {
+                this.gameOverDialog.innerHTML += "\n                <small>La respuesta correcta a ".concat(this.valor_a, " ").concat(this.operacion, " ").concat(this.valor_b, " era <span class=\"resultado-number\">").concat(this.resultado, "</span>.</small><br>\n                <form method=\"dialog\">\n                    <button class=\"empezar\">OK</button>\n                </form>\n                ");
+                break;
+            }
+            case Juego.EnglishVocabulary: {
                 this.gameOverDialog.innerHTML += "\n                <small>La respuesta correcta era <span class=\"resultado-number\">".concat(this.englishWordPregunta.texto, "</span>.</small><br>\n                <form method=\"dialog\">\n                    <button class=\"empezar\">OK</button>\n                </form>\n                ");
+                break;
+            }
         }
     };
     Homework.prototype.manejarRecord = function () {
-        if (!this.recordPersonal || this.puntos > Number(this.recordPersonal)) {
-            this.hayNuevoRecordPersonal = true;
-            localStorage.setItem('record', this.puntos.toString());
-            this.recordPersonal = this.puntos.toString();
-        }
-        else {
-            this.hayNuevoRecordPersonal = false;
+        switch (this.juegoActual) {
+            case Juego.Reto: {
+                if (!this.recordPersonalReto || this.puntos > Number(this.recordPersonalReto)) {
+                    this.hayNuevoRecordPersonal = true;
+                    localStorage.setItem('record-reto', this.puntos.toString());
+                    this.recordPersonalReto = this.puntos.toString();
+                }
+                else {
+                    this.hayNuevoRecordPersonal = false;
+                }
+                break;
+            }
+            case Juego.SumaResta: {
+                if (!this.recordPersonalSumaResta || this.puntos > Number(this.recordPersonalSumaResta)) {
+                    this.hayNuevoRecordPersonal = true;
+                    localStorage.setItem('record-sumaresta', this.puntos.toString());
+                    this.recordPersonalSumaResta = this.puntos.toString();
+                }
+                else {
+                    this.hayNuevoRecordPersonal = false;
+                }
+                break;
+            }
+            case Juego.Oxidacion: {
+                if (!this.recordPersonalOxidacion || this.puntos > Number(this.recordPersonalOxidacion)) {
+                    this.hayNuevoRecordPersonal = true;
+                    localStorage.setItem('record-oxidacion', this.puntos.toString());
+                    this.recordPersonalOxidacion = this.puntos.toString();
+                }
+                else {
+                    this.hayNuevoRecordPersonal = false;
+                }
+                break;
+            }
+            case Juego.EnglishVocabulary: {
+                if (!this.recordPersonalEnglish || this.puntos > Number(this.recordPersonalEnglish)) {
+                    this.hayNuevoRecordPersonal = true;
+                    localStorage.setItem('record-english', this.puntos.toString());
+                    this.recordPersonalEnglish = this.puntos.toString();
+                }
+                else {
+                    this.hayNuevoRecordPersonal = false;
+                }
+                break;
+            }
         }
     };
     // Retos
     Homework.prototype.crearReto = function () {
         var _a;
         this.juegoActual = Juego.Reto;
+        this.mostrarRecord();
         var nombres = ['Jon', 'Adri', 'Yago', 'Jacob', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'Maria',
             'Xabi', 'Alba', 'Sophie', 'Valentina', 'Carla', 'Salomé', 'Jaime', 'Nicholas', 'Eva', 'Boris', 'Diana', 'Marina', 'Alex',
             'Sergio', 'David', 'Leonor', 'Bruna', 'Alaia', 'Sofía', 'Ángela', 'Nor', 'Sarah', 'Valeria', 'David', 'Manuel', 'Paula',
@@ -854,6 +941,7 @@ var Homework = /** @class */ (function () {
     Homework.prototype.crearOperacion = function () {
         var _a;
         this.juegoActual = Juego.SumaResta;
+        this.mostrarRecord();
         var operacionAzar = this.randomNumber(2);
         this.valor_a = this.randomNumber(11);
         if (operacionAzar === 0) {
@@ -873,6 +961,7 @@ var Homework = /** @class */ (function () {
         var _this = this;
         var RESPUESTAS_NUM = 3;
         this.juegoActual = Juego.EnglishVocabulary;
+        this.mostrarRecord();
         this.mostrar('zona-calculo');
         this.englishWordPregunta = this.englishWords[this.randomNumber(this.englishWords.length)];
         var englishWordsTema = this.englishWords.filter(function (word) { return word.tipo === _this.englishWordPregunta.tipo; });
@@ -880,7 +969,7 @@ var Homework = /** @class */ (function () {
         this.englishWordPregunta = englishWords_elegidas[0];
         this.shuffleArray(englishWords_elegidas);
         if (this.englishWordPregunta.imagen) {
-            this.zonaCalculo.innerHTML = "\n            <h3>What is this?</h3>\n            <img src=\"".concat(this.HOSTLOCAL, "/img/englishWords/").concat(this.englishWordPregunta.imagen, "\" alt=\"\" class=\"pregunta-imagen\">\n            ");
+            this.zonaCalculo.innerHTML = "\n            <h3>What is this?</h3>\n            <img src=\"".concat(this.HOST, "/img/englishWords/").concat(this.englishWordPregunta.imagen, "\" alt=\"\" class=\"pregunta-imagen\">\n            ");
         }
         else {
             this.zonaCalculo.innerHTML = "\n            <h3>Translate to English</h3>\n            <p class=\"puntos-numero\">".concat(this.englishWordPregunta.textoEspañol, "</p>\n            ");
@@ -904,6 +993,7 @@ var Homework = /** @class */ (function () {
     Homework.prototype.Oxidacion = function () {
         var _a;
         this.juegoActual = Juego.Oxidacion;
+        this.mostrarRecord();
         this.mostrar('zona-calculo');
         this.elementoPregunta = this.elementos[this.randomNumber(this.elementos.length)];
         this.zonaCalculo.innerHTML = "\n        <p>\u00BFCu\u00E1l es n\u00FAmero de oxidaci\u00F3n del <span class=\"puntos-numero\">".concat(this.elementoPregunta.nombre, " - ").concat(this.elementoPregunta.simbolo, "</span>?</p>\n        ");
