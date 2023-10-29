@@ -8,6 +8,10 @@ li {
     list-style: none;
 }
 
+button {
+    cursor: pointer;
+}
+
 .contenedor {
     width: 40vw;
     border: 6px solid dodgerblue;
@@ -88,6 +92,8 @@ li {
 
 .pregunta-imagen {
     max-width: 100%;
+    display: block;
+    margin: 0 auto 2rem auto;
 }
 
 .vidas-numero {

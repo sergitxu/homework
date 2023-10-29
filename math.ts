@@ -29,8 +29,12 @@ interface Elemento {
     simbolo?: string,
     num_oxidacion: string
 }
+enum WordTipo {
+    colegio, juguetes, colores, numeros, dias, adjetivos, familia, otros
+}
 
 interface EnglishWord {
+    tipo: WordTipo,
     texto: string,
     textoEspañol: string,
     imagen?: string,
@@ -63,6 +67,7 @@ class Homework {
     }
 
     englishWordPregunta: EnglishWord = {
+        tipo: WordTipo.colegio,
         texto: '',
         textoEspañol: '',
         imagen: ''
@@ -367,254 +372,294 @@ class Homework {
     }
 
     // English vocabulary
-    englishWordsSchool: EnglishWord[] = [
+
+    englishWords: EnglishWord[] = [
         {
+            tipo: WordTipo.colegio,
             texto: 'Rubber',
             textoEspañol: 'Goma de borrar',
             imagen: 'rubber.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Pencil',
             textoEspañol: 'Lápiz',
             imagen: 'pencil.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Pencil case',
             textoEspañol: 'Estuche',
             imagen: 'pencil-case.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Pencil sharpener',
             textoEspañol: 'Sacapuntas',
             imagen: 'pencil-sharpener.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Glue',
             textoEspañol: 'Pegamento',
             imagen: 'glue.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Crayonnes',
             textoEspañol: 'Pinturas',
             imagen: 'crayonnes.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Cook',
             textoEspañol: 'Cocinero',
             imagen: 'cook.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Teacher',
             textoEspañol: 'Profesor',
             imagen: 'teacher.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Librarian',
             textoEspañol: 'Bibliotecaria',
             imagen: 'librarian.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Care taker',
             textoEspañol: 'Bedel',
             imagen: 'care-taker.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Toilets',
             textoEspañol: 'Baños',
             imagen: 'toilets.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Library',
             textoEspañol: 'biblioteca',
             imagen: 'library.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Classroom',
             textoEspañol: 'Clase',
             imagen: 'class-room.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Dining room',
             textoEspañol: 'Comedor',
             imagen: 'dinning-room.jpeg'
         },
         {
+            tipo: WordTipo.colegio,
             texto: 'Playground',
             textoEspañol: 'Patio de juego',
             imagen: 'playground.jpeg'
-        }
-    ]
-    englishWordsToys: EnglishWord[] = [
+        },
         {
+            tipo: WordTipo.juguetes,
             texto: 'Doll',
             textoEspañol: 'Muñeca',
             imagen: 'doll.jpeg'
         },
         {
+            tipo: WordTipo.juguetes,
             texto: 'Ball',
             textoEspañol: 'Pelota',
             imagen: 'ball.jpeg'
         },
         {
+            tipo: WordTipo.juguetes,
             texto: 'Kite',
             textoEspañol: 'Cometa',
             imagen: 'kite.jpeg'
         },
         {
+            tipo: WordTipo.juguetes,
             texto: 'Bike',
             textoEspañol: 'Bici',
             imagen: 'bike.jpeg'
         },
         {
+            tipo: WordTipo.juguetes,
             texto: 'Car',
             textoEspañol: 'Coche',
             imagen: 'car.jpeg'
         },
         {
+            tipo: WordTipo.juguetes,
             texto: 'Scooter',
             textoEspañol: 'Patinete',
             imagen: 'scooter.jpeg'
         },
         {
+            tipo: WordTipo.juguetes,
             texto: 'Game',
             textoEspañol: 'Juego',
             imagen: 'game.jpeg'
         },
-    ]
-    englishWordsColors: EnglishWord[] = [
         {
+            tipo: WordTipo.colores,
             texto: 'Red',
             textoEspañol: 'Rojo'
         },
         {
+            tipo: WordTipo.colores,
             texto: 'Orange',
             textoEspañol: 'Naranja'
         },
         {
+            tipo: WordTipo.colores,
             texto: 'Black',
             textoEspañol: 'Negro'
         },
         {
+            tipo: WordTipo.colores,
             texto: 'Blue',
             textoEspañol: 'Azul'
         },
         {
+            tipo: WordTipo.colores,
             texto: 'Green',
             textoEspañol: 'Verde'
         },
         {
+            tipo: WordTipo.colores,
             texto: 'White',
             textoEspañol: 'Blanco'
         },
         {
+            tipo: WordTipo.colores,
             texto: 'Pink',
             textoEspañol: 'Rosa'
-        }
-    ]
-    englishWordsNumbers: EnglishWord[] = [
+        },
         {
+            tipo: WordTipo.numeros,
             texto: 'One',
             textoEspañol: 'Uno'
         },
         {
+            tipo: WordTipo.numeros,
             texto: 'Two',
             textoEspañol: 'Dos'
         },
         {
+            tipo: WordTipo.numeros,
             texto: 'Three',
             textoEspañol: 'Tres'
         },
         {
+            tipo: WordTipo.numeros,
             texto: 'Four',
             textoEspañol: 'Cuatro'
         },
         {
+            tipo: WordTipo.numeros,
             texto: 'Five',
             textoEspañol: 'Cinco'
-        }
-    ]
-    englishWordsWeekDays: EnglishWord[] = [
+        },
         {
+            tipo: WordTipo.dias,
             texto: 'Monday',
             textoEspañol: 'Lunes'
         },
         {
+            tipo: WordTipo.dias,
             texto: 'Tuesday',
             textoEspañol: 'Martes'
         },
         {
+            tipo: WordTipo.dias,
             texto: 'Wednesday',
             textoEspañol: 'Miércoles'
         },
         {
+            tipo: WordTipo.dias,
             texto: 'Thursday',
             textoEspañol: 'Jueves'
         },
         {
+            tipo: WordTipo.dias,
             texto: 'Friday',
             textoEspañol: 'Viernes'
         },
         {
+            tipo: WordTipo.dias,
             texto: 'Saturday',
             textoEspañol: 'Sábado'
         },
         {
+            tipo: WordTipo.dias,
             texto: 'Sunday',
             textoEspañol: 'Domingo'
-        }
-    ]
-    englishWordsAdjectives: EnglishWord[] = [
+        },
         {
+            tipo: WordTipo.adjetivos,
             texto: 'New',
             textoEspañol: 'Nuevo'
         },
         {
+            tipo: WordTipo.adjetivos,
             texto: 'Big',
             textoEspañol: 'Grande'
         },
         {
+            tipo: WordTipo.adjetivos,
             texto: 'Small',
             textoEspañol: 'Pequeño'
         },
         {
+            tipo: WordTipo.adjetivos,
             texto: 'Fast',
             textoEspañol: 'Rápido'
         },
         {
+            tipo: WordTipo.adjetivos,
             texto: 'Slow',
             textoEspañol: 'Lento'
-        }
-    ]
-    englishWordsFamily: EnglishWord[] = [
+        },
         {
+            tipo: WordTipo.familia,
             texto: 'Brother',
             textoEspañol: 'Hermano'
         },
         {
+            tipo: WordTipo.familia,
             texto: 'Sister',
             textoEspañol: 'Hermana'
         },
         {
+            tipo: WordTipo.familia,
             texto: 'Mum',
             textoEspañol: 'Mamá'
         },
         {
+            tipo: WordTipo.familia,
             texto: 'Dad',
             textoEspañol: 'Papá'
-        }
-    ]
-    englishWordsOthers: EnglishWord[] = [
+        },
         {
+            tipo: WordTipo.otros,
             texto: 'Alien',
             textoEspañol: '',
             imagen: 'alien.jpeg'
         },
         {
+            tipo: WordTipo.otros,
             texto: 'Button',
             textoEspañol: '',
             imagen: 'button.jpeg'
         },
         {
+            tipo: WordTipo.otros,
             texto: 'Robot',
             textoEspañol: '',
             imagen: 'robot.jpeg'
@@ -628,9 +673,11 @@ class Homework {
 
         this.mostrar('zona-calculo');
 
-        let englishWords = [...this.englishWordsSchool, ...this.englishWordsColors, ...this.englishWordsNumbers, ...this.englishWordsWeekDays, ...this.englishWordsAdjectives, ...this.englishWordsFamily, ...this.englishWordsOthers];
+        this.englishWordPregunta = this.englishWords[this.randomNumber(this.englishWords.length)];
 
-        let englishWords_elegidas = this.getRandomElements(englishWords, RESPUESTAS_NUM);
+        let englishWordsTema = this.englishWords.filter(word => word.tipo === this.englishWordPregunta.tipo);
+
+        let englishWords_elegidas: EnglishWord[] = this.getRandomElements(englishWordsTema, RESPUESTAS_NUM);
 
         this.englishWordPregunta = englishWords_elegidas[0];
 
@@ -644,7 +691,7 @@ class Homework {
         } else {
             this.zonaCalculo!.innerHTML = `
             <h3>Translate to English</h3>
-            <span>${this.englishWordPregunta.textoEspañol}</span>
+            <p class="puntos-numero">${this.englishWordPregunta.textoEspañol}</p>
             `
         }
         for (let i = 0; i < RESPUESTAS_NUM; i++) {
@@ -945,7 +992,7 @@ class Homework {
         this.elementoPregunta = this.elementos[this.randomNumber(this.elementos.length)];
 
         this.zonaCalculo!.innerHTML = `
-        <p>¿Cuál es número de oxidación del ${this.elementoPregunta.nombre} - ${this.elementoPregunta.simbolo}?</p>
+        <p>¿Cuál es número de oxidación del <span class="puntos-numero">${this.elementoPregunta.nombre} - ${this.elementoPregunta.simbolo}</span>?</p>
         `
         this.zonaCalculo!.innerHTML += `
         <form id="calculo">

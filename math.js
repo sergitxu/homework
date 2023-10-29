@@ -5,15 +5,6 @@
 // TODO asociar record a cada juego
 // TODO crear url por edad
 // TODO crear English vocabulary
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 var Juego;
 (function (Juego) {
     Juego[Juego["Reto"] = 0] = "Reto";
@@ -31,6 +22,17 @@ var ElementoTipo;
     ElementoTipo[ElementoTipo["metal"] = 0] = "metal";
     ElementoTipo[ElementoTipo["no metal"] = 1] = "no metal";
 })(ElementoTipo || (ElementoTipo = {}));
+var WordTipo;
+(function (WordTipo) {
+    WordTipo[WordTipo["colegio"] = 0] = "colegio";
+    WordTipo[WordTipo["juguetes"] = 1] = "juguetes";
+    WordTipo[WordTipo["colores"] = 2] = "colores";
+    WordTipo[WordTipo["numeros"] = 3] = "numeros";
+    WordTipo[WordTipo["dias"] = 4] = "dias";
+    WordTipo[WordTipo["adjetivos"] = 5] = "adjetivos";
+    WordTipo[WordTipo["familia"] = 6] = "familia";
+    WordTipo[WordTipo["otros"] = 7] = "otros";
+})(WordTipo || (WordTipo = {}));
 var Homework = /** @class */ (function () {
     function Homework() {
         var _this = this;
@@ -58,259 +60,299 @@ var Homework = /** @class */ (function () {
             num_oxidacion: ''
         };
         this.englishWordPregunta = {
+            tipo: WordTipo.colegio,
             texto: '',
             textoEspañol: '',
             imagen: ''
         };
         // English vocabulary
-        this.englishWordsSchool = [
+        this.englishWords = [
             {
+                tipo: WordTipo.colegio,
                 texto: 'Rubber',
                 textoEspañol: 'Goma de borrar',
                 imagen: 'rubber.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Pencil',
                 textoEspañol: 'Lápiz',
                 imagen: 'pencil.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Pencil case',
                 textoEspañol: 'Estuche',
                 imagen: 'pencil-case.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Pencil sharpener',
                 textoEspañol: 'Sacapuntas',
                 imagen: 'pencil-sharpener.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Glue',
                 textoEspañol: 'Pegamento',
                 imagen: 'glue.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Crayonnes',
                 textoEspañol: 'Pinturas',
                 imagen: 'crayonnes.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Cook',
                 textoEspañol: 'Cocinero',
                 imagen: 'cook.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Teacher',
                 textoEspañol: 'Profesor',
                 imagen: 'teacher.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Librarian',
                 textoEspañol: 'Bibliotecaria',
                 imagen: 'librarian.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Care taker',
                 textoEspañol: 'Bedel',
                 imagen: 'care-taker.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Toilets',
                 textoEspañol: 'Baños',
                 imagen: 'toilets.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Library',
                 textoEspañol: 'biblioteca',
                 imagen: 'library.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Classroom',
                 textoEspañol: 'Clase',
                 imagen: 'class-room.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Dining room',
                 textoEspañol: 'Comedor',
                 imagen: 'dinning-room.jpeg'
             },
             {
+                tipo: WordTipo.colegio,
                 texto: 'Playground',
                 textoEspañol: 'Patio de juego',
                 imagen: 'playground.jpeg'
-            }
-        ];
-        this.englishWordsToys = [
+            },
             {
+                tipo: WordTipo.juguetes,
                 texto: 'Doll',
                 textoEspañol: 'Muñeca',
                 imagen: 'doll.jpeg'
             },
             {
+                tipo: WordTipo.juguetes,
                 texto: 'Ball',
                 textoEspañol: 'Pelota',
                 imagen: 'ball.jpeg'
             },
             {
+                tipo: WordTipo.juguetes,
                 texto: 'Kite',
                 textoEspañol: 'Cometa',
                 imagen: 'kite.jpeg'
             },
             {
+                tipo: WordTipo.juguetes,
                 texto: 'Bike',
                 textoEspañol: 'Bici',
                 imagen: 'bike.jpeg'
             },
             {
+                tipo: WordTipo.juguetes,
                 texto: 'Car',
                 textoEspañol: 'Coche',
                 imagen: 'car.jpeg'
             },
             {
+                tipo: WordTipo.juguetes,
                 texto: 'Scooter',
                 textoEspañol: 'Patinete',
                 imagen: 'scooter.jpeg'
             },
             {
+                tipo: WordTipo.juguetes,
                 texto: 'Game',
                 textoEspañol: 'Juego',
                 imagen: 'game.jpeg'
             },
-        ];
-        this.englishWordsColors = [
             {
+                tipo: WordTipo.colores,
                 texto: 'Red',
                 textoEspañol: 'Rojo'
             },
             {
+                tipo: WordTipo.colores,
                 texto: 'Orange',
                 textoEspañol: 'Naranja'
             },
             {
+                tipo: WordTipo.colores,
                 texto: 'Black',
                 textoEspañol: 'Negro'
             },
             {
+                tipo: WordTipo.colores,
                 texto: 'Blue',
                 textoEspañol: 'Azul'
             },
             {
+                tipo: WordTipo.colores,
                 texto: 'Green',
                 textoEspañol: 'Verde'
             },
             {
+                tipo: WordTipo.colores,
                 texto: 'White',
                 textoEspañol: 'Blanco'
             },
             {
+                tipo: WordTipo.colores,
                 texto: 'Pink',
                 textoEspañol: 'Rosa'
-            }
-        ];
-        this.englishWordsNumbers = [
+            },
             {
+                tipo: WordTipo.numeros,
                 texto: 'One',
                 textoEspañol: 'Uno'
             },
             {
+                tipo: WordTipo.numeros,
                 texto: 'Two',
                 textoEspañol: 'Dos'
             },
             {
+                tipo: WordTipo.numeros,
                 texto: 'Three',
                 textoEspañol: 'Tres'
             },
             {
+                tipo: WordTipo.numeros,
                 texto: 'Four',
                 textoEspañol: 'Cuatro'
             },
             {
+                tipo: WordTipo.numeros,
                 texto: 'Five',
                 textoEspañol: 'Cinco'
-            }
-        ];
-        this.englishWordsWeekDays = [
+            },
             {
+                tipo: WordTipo.dias,
                 texto: 'Monday',
                 textoEspañol: 'Lunes'
             },
             {
+                tipo: WordTipo.dias,
                 texto: 'Tuesday',
                 textoEspañol: 'Martes'
             },
             {
+                tipo: WordTipo.dias,
                 texto: 'Wednesday',
                 textoEspañol: 'Miércoles'
             },
             {
+                tipo: WordTipo.dias,
                 texto: 'Thursday',
                 textoEspañol: 'Jueves'
             },
             {
+                tipo: WordTipo.dias,
                 texto: 'Friday',
                 textoEspañol: 'Viernes'
             },
             {
+                tipo: WordTipo.dias,
                 texto: 'Saturday',
                 textoEspañol: 'Sábado'
             },
             {
+                tipo: WordTipo.dias,
                 texto: 'Sunday',
                 textoEspañol: 'Domingo'
-            }
-        ];
-        this.englishWordsAdjectives = [
+            },
             {
+                tipo: WordTipo.adjetivos,
                 texto: 'New',
                 textoEspañol: 'Nuevo'
             },
             {
+                tipo: WordTipo.adjetivos,
                 texto: 'Big',
                 textoEspañol: 'Grande'
             },
             {
+                tipo: WordTipo.adjetivos,
                 texto: 'Small',
                 textoEspañol: 'Pequeño'
             },
             {
+                tipo: WordTipo.adjetivos,
                 texto: 'Fast',
                 textoEspañol: 'Rápido'
             },
             {
+                tipo: WordTipo.adjetivos,
                 texto: 'Slow',
                 textoEspañol: 'Lento'
-            }
-        ];
-        this.englishWordsFamily = [
+            },
             {
+                tipo: WordTipo.familia,
                 texto: 'Brother',
                 textoEspañol: 'Hermano'
             },
             {
+                tipo: WordTipo.familia,
                 texto: 'Sister',
                 textoEspañol: 'Hermana'
             },
             {
+                tipo: WordTipo.familia,
                 texto: 'Mum',
                 textoEspañol: 'Mamá'
             },
             {
+                tipo: WordTipo.familia,
                 texto: 'Dad',
                 textoEspañol: 'Papá'
-            }
-        ];
-        this.englishWordsOthers = [
+            },
             {
+                tipo: WordTipo.otros,
                 texto: 'Alien',
                 textoEspañol: '',
                 imagen: 'alien.jpeg'
             },
             {
+                tipo: WordTipo.otros,
                 texto: 'Button',
                 textoEspañol: '',
                 imagen: 'button.jpeg'
             },
             {
+                tipo: WordTipo.otros,
                 texto: 'Robot',
                 textoEspañol: '',
                 imagen: 'robot.jpeg'
@@ -823,18 +865,20 @@ var Homework = /** @class */ (function () {
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
     };
     Homework.prototype.EnglishVocabulary = function () {
+        var _this = this;
         var RESPUESTAS_NUM = 3;
         this.juegoActual = Juego.EnglishVocabulary;
         this.mostrar('zona-calculo');
-        var englishWords = __spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray([], this.englishWordsSchool, true), this.englishWordsColors, true), this.englishWordsNumbers, true), this.englishWordsWeekDays, true), this.englishWordsAdjectives, true), this.englishWordsFamily, true), this.englishWordsOthers, true);
-        var englishWords_elegidas = this.getRandomElements(englishWords, RESPUESTAS_NUM);
+        this.englishWordPregunta = this.englishWords[this.randomNumber(this.englishWords.length)];
+        var englishWordsTema = this.englishWords.filter(function (word) { return word.tipo === _this.englishWordPregunta.tipo; });
+        var englishWords_elegidas = this.getRandomElements(englishWordsTema, RESPUESTAS_NUM);
         this.englishWordPregunta = englishWords_elegidas[0];
         this.shuffleArray(englishWords_elegidas);
         if (this.englishWordPregunta.imagen) {
-            this.zonaCalculo.innerHTML = "\n            <h3>What is this?</h3>\n            <img src=\"".concat(this.HOSTLOCAL, "/img/englishWords/").concat(this.englishWordPregunta.imagen, "\" alt=\"\">\n            ");
+            this.zonaCalculo.innerHTML = "\n            <h3>What is this?</h3>\n            <img src=\"".concat(this.HOSTLOCAL, "/img/englishWords/").concat(this.englishWordPregunta.imagen, "\" alt=\"\" class=\"pregunta-imagen\">\n            ");
         }
         else {
-            this.zonaCalculo.innerHTML = "\n            <h3>Translate to English</h3>\n            <span>".concat(this.englishWordPregunta.textoEspañol, "</span>\n            ");
+            this.zonaCalculo.innerHTML = "\n            <h3>Translate to English</h3>\n            <p class=\"puntos-numero\">".concat(this.englishWordPregunta.textoEspañol, "</p>\n            ");
         }
         for (var i = 0; i < RESPUESTAS_NUM; i++) {
             this.zonaCalculo.innerHTML += "\n            <button type=\"button\" id=\"calcularBoton".concat(i, "\" onclick=\"homeWork.resolverEnglishVocabulary(").concat(i, ")\" class=\"boton-calcular\">").concat(englishWords_elegidas[i].texto, "</button>\n            ");
@@ -855,7 +899,7 @@ var Homework = /** @class */ (function () {
         this.juegoActual = Juego.Oxidacion;
         this.mostrar('zona-calculo');
         this.elementoPregunta = this.elementos[this.randomNumber(this.elementos.length)];
-        this.zonaCalculo.innerHTML = "\n        <p>\u00BFCu\u00E1l es n\u00FAmero de oxidaci\u00F3n del ".concat(this.elementoPregunta.nombre, " - ").concat(this.elementoPregunta.simbolo, "?</p>\n        ");
+        this.zonaCalculo.innerHTML = "\n        <p>\u00BFCu\u00E1l es n\u00FAmero de oxidaci\u00F3n del <span class=\"puntos-numero\">".concat(this.elementoPregunta.nombre, " - ").concat(this.elementoPregunta.simbolo, "</span>?</p>\n        ");
         this.zonaCalculo.innerHTML += "\n        <form id=\"calculo\">\n            <input type=\"text\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta respuesta-larga\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.resolverOxidacion()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ";
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
     };
