@@ -4,11 +4,13 @@
 // TODO organizar juegos por temática / edad. Mostrar sólo enlaces a juegos sin puntos ni récord.
 // TODO asociar record a cada juego
 // TODO crear url por edad
+// TODO crear English vocabulary
 var Juego;
 (function (Juego) {
     Juego[Juego["Reto"] = 0] = "Reto";
     Juego[Juego["SumaResta"] = 1] = "SumaResta";
     Juego[Juego["Oxidacion"] = 2] = "Oxidacion";
+    Juego[Juego["EnglishVocabulary"] = 3] = "EnglishVocabulary";
 })(Juego || (Juego = {}));
 var Genero;
 (function (Genero) {
@@ -38,12 +40,56 @@ var Homework = /** @class */ (function () {
         this.puntosNumero = document.getElementById('puntos-numero');
         this.hayNuevoRecordPersonal = false;
         this.recordPersonal = localStorage.getItem('record');
+        this.host = 'http://sergitxu.github.io/homework/';
         this.elementoPregunta = {
             tipo: ElementoTipo.metal,
             simbolo: '',
             nombre: '',
             num_oxidacion: ''
         };
+        this.englishWordPregunta = {
+            texto: '',
+            textoEspañol: '',
+            imagen: ''
+        };
+        // English vocabulary
+        this.englishWords = [
+            {
+                texto: '1',
+                textoEspañol: 'Goma de borrar',
+                imagen: 'rubber.jpg'
+            },
+            {
+                texto: '2',
+                textoEspañol: 'Lápiz',
+                imagen: 'pencil.jpg'
+            },
+            {
+                texto: '3',
+                textoEspañol: 'Lápiz',
+                imagen: 'pencil.jpg'
+            },
+            {
+                texto: '4',
+                textoEspañol: 'Lápiz',
+                imagen: 'pencil.jpg'
+            },
+            {
+                texto: '5',
+                textoEspañol: 'Lápiz',
+                imagen: 'pencil.jpg'
+            },
+            {
+                texto: '6',
+                textoEspañol: 'Lápiz',
+                imagen: 'pencil.jpg'
+            },
+            {
+                texto: '7',
+                textoEspañol: 'Lápiz',
+                imagen: 'pencil.jpg'
+            }
+        ];
         // oxidacion
         this.elementos = [
             {
@@ -491,9 +537,9 @@ var Homework = /** @class */ (function () {
                 genero: Genero.masculino
             }
         ];
-        var nombre_a = nombres[this.randomNumber(nombres.length)];
-        var nombres_salvo_nombre_a = nombres.filter(function (nombre) { return nombre !== nombre_a; });
-        var nombre_b = nombres_salvo_nombre_a[this.randomNumber(nombres_salvo_nombre_a.length)];
+        var nombres_elegidos = this.getRandomElements(nombres, 2);
+        var nombre_a = nombres_elegidos[0];
+        var nombre_b = nombres_elegidos[1];
         var cosa_x = cosas[this.randomNumber(cosas.length)];
         var operacionAzar = this.randomNumber(2);
         this.valor_a = this.randomNumber(11);
@@ -550,6 +596,35 @@ var Homework = /** @class */ (function () {
         this.zonaCalculo.innerHTML = "\n        <form id=\"calculo\">\n            <span id=\"cifra-a\" class=\"cifra\">".concat(this.valor_a, "</span>\n            <span id=\"operacion\" class=\"operacion\">").concat(this.operacion, "</span>\n            <span id=\"cifra-b\" class=\"cifra\">").concat(this.valor_b, "</span>\n            <span class=\"cifra\"> = </span>\n            <br>\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
     };
+    Homework.prototype.EnglishVocabulary = function () {
+        var RESPUESTAS_NUM = 3;
+        this.juegoActual = Juego.EnglishVocabulary;
+        this.mostrar('zona-calculo');
+        var englishWords_elegidas = this.getRandomElements(this.englishWords, RESPUESTAS_NUM);
+        this.englishWordPregunta = englishWords_elegidas[0];
+        this.shuffleArray(englishWords_elegidas);
+        if (this.englishWordPregunta.imagen) {
+            this.zonaCalculo.innerHTML = "\n            <h3>What is this?</h3>\n            <img src=\"".concat(this.host, "/img/englishWords/").concat(this.englishWordPregunta.imagen, "\" alt=\"\">\n            ");
+        }
+        else {
+            this.zonaCalculo.innerHTML = "\n            <h3>Translate to English</h3>\n            <span>".concat(this.englishWordPregunta.textoEspañol, "</span>\n            ");
+        }
+        for (var i = 0; i < RESPUESTAS_NUM; i++) {
+            console.log(englishWords_elegidas[i]);
+            this.zonaCalculo.innerHTML += "\n            <button type=\"button\" id=\"calcularBoton".concat(i, "\" onclick=\"homeWork.resolverEnglishVocabulary(").concat(i, ")\" class=\"boton-calcular\">").concat(englishWords_elegidas[i].texto, "</button>\n            ");
+        }
+    };
+    Homework.prototype.resolverEnglishVocabulary = function (respuesta) {
+        var _a;
+        if (((_a = document.getElementById('calcularBoton' + respuesta)) === null || _a === void 0 ? void 0 : _a.innerHTML) === this.englishWordPregunta.texto) {
+            this.acertar();
+            this.EnglishVocabulary();
+        }
+        else {
+            this.fallar();
+        }
+        console.log(this.englishWordPregunta);
+    };
     Homework.prototype.Oxidacion = function () {
         var _a;
         this.juegoActual = Juego.Oxidacion;
@@ -585,6 +660,32 @@ var Homework = /** @class */ (function () {
     Homework.prototype.randomNumber = function (lessThan, min) {
         if (min === void 0) { min = 0; }
         return Math.floor(Math.random() * (lessThan - min)) + min;
+    };
+    Homework.prototype.getRandomElements = function (array, n) {
+        var result = new Array(n), len = array.length, taken = new Array(len);
+        if (n > len)
+            throw new RangeError("getRandom: more elements taken than available");
+        while (n--) {
+            var x = this.randomNumber(len);
+            result[n] = array[x in taken ? taken[x] : x];
+            taken[x] = --len in taken ? taken[len] : len;
+        }
+        return result;
+    };
+    Homework.prototype.shuffleArray = function (array) {
+        var _a;
+        var currentIndex = array.length, randomIndex;
+        // While there remain elements to shuffle.
+        while (currentIndex > 0) {
+            // Pick a remaining element.
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            // And swap it with the current element.
+            _a = [
+                array[randomIndex], array[currentIndex]
+            ], array[currentIndex] = _a[0], array[randomIndex] = _a[1];
+        }
+        return array;
     };
     Homework.prototype.esconder = function (paraEsconder) {
         document.getElementById(paraEsconder).style.display = 'none';

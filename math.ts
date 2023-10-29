@@ -4,9 +4,10 @@
 // TODO organizar juegos por temática / edad. Mostrar sólo enlaces a juegos sin puntos ni récord.
 // TODO asociar record a cada juego
 // TODO crear url por edad
+// TODO crear English vocabulary
 
 enum Juego {
-    Reto, SumaResta, Oxidacion
+    Reto, SumaResta, Oxidacion, EnglishVocabulary
 }
 enum Genero {
     masculino, femenino
@@ -29,6 +30,12 @@ interface Elemento {
     num_oxidacion: string
 }
 
+interface EnglishWord {
+    texto: string,
+    textoEspañol: string,
+    imagen?: string,
+}
+
 class Homework {
     juegoActual: Juego = Juego.Reto;
     puntos: number = 0;
@@ -45,12 +52,19 @@ class Homework {
     puntosNumero: HTMLElement | null = document.getElementById('puntos-numero');
     hayNuevoRecordPersonal: boolean = false;
     recordPersonal = localStorage.getItem('record');
+    host = 'http://sergitxu.github.io/homework/'
 
     elementoPregunta: Elemento = {
         tipo: ElementoTipo.metal,
         simbolo: '',
         nombre: '',
         num_oxidacion: ''
+    }
+
+    englishWordPregunta: EnglishWord = {
+        texto: '',
+        textoEspañol: '',
+        imagen: ''
     }
 
     constructor() {
@@ -253,9 +267,11 @@ class Homework {
             }
         ];
 
-        let nombre_a = nombres[this.randomNumber(nombres.length)];
-        let nombres_salvo_nombre_a = nombres.filter(nombre => nombre !== nombre_a);
-        let nombre_b = nombres_salvo_nombre_a[this.randomNumber(nombres_salvo_nombre_a.length)];
+        let nombres_elegidos = this.getRandomElements(nombres, 2);
+
+        let nombre_a = nombres_elegidos[0];
+        let nombre_b = nombres_elegidos[1];
+
         let cosa_x = cosas[this.randomNumber(cosas.length)];
 
         let operacionAzar: number = this.randomNumber(2);
@@ -349,8 +365,87 @@ class Homework {
         document.getElementById(`respuesta`)?.focus();
     }
 
-    // oxidacion
+    // English vocabulary
 
+    englishWords: EnglishWord[] = [
+        {
+            texto: '1',
+            textoEspañol: 'Goma de borrar',
+            imagen: 'rubber.jpg'
+        },
+        {
+            texto: '2',
+            textoEspañol: 'Lápiz',
+            imagen: 'pencil.jpg'
+        },
+        {
+            texto: '3',
+            textoEspañol: 'Lápiz',
+            imagen: 'pencil.jpg'
+        },
+        {
+            texto: '4',
+            textoEspañol: 'Lápiz',
+            imagen: 'pencil.jpg'
+        },
+        {
+            texto: '5',
+            textoEspañol: 'Lápiz',
+            imagen: 'pencil.jpg'
+        },
+        {
+            texto: '6',
+            textoEspañol: 'Lápiz',
+            imagen: 'pencil.jpg'
+        },
+        {
+            texto: '7',
+            textoEspañol: 'Lápiz',
+            imagen: 'pencil.jpg'
+        }
+    ]
+
+    EnglishVocabulary() {
+        const RESPUESTAS_NUM = 3;
+
+        this.juegoActual = Juego.EnglishVocabulary;
+
+        this.mostrar('zona-calculo');
+
+        let englishWords_elegidas = this.getRandomElements(this.englishWords, RESPUESTAS_NUM);
+
+        this.englishWordPregunta = englishWords_elegidas[0];
+
+        this.shuffleArray(englishWords_elegidas);
+
+        if (this.englishWordPregunta.imagen) {
+            this.zonaCalculo!.innerHTML = `
+            <h3>What is this?</h3>
+            <img src="${this.host}/img/englishWords/${this.englishWordPregunta.imagen}" alt="">
+            `
+        } else {
+            this.zonaCalculo!.innerHTML = `
+            <h3>Translate to English</h3>
+            <span>${this.englishWordPregunta.textoEspañol}</span>
+            `
+        }
+        for (let i = 0; i < RESPUESTAS_NUM; i++) {
+            this.zonaCalculo!.innerHTML += `
+            <button type="button" id="calcularBoton${i}" onclick="homeWork.resolverEnglishVocabulary(${i})" class="boton-calcular">${englishWords_elegidas[i].texto}</button>
+            `
+        }
+    }
+
+    resolverEnglishVocabulary(respuesta: number) {
+        if (document.getElementById('calcularBoton' + respuesta)?.innerHTML === this.englishWordPregunta.texto) {
+            this.acertar();
+            this.EnglishVocabulary();
+        } else {
+            this.fallar();
+        }
+    }
+
+    // oxidacion
     elementos: Elemento[] = [
         {
             tipo: ElementoTipo.metal,
@@ -672,6 +767,38 @@ class Homework {
 
     randomNumber(lessThan: number, min = 0) {
         return Math.floor(Math.random() * (lessThan - min)) + min;
+    }
+
+    getRandomElements(array: any, n: number) {
+        var result = new Array(n),
+            len = array.length,
+            taken = new Array(len);
+        if (n > len)
+            throw new RangeError("getRandom: more elements taken than available");
+        while (n--) {
+            var x = this.randomNumber(len);
+            result[n] = array[x in taken ? taken[x] : x];
+            taken[x] = --len in taken ? taken[len] : len;
+        }
+        return result;
+    }
+
+    shuffleArray(array: any) {
+        let currentIndex = array.length, randomIndex;
+
+        // While there remain elements to shuffle.
+        while (currentIndex > 0) {
+
+            // Pick a remaining element.
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+            // And swap it with the current element.
+            [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
+        }
+
+        return array;
     }
 
     esconder(paraEsconder: string) {
