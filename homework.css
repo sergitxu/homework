@@ -86,6 +86,10 @@ li {
     line-height: 3rem;
 }
 
+.pregunta-imagen {
+    max-width: 100%;
+}
+
 .vidas-numero {
     margin-top: 0;
     text-align: center;

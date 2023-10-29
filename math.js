@@ -5,6 +5,15 @@
 // TODO asociar record a cada juego
 // TODO crear url por edad
 // TODO crear English vocabulary
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 var Juego;
 (function (Juego) {
     Juego[Juego["Reto"] = 0] = "Reto";
@@ -40,7 +49,8 @@ var Homework = /** @class */ (function () {
         this.puntosNumero = document.getElementById('puntos-numero');
         this.hayNuevoRecordPersonal = false;
         this.recordPersonal = localStorage.getItem('record');
-        this.host = 'http://sergitxu.github.io/homework/';
+        this.host = 'http://sergitxu.github.io/homework';
+        this.HOSTLOCAL = '.';
         this.elementoPregunta = {
             tipo: ElementoTipo.metal,
             simbolo: '',
@@ -53,42 +63,258 @@ var Homework = /** @class */ (function () {
             imagen: ''
         };
         // English vocabulary
-        this.englishWords = [
+        this.englishWordsSchool = [
             {
-                texto: '1',
+                texto: 'Rubber',
                 textoEspañol: 'Goma de borrar',
-                imagen: 'rubber.jpg'
+                imagen: 'rubber.jpeg'
             },
             {
-                texto: '2',
+                texto: 'Pencil',
                 textoEspañol: 'Lápiz',
-                imagen: 'pencil.jpg'
+                imagen: 'pencil.jpeg'
             },
             {
-                texto: '3',
-                textoEspañol: 'Lápiz',
-                imagen: 'pencil.jpg'
+                texto: 'Pencil case',
+                textoEspañol: 'Estuche',
+                imagen: 'pencil-case.jpeg'
             },
             {
-                texto: '4',
-                textoEspañol: 'Lápiz',
-                imagen: 'pencil.jpg'
+                texto: 'Pencil sharpener',
+                textoEspañol: 'Sacapuntas',
+                imagen: 'pencil-sharpener.jpeg'
             },
             {
-                texto: '5',
-                textoEspañol: 'Lápiz',
-                imagen: 'pencil.jpg'
+                texto: 'Glue',
+                textoEspañol: 'Pegamento',
+                imagen: 'glue.jpeg'
             },
             {
-                texto: '6',
-                textoEspañol: 'Lápiz',
-                imagen: 'pencil.jpg'
+                texto: 'Crayonnes',
+                textoEspañol: 'Pinturas',
+                imagen: 'crayonnes.jpeg'
             },
             {
-                texto: '7',
-                textoEspañol: 'Lápiz',
-                imagen: 'pencil.jpg'
+                texto: 'Cook',
+                textoEspañol: 'Cocinero',
+                imagen: 'cook.jpeg'
+            },
+            {
+                texto: 'Teacher',
+                textoEspañol: 'Profesor',
+                imagen: 'teacher.jpeg'
+            },
+            {
+                texto: 'Librarian',
+                textoEspañol: 'Bibliotecaria',
+                imagen: 'librarian.jpeg'
+            },
+            {
+                texto: 'Care taker',
+                textoEspañol: 'Bedel',
+                imagen: 'care-taker.jpeg'
+            },
+            {
+                texto: 'Toilets',
+                textoEspañol: 'Baños',
+                imagen: 'toilets.jpeg'
+            },
+            {
+                texto: 'Library',
+                textoEspañol: 'biblioteca',
+                imagen: 'library.jpeg'
+            },
+            {
+                texto: 'Classroom',
+                textoEspañol: 'Clase',
+                imagen: 'class-room.jpeg'
+            },
+            {
+                texto: 'Dining room',
+                textoEspañol: 'Comedor',
+                imagen: 'dinning-room.jpeg'
+            },
+            {
+                texto: 'Playground',
+                textoEspañol: 'Patio de juego',
+                imagen: 'playground.jpeg'
             }
+        ];
+        this.englishWordsToys = [
+            {
+                texto: 'Doll',
+                textoEspañol: 'Muñeca',
+                imagen: 'doll.jpeg'
+            },
+            {
+                texto: 'Ball',
+                textoEspañol: 'Pelota',
+                imagen: 'ball.jpeg'
+            },
+            {
+                texto: 'Kite',
+                textoEspañol: 'Cometa',
+                imagen: 'kite.jpeg'
+            },
+            {
+                texto: 'Bike',
+                textoEspañol: 'Bici',
+                imagen: 'bike.jpeg'
+            },
+            {
+                texto: 'Car',
+                textoEspañol: 'Coche',
+                imagen: 'car.jpeg'
+            },
+            {
+                texto: 'Scooter',
+                textoEspañol: 'Patinete',
+                imagen: 'scooter.jpeg'
+            },
+            {
+                texto: 'Game',
+                textoEspañol: 'Juego',
+                imagen: 'game.jpeg'
+            },
+        ];
+        this.englishWordsColors = [
+            {
+                texto: 'Red',
+                textoEspañol: 'Rojo'
+            },
+            {
+                texto: 'Orange',
+                textoEspañol: 'Naranja'
+            },
+            {
+                texto: 'Black',
+                textoEspañol: 'Negro'
+            },
+            {
+                texto: 'Blue',
+                textoEspañol: 'Azul'
+            },
+            {
+                texto: 'Green',
+                textoEspañol: 'Verde'
+            },
+            {
+                texto: 'White',
+                textoEspañol: 'Blanco'
+            },
+            {
+                texto: 'Pink',
+                textoEspañol: 'Rosa'
+            }
+        ];
+        this.englishWordsNumbers = [
+            {
+                texto: 'One',
+                textoEspañol: 'Uno'
+            },
+            {
+                texto: 'Two',
+                textoEspañol: 'Dos'
+            },
+            {
+                texto: 'Three',
+                textoEspañol: 'Tres'
+            },
+            {
+                texto: 'Four',
+                textoEspañol: 'Cuatro'
+            },
+            {
+                texto: 'Five',
+                textoEspañol: 'Cinco'
+            }
+        ];
+        this.englishWordsWeekDays = [
+            {
+                texto: 'Monday',
+                textoEspañol: 'Lunes'
+            },
+            {
+                texto: 'Tuesday',
+                textoEspañol: 'Martes'
+            },
+            {
+                texto: 'Wednesday',
+                textoEspañol: 'Miércoles'
+            },
+            {
+                texto: 'Thursday',
+                textoEspañol: 'Jueves'
+            },
+            {
+                texto: 'Friday',
+                textoEspañol: 'Viernes'
+            },
+            {
+                texto: 'Saturday',
+                textoEspañol: 'Sábado'
+            },
+            {
+                texto: 'Sunday',
+                textoEspañol: 'Domingo'
+            }
+        ];
+        this.englishWordsAdjectives = [
+            {
+                texto: 'New',
+                textoEspañol: 'Nuevo'
+            },
+            {
+                texto: 'Big',
+                textoEspañol: 'Grande'
+            },
+            {
+                texto: 'Small',
+                textoEspañol: 'Pequeño'
+            },
+            {
+                texto: 'Fast',
+                textoEspañol: 'Rápido'
+            },
+            {
+                texto: 'Slow',
+                textoEspañol: 'Lento'
+            }
+        ];
+        this.englishWordsFamily = [
+            {
+                texto: 'Brother',
+                textoEspañol: 'Hermano'
+            },
+            {
+                texto: 'Sister',
+                textoEspañol: 'Hermana'
+            },
+            {
+                texto: 'Mum',
+                textoEspañol: 'Mamá'
+            },
+            {
+                texto: 'Dad',
+                textoEspañol: 'Papá'
+            }
+        ];
+        this.englishWordsOthers = [
+            {
+                texto: 'Alien',
+                textoEspañol: '',
+                imagen: 'alien.jpeg'
+            },
+            {
+                texto: 'Button',
+                textoEspañol: '',
+                imagen: 'button.jpeg'
+            },
+            {
+                texto: 'Robot',
+                textoEspañol: '',
+                imagen: 'robot.jpeg'
+            },
         ];
         // oxidacion
         this.elementos = [
@@ -600,17 +826,17 @@ var Homework = /** @class */ (function () {
         var RESPUESTAS_NUM = 3;
         this.juegoActual = Juego.EnglishVocabulary;
         this.mostrar('zona-calculo');
-        var englishWords_elegidas = this.getRandomElements(this.englishWords, RESPUESTAS_NUM);
+        var englishWords = __spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray([], this.englishWordsSchool, true), this.englishWordsColors, true), this.englishWordsNumbers, true), this.englishWordsWeekDays, true), this.englishWordsAdjectives, true), this.englishWordsFamily, true), this.englishWordsOthers, true);
+        var englishWords_elegidas = this.getRandomElements(englishWords, RESPUESTAS_NUM);
         this.englishWordPregunta = englishWords_elegidas[0];
         this.shuffleArray(englishWords_elegidas);
         if (this.englishWordPregunta.imagen) {
-            this.zonaCalculo.innerHTML = "\n            <h3>What is this?</h3>\n            <img src=\"".concat(this.host, "/img/englishWords/").concat(this.englishWordPregunta.imagen, "\" alt=\"\">\n            ");
+            this.zonaCalculo.innerHTML = "\n            <h3>What is this?</h3>\n            <img src=\"".concat(this.HOSTLOCAL, "/img/englishWords/").concat(this.englishWordPregunta.imagen, "\" alt=\"\">\n            ");
         }
         else {
             this.zonaCalculo.innerHTML = "\n            <h3>Translate to English</h3>\n            <span>".concat(this.englishWordPregunta.textoEspañol, "</span>\n            ");
         }
         for (var i = 0; i < RESPUESTAS_NUM; i++) {
-            console.log(englishWords_elegidas[i]);
             this.zonaCalculo.innerHTML += "\n            <button type=\"button\" id=\"calcularBoton".concat(i, "\" onclick=\"homeWork.resolverEnglishVocabulary(").concat(i, ")\" class=\"boton-calcular\">").concat(englishWords_elegidas[i].texto, "</button>\n            ");
         }
     };
@@ -623,7 +849,6 @@ var Homework = /** @class */ (function () {
         else {
             this.fallar();
         }
-        console.log(this.englishWordPregunta);
     };
     Homework.prototype.Oxidacion = function () {
         var _a;

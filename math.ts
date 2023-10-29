@@ -52,7 +52,8 @@ class Homework {
     puntosNumero: HTMLElement | null = document.getElementById('puntos-numero');
     hayNuevoRecordPersonal: boolean = false;
     recordPersonal = localStorage.getItem('record');
-    host = 'http://sergitxu.github.io/homework/'
+    host = 'http://sergitxu.github.io/homework';
+    HOSTLOCAL = '.';
 
     elementoPregunta: Elemento = {
         tipo: ElementoTipo.metal,
@@ -366,43 +367,258 @@ class Homework {
     }
 
     // English vocabulary
-
-    englishWords: EnglishWord[] = [
+    englishWordsSchool: EnglishWord[] = [
         {
-            texto: '1',
+            texto: 'Rubber',
             textoEspañol: 'Goma de borrar',
-            imagen: 'rubber.jpg'
+            imagen: 'rubber.jpeg'
         },
         {
-            texto: '2',
+            texto: 'Pencil',
             textoEspañol: 'Lápiz',
-            imagen: 'pencil.jpg'
+            imagen: 'pencil.jpeg'
         },
         {
-            texto: '3',
-            textoEspañol: 'Lápiz',
-            imagen: 'pencil.jpg'
+            texto: 'Pencil case',
+            textoEspañol: 'Estuche',
+            imagen: 'pencil-case.jpeg'
         },
         {
-            texto: '4',
-            textoEspañol: 'Lápiz',
-            imagen: 'pencil.jpg'
+            texto: 'Pencil sharpener',
+            textoEspañol: 'Sacapuntas',
+            imagen: 'pencil-sharpener.jpeg'
         },
         {
-            texto: '5',
-            textoEspañol: 'Lápiz',
-            imagen: 'pencil.jpg'
+            texto: 'Glue',
+            textoEspañol: 'Pegamento',
+            imagen: 'glue.jpeg'
         },
         {
-            texto: '6',
-            textoEspañol: 'Lápiz',
-            imagen: 'pencil.jpg'
+            texto: 'Crayonnes',
+            textoEspañol: 'Pinturas',
+            imagen: 'crayonnes.jpeg'
         },
         {
-            texto: '7',
-            textoEspañol: 'Lápiz',
-            imagen: 'pencil.jpg'
+            texto: 'Cook',
+            textoEspañol: 'Cocinero',
+            imagen: 'cook.jpeg'
+        },
+        {
+            texto: 'Teacher',
+            textoEspañol: 'Profesor',
+            imagen: 'teacher.jpeg'
+        },
+        {
+            texto: 'Librarian',
+            textoEspañol: 'Bibliotecaria',
+            imagen: 'librarian.jpeg'
+        },
+        {
+            texto: 'Care taker',
+            textoEspañol: 'Bedel',
+            imagen: 'care-taker.jpeg'
+        },
+        {
+            texto: 'Toilets',
+            textoEspañol: 'Baños',
+            imagen: 'toilets.jpeg'
+        },
+        {
+            texto: 'Library',
+            textoEspañol: 'biblioteca',
+            imagen: 'library.jpeg'
+        },
+        {
+            texto: 'Classroom',
+            textoEspañol: 'Clase',
+            imagen: 'class-room.jpeg'
+        },
+        {
+            texto: 'Dining room',
+            textoEspañol: 'Comedor',
+            imagen: 'dinning-room.jpeg'
+        },
+        {
+            texto: 'Playground',
+            textoEspañol: 'Patio de juego',
+            imagen: 'playground.jpeg'
         }
+    ]
+    englishWordsToys: EnglishWord[] = [
+        {
+            texto: 'Doll',
+            textoEspañol: 'Muñeca',
+            imagen: 'doll.jpeg'
+        },
+        {
+            texto: 'Ball',
+            textoEspañol: 'Pelota',
+            imagen: 'ball.jpeg'
+        },
+        {
+            texto: 'Kite',
+            textoEspañol: 'Cometa',
+            imagen: 'kite.jpeg'
+        },
+        {
+            texto: 'Bike',
+            textoEspañol: 'Bici',
+            imagen: 'bike.jpeg'
+        },
+        {
+            texto: 'Car',
+            textoEspañol: 'Coche',
+            imagen: 'car.jpeg'
+        },
+        {
+            texto: 'Scooter',
+            textoEspañol: 'Patinete',
+            imagen: 'scooter.jpeg'
+        },
+        {
+            texto: 'Game',
+            textoEspañol: 'Juego',
+            imagen: 'game.jpeg'
+        },
+    ]
+    englishWordsColors: EnglishWord[] = [
+        {
+            texto: 'Red',
+            textoEspañol: 'Rojo'
+        },
+        {
+            texto: 'Orange',
+            textoEspañol: 'Naranja'
+        },
+        {
+            texto: 'Black',
+            textoEspañol: 'Negro'
+        },
+        {
+            texto: 'Blue',
+            textoEspañol: 'Azul'
+        },
+        {
+            texto: 'Green',
+            textoEspañol: 'Verde'
+        },
+        {
+            texto: 'White',
+            textoEspañol: 'Blanco'
+        },
+        {
+            texto: 'Pink',
+            textoEspañol: 'Rosa'
+        }
+    ]
+    englishWordsNumbers: EnglishWord[] = [
+        {
+            texto: 'One',
+            textoEspañol: 'Uno'
+        },
+        {
+            texto: 'Two',
+            textoEspañol: 'Dos'
+        },
+        {
+            texto: 'Three',
+            textoEspañol: 'Tres'
+        },
+        {
+            texto: 'Four',
+            textoEspañol: 'Cuatro'
+        },
+        {
+            texto: 'Five',
+            textoEspañol: 'Cinco'
+        }
+    ]
+    englishWordsWeekDays: EnglishWord[] = [
+        {
+            texto: 'Monday',
+            textoEspañol: 'Lunes'
+        },
+        {
+            texto: 'Tuesday',
+            textoEspañol: 'Martes'
+        },
+        {
+            texto: 'Wednesday',
+            textoEspañol: 'Miércoles'
+        },
+        {
+            texto: 'Thursday',
+            textoEspañol: 'Jueves'
+        },
+        {
+            texto: 'Friday',
+            textoEspañol: 'Viernes'
+        },
+        {
+            texto: 'Saturday',
+            textoEspañol: 'Sábado'
+        },
+        {
+            texto: 'Sunday',
+            textoEspañol: 'Domingo'
+        }
+    ]
+    englishWordsAdjectives: EnglishWord[] = [
+        {
+            texto: 'New',
+            textoEspañol: 'Nuevo'
+        },
+        {
+            texto: 'Big',
+            textoEspañol: 'Grande'
+        },
+        {
+            texto: 'Small',
+            textoEspañol: 'Pequeño'
+        },
+        {
+            texto: 'Fast',
+            textoEspañol: 'Rápido'
+        },
+        {
+            texto: 'Slow',
+            textoEspañol: 'Lento'
+        }
+    ]
+    englishWordsFamily: EnglishWord[] = [
+        {
+            texto: 'Brother',
+            textoEspañol: 'Hermano'
+        },
+        {
+            texto: 'Sister',
+            textoEspañol: 'Hermana'
+        },
+        {
+            texto: 'Mum',
+            textoEspañol: 'Mamá'
+        },
+        {
+            texto: 'Dad',
+            textoEspañol: 'Papá'
+        }
+    ]
+    englishWordsOthers: EnglishWord[] = [
+        {
+            texto: 'Alien',
+            textoEspañol: '',
+            imagen: 'alien.jpeg'
+        },
+        {
+            texto: 'Button',
+            textoEspañol: '',
+            imagen: 'button.jpeg'
+        },
+        {
+            texto: 'Robot',
+            textoEspañol: '',
+            imagen: 'robot.jpeg'
+        },
     ]
 
     EnglishVocabulary() {
@@ -412,7 +628,9 @@ class Homework {
 
         this.mostrar('zona-calculo');
 
-        let englishWords_elegidas = this.getRandomElements(this.englishWords, RESPUESTAS_NUM);
+        let englishWords = [...this.englishWordsSchool, ...this.englishWordsColors, ...this.englishWordsNumbers, ...this.englishWordsWeekDays, ...this.englishWordsAdjectives, ...this.englishWordsFamily, ...this.englishWordsOthers];
+
+        let englishWords_elegidas = this.getRandomElements(englishWords, RESPUESTAS_NUM);
 
         this.englishWordPregunta = englishWords_elegidas[0];
 
@@ -421,7 +639,7 @@ class Homework {
         if (this.englishWordPregunta.imagen) {
             this.zonaCalculo!.innerHTML = `
             <h3>What is this?</h3>
-            <img src="${this.host}/img/englishWords/${this.englishWordPregunta.imagen}" alt="">
+            <img src="${this.HOSTLOCAL}/img/englishWords/${this.englishWordPregunta.imagen}" alt="" class="pregunta-imagen">
             `
         } else {
             this.zonaCalculo!.innerHTML = `
