@@ -1102,6 +1102,7 @@ var Homework = /** @class */ (function () {
                     imageArray.push(imageFolder + href);
                 }
             });
+            console.log(imageArray);
             _this.preloadImages(imageArray);
         });
     };
