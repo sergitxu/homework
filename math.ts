@@ -1205,7 +1205,7 @@ class Homework {
     }
 
     preloadImagesInFolder() {
-        var imageFolder = 'img/englishWords/';
+        var imageFolder = '/img/englishWords/';
         var imageArray: string[] = [];
 
         fetch(this.HOST)
