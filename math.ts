@@ -40,7 +40,7 @@ interface EnglishWord {
 class Homework {
     VIDAS_INICIALES: number = 3;
     AUDIO_CANTIDAD: number = 7;
-    HOST = 'http://sergitxu.github.io/homework';
+    HOST = 'https://sergitxu.github.io/homework';
     HOSTLOCAL = '.';
 
     juegoActual: Juego = Juego.Reto;
