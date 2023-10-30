@@ -78,6 +78,7 @@ class Homework {
         this.actualizarPuntos();
         this.actualizarVidas();
         this.preloadMP3();
+        this.preloadImagesInFolder();
 
         addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && this.juegoActual !== Juego.Oxidacion) {
@@ -768,6 +769,8 @@ class Homework {
 
     crearEnglishVocabulary() {
         const RESPUESTAS_NUM = 3;
+        // Llama a la función preloadImagesInFolder y pasa la carpeta de imágenes y una función de callback
+        this.preloadImagesInFolder();
 
         this.juegoActual = Juego.EnglishVocabulary;
         this.mostrarRecord();
@@ -1200,6 +1203,47 @@ class Homework {
             audioFiles.push(audioAcierto);
             audioFiles.push(audioError);
         }
+    }
+
+    preloadImagesInFolder() {
+        var imageFolder = 'img/english/';
+        var imageArray: string[] = [];
+
+        fetch(this.HOST)
+            .then((response) => response.text())
+            .then((data) => {
+                // Utilizar un analizador HTML simple para extraer los nombres de archivo de la página
+                var parser = new DOMParser();
+                var htmlDocument = parser.parseFromString(data, 'text/html');
+                var links = htmlDocument.querySelectorAll('a');
+
+                // Filtrar y almacenar solo las rutas de las imágenes
+                links.forEach(function (link) {
+                    var href = link.getAttribute('href');
+                    if (href?.slice(-4) === '.jpg' || href?.slice(-5) === '.jpeg' || href?.slice(-4) === '.png' || href?.slice(-4) === '.gif') {
+                        imageArray.push(imageFolder + href);
+                    }
+                });
+
+                this.preloadImages(imageArray);
+            });
+    }
+
+    preloadImages(images: string[]) {
+        var loaded = 0;
+
+        function imageLoaded() {
+            loaded++;
+            if (loaded === images.length) {
+                console.log(loaded);
+            }
+        }
+
+        images.forEach(function (src) {
+            var image = new Image();
+            image.onload = imageLoaded;
+            image.src = src;
+        });
     }
 
     borrarHTML(elementoHTML: HTMLElement) {
