@@ -1,7 +1,6 @@
-// TODO añadir juego igual / distinto
 // TODO separar código en módulos
 // TODO Añadir tests
-// TODO organizar juegos por temática / edad. Mostrar sólo enlaces a juegos sin puntos ni récord.
+// TODO organizar juegos por temática / edad.
 // TODO crear url por edad
 
 enum Juego {
@@ -39,13 +38,16 @@ interface EnglishWord {
 }
 
 class Homework {
-    juegoActual: Juego = Juego.Reto;
-    puntos: number = 0;
     VIDAS_INICIALES: number = 3;
     AUDIO_CANTIDAD: number = 7;
+    HOST = 'http://sergitxu.github.io/homework';
+    HOSTLOCAL = '.';
+
+    juegoActual: Juego = Juego.Reto;
+    puntos: number = 0;
     vidas: number = this.VIDAS_INICIALES;
     resultado: number = 0;
-    zonaCalculo = document.getElementById('zona-calculo');
+    zonaJuego = document.getElementById('zona-juego');
     valor_a: number = this.randomNumber(11);
     valor_b: number = 0;
     operacion: string = '+';
@@ -57,8 +59,6 @@ class Homework {
     recordPersonalSumaResta = localStorage.getItem('record-sumaresta');
     recordPersonalOxidacion = localStorage.getItem('record-oxidacion');
     recordPersonalEnglish = localStorage.getItem('record-english');
-    HOST = 'http://sergitxu.github.io/homework';
-    HOSTLOCAL = '.';
 
     elementoPregunta: Elemento = {
         tipo: ElementoTipo.metal,
@@ -94,7 +94,6 @@ class Homework {
         });
     }
 
-
     actualizarPuntos() {
         this.puntosNumero!.innerText = this.puntos.toString();
     }
@@ -123,7 +122,7 @@ class Homework {
 
     reiniciarJuego() {
         this.resetearVidasPuntos();
-        this.esconder('zona-calculo');
+        this.esconder('zona-juego');
         this.mostrar('empezar');
         this.mostrar('boton-oxidacion');
         this.mostrarRecord();
@@ -320,6 +319,8 @@ class Homework {
     // Retos
     crearReto() {
         this.juegoActual = Juego.Reto;
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
         this.mostrarRecord();
 
         let nombres: string[] = ['Jon', 'Adri', 'Yago', 'Jacob', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'Maria',
@@ -389,28 +390,28 @@ class Homework {
             this.valor_b = this.randomNumber(this.valor_a, 1);
         }
 
-        this.mostrar('zona-calculo');
+        this.mostrar('zona-juego');
 
-        this.zonaCalculo!.innerHTML = `
+        this.zonaJuego!.innerHTML = `
         ${nombre_a} tiene <span class="puntos-numero">${this.valor_a}</span> 
         `
         if (this.valor_a === 1) {
-            this.zonaCalculo!.innerHTML += `
+            this.zonaJuego!.innerHTML += `
             ${cosa_x.nombre_singular}.
             `
         } else {
-            this.zonaCalculo!.innerHTML += `
+            this.zonaJuego!.innerHTML += `
             ${cosa_x.nombre_plural}.
             `
         }
 
         if (this.operacion === '+') {
-            this.zonaCalculo!.innerHTML += `
+            this.zonaJuego!.innerHTML += `
             <br>
             ${nombre_b} le da <span class="puntos-numero">${this.valor_b}</span>.
             `
         } else if (this.operacion === '-') {
-            this.zonaCalculo!.innerHTML += `
+            this.zonaJuego!.innerHTML += `
             <br>
             Pierde <span class="puntos-numero">${this.valor_b}</span>.
             `
@@ -419,12 +420,12 @@ class Homework {
         )
 
         if (cosa_x.genero === Genero.masculino) {
-            this.zonaCalculo!.innerHTML += `<br>¿Cuántos`
+            this.zonaJuego!.innerHTML += `<br>¿Cuántos`
         } else {
-            this.zonaCalculo!.innerHTML += `<br>¿Cuántas`
+            this.zonaJuego!.innerHTML += `<br>¿Cuántas`
         }
 
-        this.zonaCalculo!.innerHTML += `
+        this.zonaJuego!.innerHTML += `
         ${cosa_x.nombre_plural} tiene ahora ${nombre_a}?
         
         <form id="calculo">
@@ -440,6 +441,8 @@ class Homework {
     crearOperacion() {
         this.juegoActual = Juego.SumaResta;
         this.mostrarRecord();
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
         let operacionAzar: number = this.randomNumber(2);
         this.valor_a = this.randomNumber(11);
 
@@ -452,9 +455,9 @@ class Homework {
             this.valor_b = this.randomNumber(this.valor_a);
         }
 
-        this.mostrar('zona-calculo');
+        this.mostrar('zona-juego');
 
-        this.zonaCalculo!.innerHTML = `
+        this.zonaJuego!.innerHTML = `
         <form id="calculo">
             <span id="cifra-a" class="cifra">${this.valor_a}</span>
             <span id="operacion" class="operacion">${this.operacion}</span>
@@ -763,13 +766,15 @@ class Homework {
         },
     ]
 
-    EnglishVocabulary() {
+    crearEnglishVocabulary() {
         const RESPUESTAS_NUM = 3;
 
         this.juegoActual = Juego.EnglishVocabulary;
         this.mostrarRecord();
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
 
-        this.mostrar('zona-calculo');
+        this.mostrar('zona-juego');
 
         this.englishWordPregunta = this.englishWords[this.randomNumber(this.englishWords.length)];
 
@@ -782,18 +787,18 @@ class Homework {
         this.shuffleArray(englishWords_elegidas);
 
         if (this.englishWordPregunta.imagen) {
-            this.zonaCalculo!.innerHTML = `
+            this.zonaJuego!.innerHTML = `
             <h3>What is this?</h3>
             <img src="${this.HOST}/img/englishWords/${this.englishWordPregunta.imagen}" alt="" class="pregunta-imagen">
             `
         } else {
-            this.zonaCalculo!.innerHTML = `
+            this.zonaJuego!.innerHTML = `
             <h3>Translate to English</h3>
             <p class="puntos-numero">${this.englishWordPregunta.textoEspañol}</p>
             `
         }
         for (let i = 0; i < RESPUESTAS_NUM; i++) {
-            this.zonaCalculo!.innerHTML += `
+            this.zonaJuego!.innerHTML += `
             <button type="button" id="calcularBoton${i}" onclick="homeWork.resolverEnglishVocabulary(${i})" class="boton-calcular">${englishWords_elegidas[i].texto}</button>
             `
         }
@@ -803,7 +808,7 @@ class Homework {
         if (this.vidas > 0) {
             if (document.getElementById('calcularBoton' + respuesta)?.innerHTML === this.englishWordPregunta.texto) {
                 this.acertar();
-                this.EnglishVocabulary();
+                this.crearEnglishVocabulary();
             } else {
                 this.fallar();
             }
@@ -1087,15 +1092,17 @@ class Homework {
     Oxidacion() {
         this.juegoActual = Juego.Oxidacion;
         this.mostrarRecord();
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
 
-        this.mostrar('zona-calculo');
+        this.mostrar('zona-juego');
 
         this.elementoPregunta = this.elementos[this.randomNumber(this.elementos.length)];
 
-        this.zonaCalculo!.innerHTML = `
+        this.zonaJuego!.innerHTML = `
         <p>¿Cuál es número de oxidación del <span class="puntos-numero">${this.elementoPregunta.nombre} - ${this.elementoPregunta.simbolo}</span>?</p>
         `
-        this.zonaCalculo!.innerHTML += `
+        this.zonaJuego!.innerHTML += `
         <form id="calculo">
             <input type="text" id="respuesta" name="respuesta" class="respuesta respuesta-larga" oninput="homeWork.quitarError()">
             <button type="button" id="calcularBoton" onclick="homeWork.resolverOxidacion()" class="boton-calcular">&#9166;</button>

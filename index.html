@@ -24,20 +24,28 @@
     <div class="contenedor">
         <div id="vidas-numero" class="vidas-numero"></div>
         <div class="juego">
-            <div id="zona-calculo"></div>
+            <div id="zona-juego"></div>
             <div id="empezar">
-                <button class="empezar"
-                    onclick="homeWork.crearReto();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.esconder('boton-oxidacion')">Retos</button>
-                <button class="empezar"
-                    onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.esconder('boton-oxidacion')">Sumas
-                    y
-                    restas</button>
-                <button class="empezar"
-                    onclick="homeWork.EnglishVocabulary();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.esconder('boton-oxidacion')">English
-                    vocabulary</button>
+                <h2>Juegos de Primaria</h2>
+                <ul>
+                    <li><button class="empezar"
+                            onclick="homeWork.crearReto();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.esconder('boton-oxidacion')">Retos
+                            de mates</button>
+                    </li>
+                    <li>
+                        <button class="empezar"
+                            onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.esconder('boton-oxidacion')">Sumas
+                            y
+                            restas</button>
+                    </li>
+                    <li>
+                        <button class="empezar"
+                            onclick="homeWork.crearEnglishVocabulary();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.esconder('boton-oxidacion')">English</button>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="puntos">Puntos: <span id="puntos-numero" class="puntos-numero"></span></div>
+        <div id="puntos" class="puntos">Puntos: <span id="puntos-numero" class="puntos-numero"></span></div>
         <div id="record" class="record">Tu record: <span id="puntos-record" class="puntos-numero"></span></div>
     </div>
 
