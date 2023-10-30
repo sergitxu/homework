@@ -848,6 +848,8 @@ var Homework = /** @class */ (function () {
     Homework.prototype.crearReto = function () {
         var _a;
         this.juegoActual = Juego.Reto;
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
         this.mostrarRecord();
         var nombres = ['Jon', 'Adri', 'Yago', 'Jacob', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'Maria',
             'Xabi', 'Alba', 'Sophie', 'Valentina', 'Carla', 'Salomé', 'Jaime', 'Nicholas', 'Eva', 'Boris', 'Diana', 'Marina', 'Alex',
@@ -940,6 +942,8 @@ var Homework = /** @class */ (function () {
         var _a;
         this.juegoActual = Juego.SumaResta;
         this.mostrarRecord();
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
         var operacionAzar = this.randomNumber(2);
         this.valor_a = this.randomNumber(11);
         if (operacionAzar === 0) {
@@ -955,11 +959,13 @@ var Homework = /** @class */ (function () {
         this.zonaJuego.innerHTML = "\n        <form id=\"calculo\">\n            <span id=\"cifra-a\" class=\"cifra\">".concat(this.valor_a, "</span>\n            <span id=\"operacion\" class=\"operacion\">").concat(this.operacion, "</span>\n            <span id=\"cifra-b\" class=\"cifra\">").concat(this.valor_b, "</span>\n            <span class=\"cifra\"> = </span>\n            <br>\n            <input type=\"number\" id=\"respuesta\" name=\"respuesta\" class=\"respuesta\" oninput=\"homeWork.quitarError()\">\n            <button type=\"button\" id=\"calcularBoton\" onclick=\"homeWork.calcular()\" class=\"boton-calcular\">&#9166;</button>\n        </form>\n        ");
         (_a = document.getElementById("respuesta")) === null || _a === void 0 ? void 0 : _a.focus();
     };
-    Homework.prototype.EnglishVocabulary = function () {
+    Homework.prototype.crearEnglishVocabulary = function () {
         var _this = this;
         var RESPUESTAS_NUM = 3;
         this.juegoActual = Juego.EnglishVocabulary;
         this.mostrarRecord();
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
         this.mostrar('zona-juego');
         this.englishWordPregunta = this.englishWords[this.randomNumber(this.englishWords.length)];
         var englishWordsTema = this.englishWords.filter(function (word) { return word.tipo === _this.englishWordPregunta.tipo; });
@@ -981,7 +987,7 @@ var Homework = /** @class */ (function () {
         if (this.vidas > 0) {
             if (((_a = document.getElementById('calcularBoton' + respuesta)) === null || _a === void 0 ? void 0 : _a.innerHTML) === this.englishWordPregunta.texto) {
                 this.acertar();
-                this.EnglishVocabulary();
+                this.crearEnglishVocabulary();
             }
             else {
                 this.fallar();
@@ -992,6 +998,8 @@ var Homework = /** @class */ (function () {
         var _a;
         this.juegoActual = Juego.Oxidacion;
         this.mostrarRecord();
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
         this.mostrar('zona-juego');
         this.elementoPregunta = this.elementos[this.randomNumber(this.elementos.length)];
         this.zonaJuego.innerHTML = "\n        <p>\u00BFCu\u00E1l es n\u00FAmero de oxidaci\u00F3n del <span class=\"puntos-numero\">".concat(this.elementoPregunta.nombre, " - ").concat(this.elementoPregunta.simbolo, "</span>?</p>\n        ");

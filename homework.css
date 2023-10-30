@@ -4,8 +4,17 @@ body {
     background-color: #9A5B00;
 }
 
+ul {
+    margin: 1rem;
+    padding: 0;
+}
+
 li {
     list-style: none;
+}
+
+h2 {
+    margin: 0;
 }
 
 button {
@@ -34,9 +43,10 @@ button {
     font-family: inherit;
     font-size: 2rem;
     color: green;
-    background-color: transparent;
+    background-color: #FFF;
     border-radius: 5px;
     cursor: pointer;
+    margin: 0.4rem;
 }
 
 #calculo {
@@ -49,7 +59,6 @@ button {
 
 .juego {
     text-align: center;
-    padding: 1rem 0;
 }
 
 .cifra,
@@ -96,7 +105,12 @@ button {
     margin: 0 auto 2rem auto;
 }
 
+#puntos {
+    display: none;
+}
+
 .vidas-numero {
+    display: none;
     margin-top: 0;
     text-align: center;
     border-bottom: 1px solid orange;

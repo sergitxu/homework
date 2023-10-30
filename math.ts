@@ -94,7 +94,6 @@ class Homework {
         });
     }
 
-
     actualizarPuntos() {
         this.puntosNumero!.innerText = this.puntos.toString();
     }
@@ -320,6 +319,8 @@ class Homework {
     // Retos
     crearReto() {
         this.juegoActual = Juego.Reto;
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
         this.mostrarRecord();
 
         let nombres: string[] = ['Jon', 'Adri', 'Yago', 'Jacob', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'Maria',
@@ -440,6 +441,8 @@ class Homework {
     crearOperacion() {
         this.juegoActual = Juego.SumaResta;
         this.mostrarRecord();
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
         let operacionAzar: number = this.randomNumber(2);
         this.valor_a = this.randomNumber(11);
 
@@ -763,11 +766,13 @@ class Homework {
         },
     ]
 
-    EnglishVocabulary() {
+    crearEnglishVocabulary() {
         const RESPUESTAS_NUM = 3;
 
         this.juegoActual = Juego.EnglishVocabulary;
         this.mostrarRecord();
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
 
         this.mostrar('zona-juego');
 
@@ -803,7 +808,7 @@ class Homework {
         if (this.vidas > 0) {
             if (document.getElementById('calcularBoton' + respuesta)?.innerHTML === this.englishWordPregunta.texto) {
                 this.acertar();
-                this.EnglishVocabulary();
+                this.crearEnglishVocabulary();
             } else {
                 this.fallar();
             }
@@ -1087,6 +1092,8 @@ class Homework {
     Oxidacion() {
         this.juegoActual = Juego.Oxidacion;
         this.mostrarRecord();
+        this.mostrar('vidas-numero');
+        this.mostrar('puntos');
 
         this.mostrar('zona-juego');
 
