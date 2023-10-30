@@ -634,7 +634,6 @@ var Homework = /** @class */ (function () {
         this.actualizarPuntos();
         this.actualizarVidas();
         this.preloadMP3();
-        this.preloadImagesInFolder();
         addEventListener('keypress', function (e) {
             if (e.key === 'Enter' && _this.juegoActual !== Juego.Oxidacion) {
                 e.preventDefault();

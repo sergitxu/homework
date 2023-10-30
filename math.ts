@@ -78,7 +78,6 @@ class Homework {
         this.actualizarPuntos();
         this.actualizarVidas();
         this.preloadMP3();
-        this.preloadImagesInFolder();
 
         addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && this.juegoActual !== Juego.Oxidacion) {
@@ -1244,6 +1243,7 @@ class Homework {
             image.onload = imageLoaded;
             image.src = src;
         });
+        console.log(images);
     }
 
     borrarHTML(elementoHTML: HTMLElement) {
