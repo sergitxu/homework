@@ -1095,8 +1095,11 @@ var Homework = /** @class */ (function () {
             var parser = new DOMParser();
             var htmlDocument = parser.parseFromString(data, 'text/html');
             var links = htmlDocument.querySelectorAll('a');
+            console.log(htmlDocument);
+            console.log(links);
             // Filtrar y almacenar solo las rutas de las imágenes
             links.forEach(function (link) {
+                console.log(link);
                 var href = link.getAttribute('href');
                 if ((href === null || href === void 0 ? void 0 : href.slice(-4)) === '.jpg' || (href === null || href === void 0 ? void 0 : href.slice(-5)) === '.jpeg' || (href === null || href === void 0 ? void 0 : href.slice(-4)) === '.png' || (href === null || href === void 0 ? void 0 : href.slice(-4)) === '.gif') {
                     imageArray.push(imageFolder + href);

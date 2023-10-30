@@ -1216,8 +1216,13 @@ class Homework {
                 var htmlDocument = parser.parseFromString(data, 'text/html');
                 var links = htmlDocument.querySelectorAll('a');
 
+
+                console.log(htmlDocument);
+                console.log(links);
+
                 // Filtrar y almacenar solo las rutas de las imágenes
                 links.forEach(function (link) {
+                    console.log(link);
                     var href = link.getAttribute('href');
                     if (href?.slice(-4) === '.jpg' || href?.slice(-5) === '.jpeg' || href?.slice(-4) === '.png' || href?.slice(-4) === '.gif') {
                         imageArray.push(imageFolder + href);
