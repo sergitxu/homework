@@ -672,9 +672,11 @@ var Homework = /** @class */ (function () {
     Homework.prototype.reiniciarJuego = function () {
         this.resetearVidasPuntos();
         this.esconder('zona-juego');
+        this.esconder('vidas-numero');
+        this.esconder('puntos');
+        this.esconder('record');
         this.mostrar('empezar');
         this.mostrar('boton-oxidacion');
-        this.mostrarRecord();
     };
     Homework.prototype.mostrarRecord = function () {
         switch (this.juegoActual) {

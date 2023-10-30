@@ -123,9 +123,11 @@ class Homework {
     reiniciarJuego() {
         this.resetearVidasPuntos();
         this.esconder('zona-juego');
+        this.esconder('vidas-numero');
+        this.esconder('puntos');
+        this.esconder('record');
         this.mostrar('empezar');
         this.mostrar('boton-oxidacion');
-        this.mostrarRecord();
     }
 
     mostrarRecord() {
