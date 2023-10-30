@@ -1118,6 +1118,7 @@ var Homework = /** @class */ (function () {
             image.onload = imageLoaded;
             image.src = src;
         });
+        console.log(images);
     };
     Homework.prototype.borrarHTML = function (elementoHTML) {
         elementoHTML.innerHTML = '';
