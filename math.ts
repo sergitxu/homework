@@ -768,8 +768,6 @@ class Homework {
 
     crearEnglishVocabulary() {
         const RESPUESTAS_NUM = 3;
-        // Llama a la función preloadImagesInFolder y pasa la carpeta de imágenes y una función de callback
-        this.preloadImagesInFolder();
 
         this.juegoActual = Juego.EnglishVocabulary;
         this.mostrarRecord();
@@ -791,7 +789,7 @@ class Homework {
         if (this.englishWordPregunta.imagen) {
             this.zonaJuego!.innerHTML = `
             <h3>What is this?</h3>
-            <img src="${this.HOST}/img/englishWords/${this.englishWordPregunta.imagen}" alt="" class="pregunta-imagen">
+            <img src="${this.HOST}/img/englishWords/${this.englishWordPregunta.imagen}" alt="" class="pregunta-imagen" loading="lazy">
             `
         } else {
             this.zonaJuego!.innerHTML = `
@@ -1202,54 +1200,6 @@ class Homework {
             audioFiles.push(audioAcierto);
             audioFiles.push(audioError);
         }
-    }
-
-    preloadImagesInFolder() {
-        var imageFolder = '/img/englishWords/';
-        var imageArray: string[] = [];
-
-        fetch(this.HOST)
-            .then((response) => response.text())
-            .then((data) => {
-                // Utilizar un analizador HTML simple para extraer los nombres de archivo de la página
-                var parser = new DOMParser();
-                var htmlDocument = parser.parseFromString(data, 'text/html');
-                var links = htmlDocument.querySelectorAll('a');
-
-
-                console.log(htmlDocument);
-                console.log(links);
-
-                // Filtrar y almacenar solo las rutas de las imágenes
-                links.forEach(function (link) {
-                    console.log(link);
-                    var href = link.getAttribute('href');
-                    if (href?.slice(-4) === '.jpg' || href?.slice(-5) === '.jpeg' || href?.slice(-4) === '.png' || href?.slice(-4) === '.gif') {
-                        imageArray.push(imageFolder + href);
-                    }
-                });
-
-                console.log(imageArray);
-                this.preloadImages(imageArray);
-            });
-    }
-
-    preloadImages(images: string[]) {
-        var loaded = 0;
-
-        function imageLoaded() {
-            loaded++;
-            if (loaded === images.length) {
-                console.log(loaded);
-            }
-        }
-
-        images.forEach(function (src) {
-            var image = new Image();
-            image.onload = imageLoaded;
-            image.src = src;
-        });
-        console.log(images);
     }
 
     borrarHTML(elementoHTML: HTMLElement) {
