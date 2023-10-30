@@ -28,7 +28,7 @@ button {
     padding: 1rem;
     margin: 310px auto auto;
     background: #fff;
-
+    position: relative;
 }
 
 .fondo {
@@ -100,6 +100,15 @@ button {
     line-height: 3rem;
 }
 
+#close-button {
+    display: none;
+    font-family: sans-serif;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 99;
+}
+
 .pregunta-imagen {
     max-width: 100%;
     display: block;
@@ -112,10 +121,9 @@ button {
 
 .vidas-numero {
     display: none;
-    margin-top: 0;
     text-align: center;
     border-bottom: 1px solid orange;
-    padding-bottom: 1.2rem;
+    padding: 0;
     color: red;
     font-size: 3rem;
     position: relative;

@@ -22,6 +22,7 @@
     </dialog>
     <img src="img/buho.png" alt="" width="590x" height="" class="fondo">
     <div class="contenedor">
+        <button id="close-button" class="empezar" onclick="homeWork.gameOver();">X</button>
         <div id="vidas-numero" class="vidas-numero"></div>
         <div class="juego">
             <div id="zona-juego"></div>
@@ -29,18 +30,18 @@
                 <h2>Juegos de Primaria</h2>
                 <ul>
                     <li><button class="empezar"
-                            onclick="homeWork.crearReto();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.esconder('boton-oxidacion')">Retos
+                            onclick="homeWork.crearReto();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Retos
                             de mates</button>
                     </li>
                     <li>
                         <button class="empezar"
-                            onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.esconder('boton-oxidacion')">Sumas
+                            onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Sumas
                             y
                             restas</button>
                     </li>
                     <li>
                         <button class="empezar"
-                            onclick="homeWork.crearEnglishVocabulary();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.esconder('boton-oxidacion')">English</button>
+                            onclick="homeWork.crearEnglishVocabulary();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">English</button>
                     </li>
                 </ul>
             </div>
@@ -50,7 +51,7 @@
     </div>
 
     <button id="boton-oxidacion" class="empezar"
-        onclick="homeWork.Oxidacion();homeWork.resetearVidasPuntos();homeWork.esconder('empezar');homeWork.esconder('boton-oxidacion')">Oxidación</button>
+        onclick="homeWork.Oxidacion();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Oxidación</button>
 </body>
 <script src="math.js"></script>
 

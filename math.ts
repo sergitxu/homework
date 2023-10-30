@@ -122,12 +122,8 @@ class Homework {
 
     reiniciarJuego() {
         this.resetearVidasPuntos();
-        this.esconder('zona-juego');
-        this.esconder('vidas-numero');
-        this.esconder('puntos');
-        this.esconder('record');
-        this.mostrar('empezar');
-        this.mostrar('boton-oxidacion');
+        this.esconder(['zona-juego', 'vidas-numero', 'puntos', 'record', 'close-button']);
+        this.mostrar(['empezar', 'boton-oxidacion']);
     }
 
     mostrarRecord() {
@@ -135,7 +131,7 @@ class Homework {
             case Juego.Reto: {
                 if (this.recordPersonalReto) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalReto;
-                    this.mostrar('record');
+                    this.mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -144,7 +140,7 @@ class Homework {
             case Juego.SumaResta: {
                 if (this.recordPersonalSumaResta) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalSumaResta;
-                    this.mostrar('record');
+                    this.mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -153,7 +149,7 @@ class Homework {
             case Juego.Oxidacion: {
                 if (this.recordPersonalOxidacion) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalOxidacion;
-                    this.mostrar('record');
+                    this.mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -162,7 +158,7 @@ class Homework {
             case Juego.EnglishVocabulary: {
                 if (this.recordPersonalEnglish) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalEnglish;
-                    this.mostrar('record');
+                    this.mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -321,8 +317,7 @@ class Homework {
     // Retos
     crearReto() {
         this.juegoActual = Juego.Reto;
-        this.mostrar('vidas-numero');
-        this.mostrar('puntos');
+        this.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
         this.mostrarRecord();
 
         let nombres: string[] = ['Jon', 'Adri', 'Yago', 'Jacob', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'Maria',
@@ -392,8 +387,6 @@ class Homework {
             this.valor_b = this.randomNumber(this.valor_a, 1);
         }
 
-        this.mostrar('zona-juego');
-
         this.zonaJuego!.innerHTML = `
         ${nombre_a} tiene <span class="puntos-numero">${this.valor_a}</span> 
         `
@@ -443,8 +436,7 @@ class Homework {
     crearOperacion() {
         this.juegoActual = Juego.SumaResta;
         this.mostrarRecord();
-        this.mostrar('vidas-numero');
-        this.mostrar('puntos');
+        this.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
         let operacionAzar: number = this.randomNumber(2);
         this.valor_a = this.randomNumber(11);
 
@@ -456,8 +448,6 @@ class Homework {
             this.valor_a = this.randomNumber(11, 2);
             this.valor_b = this.randomNumber(this.valor_a);
         }
-
-        this.mostrar('zona-juego');
 
         this.zonaJuego!.innerHTML = `
         <form id="calculo">
@@ -773,10 +763,7 @@ class Homework {
 
         this.juegoActual = Juego.EnglishVocabulary;
         this.mostrarRecord();
-        this.mostrar('vidas-numero');
-        this.mostrar('puntos');
-
-        this.mostrar('zona-juego');
+        this.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
 
         this.englishWordPregunta = this.englishWords[this.randomNumber(this.englishWords.length)];
 
@@ -1094,10 +1081,7 @@ class Homework {
     Oxidacion() {
         this.juegoActual = Juego.Oxidacion;
         this.mostrarRecord();
-        this.mostrar('vidas-numero');
-        this.mostrar('puntos');
-
-        this.mostrar('zona-juego');
+        this.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
 
         this.elementoPregunta = this.elementos[this.randomNumber(this.elementos.length)];
 
@@ -1176,12 +1160,18 @@ class Homework {
         return array;
     }
 
-    esconder(paraEsconder: string) {
-        document.getElementById(paraEsconder)!.style.display = 'none';
+    esconder(paraEsconder: string[]) {
+        for (let i = 0; i < paraEsconder.length; i++) {
+            document.getElementById(paraEsconder[i])!.style.display = 'none';
+        }
     }
 
-    mostrar(paraMostrar: string) {
-        document.getElementById(paraMostrar)!.style.display = 'block';
+    mostrar(paraMostrar: string[]) {
+        console.log(paraMostrar);
+        for (let i = 0; i < paraMostrar.length; i++) {
+            console.log(paraMostrar[i]);
+            document.getElementById(paraMostrar[i])!.style.display = 'block';
+        }
     }
 
     sonar(evento: string) {
