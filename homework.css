@@ -49,6 +49,10 @@ button {
     margin: 0.4rem;
 }
 
+#boton-oxidacion {
+    visibility: hidden;
+}
+
 #calculo {
     text-align: center;
 }
