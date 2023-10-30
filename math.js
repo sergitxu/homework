@@ -1086,7 +1086,7 @@ var Homework = /** @class */ (function () {
     };
     Homework.prototype.preloadImagesInFolder = function () {
         var _this = this;
-        var imageFolder = 'img/english/';
+        var imageFolder = 'img/englishWords/';
         var imageArray = [];
         fetch(this.HOST)
             .then(function (response) { return response.text(); })
