@@ -634,6 +634,7 @@ var Homework = /** @class */ (function () {
         this.actualizarPuntos();
         this.actualizarVidas();
         this.preloadMP3();
+        this.preloadImagesInFolder();
         addEventListener('keypress', function (e) {
             if (e.key === 'Enter' && _this.juegoActual !== Juego.Oxidacion) {
                 e.preventDefault();
@@ -962,6 +963,8 @@ var Homework = /** @class */ (function () {
     Homework.prototype.crearEnglishVocabulary = function () {
         var _this = this;
         var RESPUESTAS_NUM = 3;
+        // Llama a la función preloadImagesInFolder y pasa la carpeta de imágenes y una función de callback
+        this.preloadImagesInFolder();
         this.juegoActual = Juego.EnglishVocabulary;
         this.mostrarRecord();
         this.mostrar('vidas-numero');
@@ -1081,6 +1084,41 @@ var Homework = /** @class */ (function () {
             audioFiles.push(audioAcierto);
             audioFiles.push(audioError);
         }
+    };
+    Homework.prototype.preloadImagesInFolder = function () {
+        var _this = this;
+        var imageFolder = 'img/english/';
+        var imageArray = [];
+        fetch(this.HOST)
+            .then(function (response) { return response.text(); })
+            .then(function (data) {
+            // Utilizar un analizador HTML simple para extraer los nombres de archivo de la página
+            var parser = new DOMParser();
+            var htmlDocument = parser.parseFromString(data, 'text/html');
+            var links = htmlDocument.querySelectorAll('a');
+            // Filtrar y almacenar solo las rutas de las imágenes
+            links.forEach(function (link) {
+                var href = link.getAttribute('href');
+                if ((href === null || href === void 0 ? void 0 : href.slice(-4)) === '.jpg' || (href === null || href === void 0 ? void 0 : href.slice(-5)) === '.jpeg' || (href === null || href === void 0 ? void 0 : href.slice(-4)) === '.png' || (href === null || href === void 0 ? void 0 : href.slice(-4)) === '.gif') {
+                    imageArray.push(imageFolder + href);
+                }
+            });
+            _this.preloadImages(imageArray);
+        });
+    };
+    Homework.prototype.preloadImages = function (images) {
+        var loaded = 0;
+        function imageLoaded() {
+            loaded++;
+            if (loaded === images.length) {
+                console.log(loaded);
+            }
+        }
+        images.forEach(function (src) {
+            var image = new Image();
+            image.onload = imageLoaded;
+            image.src = src;
+        });
     };
     Homework.prototype.borrarHTML = function (elementoHTML) {
         elementoHTML.innerHTML = '';
