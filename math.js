@@ -1055,9 +1055,7 @@ var Homework = /** @class */ (function () {
         }
     };
     Homework.prototype.mostrar = function (paraMostrar) {
-        console.log(paraMostrar);
         for (var i = 0; i < paraMostrar.length; i++) {
-            console.log(paraMostrar[i]);
             document.getElementById(paraMostrar[i]).style.display = 'block';
         }
     };

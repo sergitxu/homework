@@ -1167,9 +1167,7 @@ class Homework {
     }
 
     mostrar(paraMostrar: string[]) {
-        console.log(paraMostrar);
         for (let i = 0; i < paraMostrar.length; i++) {
-            console.log(paraMostrar[i]);
             document.getElementById(paraMostrar[i])!.style.display = 'block';
         }
     }
