@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="homework.css">
+    <link rel="stylesheet" href="/src/homework.css">
     <title>Aprende jugando</title>
-    <link rel="icon" type="image/x-icon" href="./img/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/src/img/favicon.ico">
 </head>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JQSY9FBS8R"></script>
@@ -16,32 +16,29 @@
 
     gtag('config', 'G-JQSY9FBS8R');
 </script>
+<script type="module" src="/src/main.ts"></script>
 
 <body>
+    <div id="app"></div>
     <dialog id="game-over" class="game-over">
     </dialog>
-    <img src="img/buho.png" alt="" width="590x" height="" class="fondo">
+    <img src="/src/img/buho.png" alt="" width="590x" height="" class="fondo">
     <div class="contenedor">
-        <button id="close-button" class="empezar" onclick="homeWork.gameOver();">X</button>
+        <button id="close-button" class="empezar">X</button>
         <div id="vidas-numero" class="vidas-numero"></div>
         <div class="juego">
             <div id="zona-juego"></div>
             <div id="empezar">
                 <h2>Juegos de Primaria</h2>
                 <ul>
-                    <li><button class="empezar"
-                            onclick="homeWork.crearReto();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Retos
-                            de mates</button>
+                    <li>
+                        <button id="boton-retos" class="empezar">Retos de mates</button>
                     </li>
                     <li>
-                        <button class="empezar"
-                            onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Sumas
-                            y
-                            restas</button>
+                        <button id="boton-sumaResta" class="empezar">Sumas y restas</button>
                     </li>
                     <li>
-                        <button class="empezar"
-                            onclick="homeWork.crearEnglishVocabulary();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">English</button>
+                        <button id="boton-englishVocabulary" class="empezar">English</button>
                     </li>
                 </ul>
             </div>
@@ -50,9 +47,9 @@
         <div id="record" class="record">Tu record: <span id="puntos-record" class="puntos-numero"></span></div>
     </div>
 
-    <button id="boton-oxidacion" class="empezar"
-        onclick="homeWork.Oxidacion();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Oxidación</button>
+    <button id="boton-oxidacion" class="empezar">Oxidación</button>
+
 </body>
-<script src="math.js"></script>
+
 
 </html>

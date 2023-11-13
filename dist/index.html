@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Aprende jugando</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon-ab0b14f6.ico">
+  <script type="module" crossorigin src="/assets/index-79b5e351.js"></script>
+  <link rel="stylesheet" href="/assets/index-eff3878b.css">
+</head>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JQSY9FBS8R"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-JQSY9FBS8R');
+</script>
+
+<body>
+    <dialog id="game-over" class="game-over">
+    </dialog>
+    <img src="/assets/buho-b4b1f4fc.png" alt="" width="590x" height="" class="fondo">
+    <div class="contenedor">
+        <button id="close-button" class="empezar" onclick="homeWork.gameOver();">X</button>
+        <div id="vidas-numero" class="vidas-numero"></div>
+        <div class="juego">
+            <div id="zona-juego"></div>
+            <div id="empezar">
+                <h2>Juegos de Primaria</h2>
+                <ul>
+                    <li><button class="empezar"
+                            onclick="homeWork.crearReto();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Retos
+                            de mates</button>
+                    </li>
+                    <li>
+                        <button class="empezar"
+                            onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Sumas
+                            y
+                            restas</button>
+                    </li>
+                    <li>
+                        <button class="empezar"
+                            onclick="homeWork.crearEnglishVocabulary();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">English</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="puntos" class="puntos">Puntos: <span id="puntos-numero" class="puntos-numero"></span></div>
+        <div id="record" class="record">Tu record: <span id="puntos-record" class="puntos-numero"></span></div>
+    </div>
+
+    <button id="boton-oxidacion" class="empezar"
+        onclick="homeWork.Oxidacion();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Oxidación</button>
+</body>
+
+
+</html>

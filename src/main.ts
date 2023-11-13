@@ -54,6 +54,13 @@ class Homework {
     gameOverDialog: HTMLDialogElement = (<HTMLDialogElement>document.getElementById('game-over'));
     vidasNumero: HTMLElement | null = document.getElementById('vidas-numero');
     puntosNumero: HTMLElement | null = document.getElementById('puntos-numero');
+    startRetos: HTMLElement | null = document.getElementById('boton-retos');
+    startSumasRestas: HTMLElement | null = document.getElementById('boton-sumaResta');
+    startEnglishVocabulary: HTMLElement | null = document.getElementById('boton-englishVocabulary');
+    startOxidacion: HTMLElement | null = document.getElementById('boton-oxidacion');
+    closeButton: HTMLElement | null = document.getElementById('close-button');
+    calcularButton: HTMLElement | null = document.getElementById('calcular-button');
+    inputRespuesta: HTMLElement | null = document.getElementById('input-respuesta');
     hayNuevoRecordPersonal: boolean = false;
     recordPersonalReto = localStorage.getItem('record-reto');
     recordPersonalSumaResta = localStorage.getItem('record-sumaresta');
@@ -89,9 +96,34 @@ class Homework {
             }
         });
 
-        this.gameOverDialog.addEventListener("close", (event) => {
+        this.gameOverDialog.addEventListener("close", () => {
             this.reiniciarJuego();
         });
+
+        this.startRetos?.addEventListener("click", () => {
+            this.crearReto(); this.resetearVidasPuntos(); this.esconder(['empezar']); this.esconder(['boton-oxidacion']);
+        });
+
+        this.startSumasRestas?.addEventListener("click", () => {
+            this.crearOperacion(); this.resetearVidasPuntos(); this.esconder(['empezar']); this.esconder(['boton-oxidacion']);
+        });
+
+        this.startEnglishVocabulary?.addEventListener("click", () => {
+            this.crearEnglishVocabulary(); this.resetearVidasPuntos(); this.esconder(['empezar']); this.esconder(['boton-oxidacion']);
+        });
+
+        this.startOxidacion?.addEventListener("click", () => {
+            this.Oxidacion(); this.resetearVidasPuntos(); this.esconder(['empezar']); this.esconder(['boton-oxidacion']);
+        });
+
+        this.closeButton?.addEventListener("click", () => {
+            this.gameOver();
+        });
+
+        this.calcularButton?.addEventListener("click", () => {
+            this.calcular();
+        });
+
     }
 
     actualizarPuntos() {
@@ -169,7 +201,11 @@ class Homework {
     }
 
     calcular() {
-        let respuesta: string | number = (<HTMLInputElement>document.getElementById(`respuesta`)).value;
+        (<HTMLInputElement>document.getElementById(`input-respuesta`)).addEventListener("input", () => {
+            this.quitarError();
+        });
+
+        let respuesta: string | number = (<HTMLInputElement>document.getElementById(`input-respuesta`)).value;
 
         if (this.vidas > 0 && respuesta) {
 
@@ -204,7 +240,7 @@ class Homework {
     }
 
     fallar() {
-        document.getElementById(`respuesta`)?.classList.add('error');
+        document.getElementById(`input-respuesta`)?.classList.add('error');
         this.vidas--;
         this.actualizarVidas();
         this.animar(this.vidasNumero);
@@ -424,12 +460,12 @@ class Homework {
         ${cosa_x.nombre_plural} tiene ahora ${nombre_a}?
         
         <form id="calculo">
-            <input type="number" id="respuesta" name="respuesta" class="respuesta" oninput="homeWork.quitarError()">
-            <button type="button" id="calcularBoton" onclick="homeWork.calcular()" class="boton-calcular">&#9166;</button>
+            <input type="number" id="input-respuesta" name="respuesta" class="respuesta">
+            <button type="button" id="boton-calcular" class="boton-calcular">&#9166;</button>
         </form>
         `;
 
-        document.getElementById(`respuesta`)?.focus();
+        document.getElementById(`input-respuesta`)?.focus();
     }
 
     // Operacion de sumas y restas
@@ -456,12 +492,12 @@ class Homework {
             <span id="cifra-b" class="cifra">${this.valor_b}</span>
             <span class="cifra"> = </span>
             <br>
-            <input type="number" id="respuesta" name="respuesta" class="respuesta" oninput="homeWork.quitarError()">
-            <button type="button" id="calcularBoton" onclick="homeWork.calcular()" class="boton-calcular">&#9166;</button>
+            <input type="number" id="input-respuesta" name="respuesta" class="respuesta">
+            <button type="button" id="boton-calcular" class="boton-calcular">&#9166;</button>
         </form>
         `;
 
-        document.getElementById(`respuesta`)?.focus();
+        (<HTMLInputElement>document.getElementById(`input-respuesta`))?.focus();
     }
 
     // English vocabulary
@@ -788,8 +824,13 @@ class Homework {
         }
         for (let i = 0; i < RESPUESTAS_NUM; i++) {
             this.zonaJuego!.innerHTML += `
-            <button type="button" id="calcularBoton${i}" onclick="homeWork.resolverEnglishVocabulary(${i})" class="boton-calcular">${englishWords_elegidas[i].texto}</button>
+            <button type="button" id="calcularBoton${i}" class="boton-calcular">${englishWords_elegidas[i].texto}</button>
             `
+        }
+        for (let i = 0; i < RESPUESTAS_NUM; i++) {
+            document.getElementById(`calcularBoton${i}`)?.addEventListener("click", () => {
+                this.resolverEnglishVocabulary(i);
+            });
         }
     }
 
@@ -1090,16 +1131,24 @@ class Homework {
         `
         this.zonaJuego!.innerHTML += `
         <form id="calculo">
-            <input type="text" id="respuesta" name="respuesta" class="respuesta respuesta-larga" oninput="homeWork.quitarError()">
-            <button type="button" id="calcularBoton" onclick="homeWork.resolverOxidacion()" class="boton-calcular">&#9166;</button>
+            <input type="text" id="input-respuesta" name="respuesta" class="respuesta respuesta-larga">
+            <button type="button" id="boton-calcular-oxidacion" class="boton-calcular">&#9166;</button>
         </form>
         `;
 
-        document.getElementById(`respuesta`)?.focus();
+        (<HTMLInputElement>document.getElementById(`boton-calcular-oxidacion`))?.addEventListener("click", () => {
+            this.resolverOxidacion();
+        });
+
+        (<HTMLInputElement>document.getElementById(`input-respuesta`))?.addEventListener("input", () => {
+            this.quitarError();
+        });
+
+        (<HTMLInputElement>document.getElementById(`input-respuesta`))?.focus();
     }
 
     resolverOxidacion() {
-        let respuestaOxidacion: string | number = (<HTMLInputElement>document.getElementById(`respuesta`)).value;
+        let respuestaOxidacion: string | number = (<HTMLInputElement>document.getElementById(`input-respuesta`)).value;
 
         if (this.vidas > 0 && respuestaOxidacion) {
             if (respuestaOxidacion === this.elementoPregunta.num_oxidacion) {
@@ -1121,7 +1170,7 @@ class Homework {
     }
 
     quitarError() {
-        document.getElementById(`respuesta`)?.classList.remove('error');
+        (<HTMLInputElement>document.getElementById(`input-respuesta`))?.classList.remove('error');
     }
 
     randomNumber(lessThan: number, min = 0) {
@@ -1174,7 +1223,7 @@ class Homework {
 
     sonar(evento: string) {
         let random = this.randomNumber(this.AUDIO_CANTIDAD);
-        let audio = new Audio(`sound/${evento}/0${random}.mp3`);
+        let audio = new Audio(`/src/sound/${evento}/0${random}.mp3`);
         audio.play();
     }
 
@@ -1183,8 +1232,8 @@ class Homework {
 
         for (let i = 0; i <= this.AUDIO_CANTIDAD - 1; i++) {
             let fileName: string = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
-            let audioAcierto: HTMLAudioElement = new Audio("sound/acierto/" + fileName);
-            let audioError: HTMLAudioElement = new Audio("sound/error/" + fileName);
+            let audioAcierto: HTMLAudioElement = new Audio("/src/sound/acierto/" + fileName);
+            let audioError: HTMLAudioElement = new Audio("/src/sound/error/" + fileName);
             audioAcierto.preload = "auto";
             audioError.preload = "auto";
             audioFiles.push(audioAcierto);
@@ -1195,6 +1244,10 @@ class Homework {
     borrarHTML(elementoHTML: HTMLElement) {
         elementoHTML!.innerHTML = '';
     }
+
+
+
 };
 
 const homeWork = new Homework();
+
