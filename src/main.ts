@@ -1,10 +1,9 @@
-// TODO separar código en módulos
 // TODO Añadir tests
 // TODO organizar juegos por temática / edad.
-// TODO crear url por edad
 
-import * as englishVocabulary from './english/EnglishVocabulary.ts';
-import * as generic from './generic.ts';
+import { englishWordPregunta, crearEnglishVocabulary } from './modules/english/EnglishVocabulary.ts';
+import { esconder, getRandomElements, mostrar, preloadMP3, sonar, randomNumber } from './modules/generic.ts';
+import { elementoPregunta, oxidacion, resolverOxidacion } from './modules/oxidacion/oxidacion.ts';
 
 export enum Juego {
     Reto, SumaResta, Oxidacion, EnglishVocabulary
@@ -19,17 +18,6 @@ interface Cosa {
     genero: Genero
 }
 
-enum ElementoTipo {
-    'metal', 'no metal'
-}
-
-interface Elemento {
-    tipo: ElementoTipo,
-    nombre: string,
-    simbolo?: string,
-    num_oxidacion: string
-}
-
 class Homework {
     VIDAS_INICIALES: number = 3;
     HOST = 'https://sergitxu.github.io/homework';
@@ -40,7 +28,7 @@ class Homework {
     vidas: number = this.VIDAS_INICIALES;
     resultado: number = 0;
     zonaJuego = document.getElementById('zona-juego');
-    valor_a: number = generic.randomNumber(11);
+    valor_a: number = randomNumber(11);
     valor_b: number = 0;
     operacion: string = '+';
     gameOverDialog: HTMLDialogElement = (<HTMLDialogElement>document.getElementById('game-over'));
@@ -58,17 +46,10 @@ class Homework {
     recordPersonalOxidacion = localStorage.getItem('record-oxidacion');
     recordPersonalEnglish = localStorage.getItem('record-english');
 
-    elementoPregunta: Elemento = {
-        tipo: ElementoTipo.metal,
-        simbolo: '',
-        nombre: '',
-        num_oxidacion: ''
-    }
-
     constructor() {
         this.actualizarPuntos();
         this.actualizarVidas();
-        generic.preloadMP3();
+        preloadMP3();
 
         addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && this.juegoActual !== Juego.Oxidacion) {
@@ -76,7 +57,7 @@ class Homework {
                 this.calcular();
             } else if (e.key === 'Enter' && this.juegoActual === Juego.Oxidacion) {
                 e.preventDefault();
-                this.resolverOxidacion();
+                resolverOxidacion();
             }
         });
 
@@ -85,19 +66,19 @@ class Homework {
         });
 
         this.startRetos?.addEventListener("click", () => {
-            this.crearReto(); this.resetearVidasPuntos(); generic.esconder(['empezar']); generic.esconder(['boton-oxidacion']);
+            this.crearReto(); this.resetearVidasPuntos(); esconder(['empezar']); esconder(['boton-oxidacion']);
         });
 
         this.startSumasRestas?.addEventListener("click", () => {
-            this.crearOperacion(); this.resetearVidasPuntos(); generic.esconder(['empezar']); generic.esconder(['boton-oxidacion']);
+            this.crearOperacion(); this.resetearVidasPuntos(); esconder(['empezar']); esconder(['boton-oxidacion']);
         });
 
         this.startEnglishVocabulary?.addEventListener("click", () => {
-            englishVocabulary.crearEnglishVocabulary(); this.resetearVidasPuntos(); generic.esconder(['empezar']); generic.esconder(['boton-oxidacion']);
+            crearEnglishVocabulary(); this.resetearVidasPuntos(); esconder(['empezar']); esconder(['boton-oxidacion']);
         });
 
         this.startOxidacion?.addEventListener("click", () => {
-            this.Oxidacion(); this.resetearVidasPuntos(); generic.esconder(['empezar']); generic.esconder(['boton-oxidacion']);
+            oxidacion(); this.resetearVidasPuntos(); esconder(['empezar']); esconder(['boton-oxidacion']);
         });
 
         this.closeButton?.addEventListener("click", () => {
@@ -134,8 +115,8 @@ class Homework {
 
     reiniciarJuego() {
         this.resetearVidasPuntos();
-        generic.esconder(['zona-juego', 'vidas-numero', 'puntos', 'record', 'close-button']);
-        generic.mostrar(['empezar', 'boton-oxidacion']);
+        esconder(['zona-juego', 'vidas-numero', 'puntos', 'record', 'close-button']);
+        mostrar(['empezar', 'boton-oxidacion']);
     }
 
     mostrarRecord() {
@@ -143,7 +124,7 @@ class Homework {
             case Juego.Reto: {
                 if (this.recordPersonalReto) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalReto;
-                    generic.mostrar(['record']);
+                    mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -152,7 +133,7 @@ class Homework {
             case Juego.SumaResta: {
                 if (this.recordPersonalSumaResta) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalSumaResta;
-                    generic.mostrar(['record']);
+                    mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -161,7 +142,7 @@ class Homework {
             case Juego.Oxidacion: {
                 if (this.recordPersonalOxidacion) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalOxidacion;
-                    generic.mostrar(['record']);
+                    mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -170,7 +151,7 @@ class Homework {
             case Juego.EnglishVocabulary: {
                 if (this.recordPersonalEnglish) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalEnglish;
-                    generic.mostrar(['record']);
+                    mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -216,7 +197,7 @@ class Homework {
         this.puntos++;
         this.actualizarPuntos();
         this.animar(this.puntosNumero);
-        generic.sonar('acierto');
+        sonar('acierto');
     }
 
     fallar() {
@@ -224,7 +205,7 @@ class Homework {
         this.vidas--;
         this.actualizarVidas();
         this.animar(this.vidasNumero);
-        generic.sonar('error');
+        sonar('error');
     }
 
     gameOver() {
@@ -248,7 +229,7 @@ class Homework {
         switch (this.juegoActual) {
             case Juego.Oxidacion: {
                 this.gameOverDialog!.innerHTML += `
-                <small>El número de oxidación del ${this.elementoPregunta.nombre} - ${this.elementoPregunta.simbolo} era <span class="resultado-number">${this.elementoPregunta.num_oxidacion}</span>.</small><br>
+                <small>El número de oxidación del ${elementoPregunta.nombre} - ${elementoPregunta.simbolo} era <span class="resultado-number">${elementoPregunta.num_oxidacion}</span>.</small><br>
                 <form method="dialog">
                     <button class="empezar">OK</button>
                 </form>
@@ -275,7 +256,7 @@ class Homework {
             }
             case Juego.EnglishVocabulary: {
                 this.gameOverDialog!.innerHTML += `
-                <small>La respuesta correcta era <span class="resultado-number">${englishVocabulary.englishWordPregunta.texto}</span>.</small><br>
+                <small>La respuesta correcta era <span class="resultado-number">${englishWordPregunta.texto}</span>.</small><br>
                 <form method="dialog">
                     <button class="empezar">OK</button>
                 </form>
@@ -333,7 +314,7 @@ class Homework {
     // Retos
     crearReto() {
         this.juegoActual = Juego.Reto;
-        generic.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
+        mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
         this.mostrarRecord();
 
         let nombres: string[] = ['Jon', 'Adri', 'Yago', 'Jacob', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'Maria',
@@ -384,23 +365,23 @@ class Homework {
             }
         ];
 
-        let nombres_elegidos = generic.getRandomElements(nombres, 2);
+        let nombres_elegidos = getRandomElements(nombres, 2);
 
         let nombre_a = nombres_elegidos[0];
         let nombre_b = nombres_elegidos[1];
 
-        let cosa_x = cosas[generic.randomNumber(cosas.length)];
+        let cosa_x = cosas[randomNumber(cosas.length)];
 
-        let operacionAzar: number = generic.randomNumber(2);
-        this.valor_a = generic.randomNumber(11);
+        let operacionAzar: number = randomNumber(2);
+        this.valor_a = randomNumber(11);
 
         if (operacionAzar === 0) {
             this.operacion = "+";
-            this.valor_b = generic.randomNumber(11);
+            this.valor_b = randomNumber(11);
         } else {
             this.operacion = "-";
-            this.valor_a = generic.randomNumber(11, 2);
-            this.valor_b = generic.randomNumber(this.valor_a, 1);
+            this.valor_a = randomNumber(11, 2);
+            this.valor_b = randomNumber(this.valor_a, 1);
         }
 
         this.zonaJuego!.innerHTML = `
@@ -456,17 +437,17 @@ class Homework {
     crearOperacion() {
         this.juegoActual = Juego.SumaResta;
         this.mostrarRecord();
-        generic.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
-        let operacionAzar: number = generic.randomNumber(2);
-        this.valor_a = generic.randomNumber(11);
+        mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
+        let operacionAzar: number = randomNumber(2);
+        this.valor_a = randomNumber(11);
 
         if (operacionAzar === 0) {
             this.operacion = "+";
-            this.valor_b = generic.randomNumber(11);
+            this.valor_b = randomNumber(11);
         } else {
             this.operacion = "-";
-            this.valor_a = generic.randomNumber(11, 2);
-            this.valor_b = generic.randomNumber(this.valor_a);
+            this.valor_a = randomNumber(11, 2);
+            this.valor_b = randomNumber(this.valor_a);
         }
 
         this.zonaJuego!.innerHTML = `
@@ -488,320 +469,6 @@ class Homework {
         (<HTMLInputElement>document.getElementById(`input-respuesta`))?.focus();
     }
 
-    // oxidacion
-    elementos: Elemento[] = [
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Litio',
-            simbolo: 'Li',
-            num_oxidacion: '1'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Sodio',
-            simbolo: 'Na',
-            num_oxidacion: '1'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Potasio',
-            simbolo: 'K',
-            num_oxidacion: '1'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Rubidio',
-            simbolo: 'Rb',
-            num_oxidacion: '1'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Cesio',
-            simbolo: 'Cs',
-            num_oxidacion: '1'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Francio',
-            simbolo: 'Fr',
-            num_oxidacion: '1'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Plata',
-            simbolo: 'Ag',
-            num_oxidacion: '1'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Amonio',
-            simbolo: 'NH4',
-            num_oxidacion: '1'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Berilio',
-            simbolo: 'Be',
-            num_oxidacion: '2'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Magnesio',
-            simbolo: 'Mg',
-            num_oxidacion: '2'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Calcio',
-            simbolo: 'Ca',
-            num_oxidacion: '2'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Estroncio',
-            simbolo: 'Sr',
-            num_oxidacion: '2'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Bario',
-            simbolo: 'Ba',
-            num_oxidacion: '2'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Radio',
-            simbolo: 'Ra',
-            num_oxidacion: '2'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Cinc',
-            simbolo: 'Zn',
-            num_oxidacion: '2'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Cadmio',
-            simbolo: 'Cd',
-            num_oxidacion: '2'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Aluminio',
-            simbolo: 'Al',
-            num_oxidacion: '3'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Cobre',
-            simbolo: 'CU',
-            num_oxidacion: '1 2'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Mercurio',
-            simbolo: 'Hg',
-            num_oxidacion: '1 2'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Oro',
-            simbolo: 'AU',
-            num_oxidacion: '1 3'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Cromo',
-            simbolo: 'Cr',
-            num_oxidacion: '2 3'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Manganeso',
-            simbolo: 'Mn',
-            num_oxidacion: '2 3'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Hierro',
-            simbolo: 'Fe',
-            num_oxidacion: '2 3'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Cobalto',
-            simbolo: 'Co',
-            num_oxidacion: '2 3'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Níquel',
-            simbolo: 'Ni',
-            num_oxidacion: '2 3'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Estaño',
-            simbolo: 'Sn',
-            num_oxidacion: '2 4'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Plomo',
-            simbolo: 'Pb',
-            num_oxidacion: '2 4'
-        },
-        {
-            tipo: ElementoTipo.metal,
-            nombre: 'Platino',
-            simbolo: 'Pt',
-            num_oxidacion: '2 4'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Hidrógeno',
-            simbolo: 'H',
-            num_oxidacion: '1 -1'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Flúor',
-            simbolo: 'F',
-            num_oxidacion: '-1'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Cloro',
-            simbolo: 'Cl',
-            num_oxidacion: '1 3 5 7 -1'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Bromo',
-            simbolo: 'Br',
-            num_oxidacion: '1 3 5 7 -1'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Yodo',
-            simbolo: 'I',
-            num_oxidacion: '1 3 5 7 -1'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Oxígeno',
-            simbolo: 'O',
-            num_oxidacion: '-2 -1'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Azufre',
-            simbolo: 'S',
-            num_oxidacion: '2 4 6 -2'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Selenio',
-            simbolo: 'Se',
-            num_oxidacion: '2 4 6 -2'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Teluro',
-            simbolo: 'Te',
-            num_oxidacion: '2 4 6 -2'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Nitrógeno',
-            simbolo: 'N',
-            num_oxidacion: '1 2 3 4 5 -3'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Fósforo',
-            simbolo: 'P',
-            num_oxidacion: '1 3 5 -3'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Arsénico',
-            simbolo: 'As',
-            num_oxidacion: '3 5 -3'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Antimonio',
-            simbolo: 'Sb',
-            num_oxidacion: '3 5 -3'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Boro',
-            simbolo: 'B',
-            num_oxidacion: '3 -3'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Bismuto',
-            simbolo: 'Bi',
-            num_oxidacion: '3 5'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Carbono',
-            simbolo: 'C',
-            num_oxidacion: '2 4 -4'
-        },
-        {
-            tipo: ElementoTipo["no metal"],
-            nombre: 'Silicio',
-            simbolo: 'Si',
-            num_oxidacion: '4 -4'
-        }
-    ];
-
-    Oxidacion() {
-        this.juegoActual = Juego.Oxidacion;
-        this.mostrarRecord();
-        generic.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
-
-        this.elementoPregunta = this.elementos[generic.randomNumber(this.elementos.length)];
-
-        this.zonaJuego!.innerHTML = `
-        <p>¿Cuál es número de oxidación del <span class="puntos-numero">${this.elementoPregunta.nombre} - ${this.elementoPregunta.simbolo}</span>?</p>
-        `
-        this.zonaJuego!.innerHTML += `
-        <form id="calculo">
-            <input type="text" id="input-respuesta" name="respuesta" class="respuesta respuesta-larga">
-            <button type="button" id="boton-calcular-oxidacion" class="boton-calcular">&#9166;</button>
-        </form>
-        `;
-
-        (<HTMLInputElement>document.getElementById(`boton-calcular-oxidacion`))?.addEventListener("click", () => {
-            this.resolverOxidacion();
-        });
-
-        (<HTMLInputElement>document.getElementById(`input-respuesta`))?.addEventListener("input", () => {
-            this.quitarError();
-        });
-
-        (<HTMLInputElement>document.getElementById(`input-respuesta`))?.focus();
-    }
-
-    resolverOxidacion() {
-        let respuestaOxidacion: string | number = (<HTMLInputElement>document.getElementById(`input-respuesta`)).value;
-
-        if (this.vidas > 0 && respuestaOxidacion) {
-            if (respuestaOxidacion === this.elementoPregunta.num_oxidacion) {
-                this.acertar();
-                this.Oxidacion();
-            } else {
-                this.fallar();
-            }
-        }
-    }
 
     // Métodos genéricos
     animar(animado: HTMLElement | null) {

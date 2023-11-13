@@ -6,7 +6,7 @@
     
     <title>Aprende jugando</title>
     <link rel="icon" type="image/x-icon" href="/assets/favicon-ab0b14f6.ico">
-  <script type="module" crossorigin src="/assets/index-79b5e351.js"></script>
+  <script type="module" crossorigin src="/assets/index-5030871c.js"></script>
   <link rel="stylesheet" href="/assets/index-eff3878b.css">
 </head>
 
@@ -19,31 +19,28 @@
     gtag('config', 'G-JQSY9FBS8R');
 </script>
 
+
 <body>
+    <div id="app"></div>
     <dialog id="game-over" class="game-over">
     </dialog>
     <img src="/assets/buho-b4b1f4fc.png" alt="" width="590x" height="" class="fondo">
     <div class="contenedor">
-        <button id="close-button" class="empezar" onclick="homeWork.gameOver();">X</button>
+        <button id="close-button" class="empezar">X</button>
         <div id="vidas-numero" class="vidas-numero"></div>
         <div class="juego">
             <div id="zona-juego"></div>
             <div id="empezar">
                 <h2>Juegos de Primaria</h2>
                 <ul>
-                    <li><button class="empezar"
-                            onclick="homeWork.crearReto();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Retos
-                            de mates</button>
+                    <li>
+                        <button id="boton-retos" class="empezar">Retos de mates</button>
                     </li>
                     <li>
-                        <button class="empezar"
-                            onclick="homeWork.crearOperacion();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Sumas
-                            y
-                            restas</button>
+                        <button id="boton-sumaResta" class="empezar">Sumas y restas</button>
                     </li>
                     <li>
-                        <button class="empezar"
-                            onclick="homeWork.crearEnglishVocabulary();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">English</button>
+                        <button id="boton-englishVocabulary" class="empezar">English</button>
                     </li>
                 </ul>
             </div>
@@ -52,8 +49,8 @@
         <div id="record" class="record">Tu record: <span id="puntos-record" class="puntos-numero"></span></div>
     </div>
 
-    <button id="boton-oxidacion" class="empezar"
-        onclick="homeWork.Oxidacion();homeWork.resetearVidasPuntos();homeWork.esconder(['empezar']);homeWork.esconder(['boton-oxidacion'])">Oxidación</button>
+    <button id="boton-oxidacion" class="empezar">Oxidación</button>
+
 </body>
 
 
