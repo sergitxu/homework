@@ -3,8 +3,8 @@
 
 import { englishWordPregunta, crearEnglishVocabulary } from './modules/english/EnglishVocabulary.ts';
 import { esconder, mostrar, preloadMP3, sonar, animar } from './modules/generic.ts';
-import { calcular, resultado } from './modules/math.ts';
-import { elementoPregunta, oxidacion, resolverOxidacion } from './modules/oxidacion/oxidacion.ts';
+import { resultado } from './modules/math.ts';
+import { elementoPregunta, oxidacion } from './modules/oxidacion/oxidacion.ts';
 import { crearReto, operacion_reto, valor_a_reto, valor_b_reto } from './modules/reto/reto.ts';
 import { crearOperacion, operacion_sumaresta, valor_a_sumaresta, valor_b_sumaresta } from './modules/sumaResta.ts';
 
