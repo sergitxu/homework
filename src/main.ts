@@ -3,7 +3,10 @@
 // TODO organizar juegos por temática / edad.
 // TODO crear url por edad
 
-enum Juego {
+import * as englishVocabulary from './english/EnglishVocabulary.ts';
+import * as generic from './generic.ts';
+
+export enum Juego {
     Reto, SumaResta, Oxidacion, EnglishVocabulary
 }
 enum Genero {
@@ -26,20 +29,9 @@ interface Elemento {
     simbolo?: string,
     num_oxidacion: string
 }
-enum WordTipo {
-    colegio, juguetes, colores, numeros, dias, adjetivos, familia, otros
-}
-
-interface EnglishWord {
-    tipo: WordTipo,
-    texto: string,
-    textoEspañol: string,
-    imagen?: string,
-}
 
 class Homework {
     VIDAS_INICIALES: number = 3;
-    AUDIO_CANTIDAD: number = 7;
     HOST = 'https://sergitxu.github.io/homework';
     HOSTLOCAL = '.';
 
@@ -48,7 +40,7 @@ class Homework {
     vidas: number = this.VIDAS_INICIALES;
     resultado: number = 0;
     zonaJuego = document.getElementById('zona-juego');
-    valor_a: number = this.randomNumber(11);
+    valor_a: number = generic.randomNumber(11);
     valor_b: number = 0;
     operacion: string = '+';
     gameOverDialog: HTMLDialogElement = (<HTMLDialogElement>document.getElementById('game-over'));
@@ -59,7 +51,6 @@ class Homework {
     startEnglishVocabulary: HTMLElement | null = document.getElementById('boton-englishVocabulary');
     startOxidacion: HTMLElement | null = document.getElementById('boton-oxidacion');
     closeButton: HTMLElement | null = document.getElementById('close-button');
-    calcularButton: HTMLElement | null = document.getElementById('calcular-button');
     inputRespuesta: HTMLElement | null = document.getElementById('input-respuesta');
     hayNuevoRecordPersonal: boolean = false;
     recordPersonalReto = localStorage.getItem('record-reto');
@@ -74,17 +65,10 @@ class Homework {
         num_oxidacion: ''
     }
 
-    englishWordPregunta: EnglishWord = {
-        tipo: WordTipo.colegio,
-        texto: '',
-        textoEspañol: '',
-        imagen: ''
-    }
-
     constructor() {
         this.actualizarPuntos();
         this.actualizarVidas();
-        this.preloadMP3();
+        generic.preloadMP3();
 
         addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && this.juegoActual !== Juego.Oxidacion) {
@@ -101,27 +85,23 @@ class Homework {
         });
 
         this.startRetos?.addEventListener("click", () => {
-            this.crearReto(); this.resetearVidasPuntos(); this.esconder(['empezar']); this.esconder(['boton-oxidacion']);
+            this.crearReto(); this.resetearVidasPuntos(); generic.esconder(['empezar']); generic.esconder(['boton-oxidacion']);
         });
 
         this.startSumasRestas?.addEventListener("click", () => {
-            this.crearOperacion(); this.resetearVidasPuntos(); this.esconder(['empezar']); this.esconder(['boton-oxidacion']);
+            this.crearOperacion(); this.resetearVidasPuntos(); generic.esconder(['empezar']); generic.esconder(['boton-oxidacion']);
         });
 
         this.startEnglishVocabulary?.addEventListener("click", () => {
-            this.crearEnglishVocabulary(); this.resetearVidasPuntos(); this.esconder(['empezar']); this.esconder(['boton-oxidacion']);
+            englishVocabulary.crearEnglishVocabulary(); this.resetearVidasPuntos(); generic.esconder(['empezar']); generic.esconder(['boton-oxidacion']);
         });
 
         this.startOxidacion?.addEventListener("click", () => {
-            this.Oxidacion(); this.resetearVidasPuntos(); this.esconder(['empezar']); this.esconder(['boton-oxidacion']);
+            this.Oxidacion(); this.resetearVidasPuntos(); generic.esconder(['empezar']); generic.esconder(['boton-oxidacion']);
         });
 
         this.closeButton?.addEventListener("click", () => {
             this.gameOver();
-        });
-
-        this.calcularButton?.addEventListener("click", () => {
-            this.calcular();
         });
 
     }
@@ -154,8 +134,8 @@ class Homework {
 
     reiniciarJuego() {
         this.resetearVidasPuntos();
-        this.esconder(['zona-juego', 'vidas-numero', 'puntos', 'record', 'close-button']);
-        this.mostrar(['empezar', 'boton-oxidacion']);
+        generic.esconder(['zona-juego', 'vidas-numero', 'puntos', 'record', 'close-button']);
+        generic.mostrar(['empezar', 'boton-oxidacion']);
     }
 
     mostrarRecord() {
@@ -163,7 +143,7 @@ class Homework {
             case Juego.Reto: {
                 if (this.recordPersonalReto) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalReto;
-                    this.mostrar(['record']);
+                    generic.mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -172,7 +152,7 @@ class Homework {
             case Juego.SumaResta: {
                 if (this.recordPersonalSumaResta) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalSumaResta;
-                    this.mostrar(['record']);
+                    generic.mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -181,7 +161,7 @@ class Homework {
             case Juego.Oxidacion: {
                 if (this.recordPersonalOxidacion) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalOxidacion;
-                    this.mostrar(['record']);
+                    generic.mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -190,7 +170,7 @@ class Homework {
             case Juego.EnglishVocabulary: {
                 if (this.recordPersonalEnglish) {
                     document.getElementById('puntos-record')!.innerText = this.recordPersonalEnglish;
-                    this.mostrar(['record']);
+                    generic.mostrar(['record']);
                 } else {
                     this.hayNuevoRecordPersonal = false;
                 }
@@ -236,7 +216,7 @@ class Homework {
         this.puntos++;
         this.actualizarPuntos();
         this.animar(this.puntosNumero);
-        this.sonar('acierto');
+        generic.sonar('acierto');
     }
 
     fallar() {
@@ -244,13 +224,13 @@ class Homework {
         this.vidas--;
         this.actualizarVidas();
         this.animar(this.vidasNumero);
-        this.sonar('error');
+        generic.sonar('error');
     }
 
     gameOver() {
         this.manejarRecord();
-        if ((<HTMLButtonElement>document.getElementById('calcularBoton'))) {
-            (<HTMLButtonElement>document.getElementById('calcularBoton')).disabled = true;
+        if ((<HTMLButtonElement>document.getElementById('boton-calcular'))) {
+            (<HTMLButtonElement>document.getElementById('boton-calcular')).disabled = true;
         }
         this.gameOverDialog?.showModal();
         this.gameOverDialog!.innerHTML = `<h1>¡ENHORABUENA!</h1>`;
@@ -295,7 +275,7 @@ class Homework {
             }
             case Juego.EnglishVocabulary: {
                 this.gameOverDialog!.innerHTML += `
-                <small>La respuesta correcta era <span class="resultado-number">${this.englishWordPregunta.texto}</span>.</small><br>
+                <small>La respuesta correcta era <span class="resultado-number">${englishVocabulary.englishWordPregunta.texto}</span>.</small><br>
                 <form method="dialog">
                     <button class="empezar">OK</button>
                 </form>
@@ -353,7 +333,7 @@ class Homework {
     // Retos
     crearReto() {
         this.juegoActual = Juego.Reto;
-        this.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
+        generic.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
         this.mostrarRecord();
 
         let nombres: string[] = ['Jon', 'Adri', 'Yago', 'Jacob', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'Maria',
@@ -404,23 +384,23 @@ class Homework {
             }
         ];
 
-        let nombres_elegidos = this.getRandomElements(nombres, 2);
+        let nombres_elegidos = generic.getRandomElements(nombres, 2);
 
         let nombre_a = nombres_elegidos[0];
         let nombre_b = nombres_elegidos[1];
 
-        let cosa_x = cosas[this.randomNumber(cosas.length)];
+        let cosa_x = cosas[generic.randomNumber(cosas.length)];
 
-        let operacionAzar: number = this.randomNumber(2);
-        this.valor_a = this.randomNumber(11);
+        let operacionAzar: number = generic.randomNumber(2);
+        this.valor_a = generic.randomNumber(11);
 
         if (operacionAzar === 0) {
             this.operacion = "+";
-            this.valor_b = this.randomNumber(11);
+            this.valor_b = generic.randomNumber(11);
         } else {
             this.operacion = "-";
-            this.valor_a = this.randomNumber(11, 2);
-            this.valor_b = this.randomNumber(this.valor_a, 1);
+            this.valor_a = generic.randomNumber(11, 2);
+            this.valor_b = generic.randomNumber(this.valor_a, 1);
         }
 
         this.zonaJuego!.innerHTML = `
@@ -465,6 +445,10 @@ class Homework {
         </form>
         `;
 
+        document.getElementById(`boton-calcular`)?.addEventListener("click", () => {
+            this.calcular();
+        });
+
         document.getElementById(`input-respuesta`)?.focus();
     }
 
@@ -472,17 +456,17 @@ class Homework {
     crearOperacion() {
         this.juegoActual = Juego.SumaResta;
         this.mostrarRecord();
-        this.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
-        let operacionAzar: number = this.randomNumber(2);
-        this.valor_a = this.randomNumber(11);
+        generic.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
+        let operacionAzar: number = generic.randomNumber(2);
+        this.valor_a = generic.randomNumber(11);
 
         if (operacionAzar === 0) {
             this.operacion = "+";
-            this.valor_b = this.randomNumber(11);
+            this.valor_b = generic.randomNumber(11);
         } else {
             this.operacion = "-";
-            this.valor_a = this.randomNumber(11, 2);
-            this.valor_b = this.randomNumber(this.valor_a);
+            this.valor_a = generic.randomNumber(11, 2);
+            this.valor_b = generic.randomNumber(this.valor_a);
         }
 
         this.zonaJuego!.innerHTML = `
@@ -497,352 +481,11 @@ class Homework {
         </form>
         `;
 
+        document.getElementById(`boton-calcular`)?.addEventListener("click", () => {
+            this.calcular();
+        });
+
         (<HTMLInputElement>document.getElementById(`input-respuesta`))?.focus();
-    }
-
-    // English vocabulary
-    englishWords: EnglishWord[] = [
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Rubber',
-            textoEspañol: 'Goma de borrar',
-            imagen: 'rubber.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Pencil',
-            textoEspañol: 'Lápiz',
-            imagen: 'pencil.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Pencil case',
-            textoEspañol: 'Estuche',
-            imagen: 'pencil-case.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Pencil sharpener',
-            textoEspañol: 'Sacapuntas',
-            imagen: 'pencil-sharpener.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Glue',
-            textoEspañol: 'Pegamento',
-            imagen: 'glue.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Crayonnes',
-            textoEspañol: 'Pinturas',
-            imagen: 'crayonnes.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Cook',
-            textoEspañol: 'Cocinero',
-            imagen: 'cook.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Teacher',
-            textoEspañol: 'Profesor',
-            imagen: 'teacher.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Librarian',
-            textoEspañol: 'Bibliotecaria',
-            imagen: 'librarian.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Care taker',
-            textoEspañol: 'Bedel',
-            imagen: 'care-taker.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Toilets',
-            textoEspañol: 'Baños',
-            imagen: 'toilets.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Library',
-            textoEspañol: 'biblioteca',
-            imagen: 'library.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Classroom',
-            textoEspañol: 'Clase',
-            imagen: 'class-room.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Dining room',
-            textoEspañol: 'Comedor',
-            imagen: 'dinning-room.jpeg'
-        },
-        {
-            tipo: WordTipo.colegio,
-            texto: 'Playground',
-            textoEspañol: 'Patio de juego',
-            imagen: 'playground.jpeg'
-        },
-        {
-            tipo: WordTipo.juguetes,
-            texto: 'Doll',
-            textoEspañol: 'Muñeca',
-            imagen: 'doll.jpeg'
-        },
-        {
-            tipo: WordTipo.juguetes,
-            texto: 'Ball',
-            textoEspañol: 'Pelota',
-            imagen: 'ball.jpeg'
-        },
-        {
-            tipo: WordTipo.juguetes,
-            texto: 'Kite',
-            textoEspañol: 'Cometa',
-            imagen: 'kite.jpeg'
-        },
-        {
-            tipo: WordTipo.juguetes,
-            texto: 'Bike',
-            textoEspañol: 'Bici',
-            imagen: 'bike.jpeg'
-        },
-        {
-            tipo: WordTipo.juguetes,
-            texto: 'Car',
-            textoEspañol: 'Coche',
-            imagen: 'car.jpeg'
-        },
-        {
-            tipo: WordTipo.juguetes,
-            texto: 'Scooter',
-            textoEspañol: 'Patinete',
-            imagen: 'scooter.jpeg'
-        },
-        {
-            tipo: WordTipo.juguetes,
-            texto: 'Game',
-            textoEspañol: 'Juego',
-            imagen: 'game.jpeg'
-        },
-        {
-            tipo: WordTipo.colores,
-            texto: 'Red',
-            textoEspañol: 'Rojo'
-        },
-        {
-            tipo: WordTipo.colores,
-            texto: 'Orange',
-            textoEspañol: 'Naranja'
-        },
-        {
-            tipo: WordTipo.colores,
-            texto: 'Black',
-            textoEspañol: 'Negro'
-        },
-        {
-            tipo: WordTipo.colores,
-            texto: 'Blue',
-            textoEspañol: 'Azul'
-        },
-        {
-            tipo: WordTipo.colores,
-            texto: 'Green',
-            textoEspañol: 'Verde'
-        },
-        {
-            tipo: WordTipo.colores,
-            texto: 'White',
-            textoEspañol: 'Blanco'
-        },
-        {
-            tipo: WordTipo.colores,
-            texto: 'Pink',
-            textoEspañol: 'Rosa'
-        },
-        {
-            tipo: WordTipo.numeros,
-            texto: 'One',
-            textoEspañol: 'Uno'
-        },
-        {
-            tipo: WordTipo.numeros,
-            texto: 'Two',
-            textoEspañol: 'Dos'
-        },
-        {
-            tipo: WordTipo.numeros,
-            texto: 'Three',
-            textoEspañol: 'Tres'
-        },
-        {
-            tipo: WordTipo.numeros,
-            texto: 'Four',
-            textoEspañol: 'Cuatro'
-        },
-        {
-            tipo: WordTipo.numeros,
-            texto: 'Five',
-            textoEspañol: 'Cinco'
-        },
-        {
-            tipo: WordTipo.dias,
-            texto: 'Monday',
-            textoEspañol: 'Lunes'
-        },
-        {
-            tipo: WordTipo.dias,
-            texto: 'Tuesday',
-            textoEspañol: 'Martes'
-        },
-        {
-            tipo: WordTipo.dias,
-            texto: 'Wednesday',
-            textoEspañol: 'Miércoles'
-        },
-        {
-            tipo: WordTipo.dias,
-            texto: 'Thursday',
-            textoEspañol: 'Jueves'
-        },
-        {
-            tipo: WordTipo.dias,
-            texto: 'Friday',
-            textoEspañol: 'Viernes'
-        },
-        {
-            tipo: WordTipo.dias,
-            texto: 'Saturday',
-            textoEspañol: 'Sábado'
-        },
-        {
-            tipo: WordTipo.dias,
-            texto: 'Sunday',
-            textoEspañol: 'Domingo'
-        },
-        {
-            tipo: WordTipo.adjetivos,
-            texto: 'New',
-            textoEspañol: 'Nuevo'
-        },
-        {
-            tipo: WordTipo.adjetivos,
-            texto: 'Big',
-            textoEspañol: 'Grande'
-        },
-        {
-            tipo: WordTipo.adjetivos,
-            texto: 'Small',
-            textoEspañol: 'Pequeño'
-        },
-        {
-            tipo: WordTipo.adjetivos,
-            texto: 'Fast',
-            textoEspañol: 'Rápido'
-        },
-        {
-            tipo: WordTipo.adjetivos,
-            texto: 'Slow',
-            textoEspañol: 'Lento'
-        },
-        {
-            tipo: WordTipo.familia,
-            texto: 'Brother',
-            textoEspañol: 'Hermano'
-        },
-        {
-            tipo: WordTipo.familia,
-            texto: 'Sister',
-            textoEspañol: 'Hermana'
-        },
-        {
-            tipo: WordTipo.familia,
-            texto: 'Mum',
-            textoEspañol: 'Mamá'
-        },
-        {
-            tipo: WordTipo.familia,
-            texto: 'Dad',
-            textoEspañol: 'Papá'
-        },
-        {
-            tipo: WordTipo.otros,
-            texto: 'Alien',
-            textoEspañol: '',
-            imagen: 'alien.jpeg'
-        },
-        {
-            tipo: WordTipo.otros,
-            texto: 'Button',
-            textoEspañol: '',
-            imagen: 'button.jpeg'
-        },
-        {
-            tipo: WordTipo.otros,
-            texto: 'Robot',
-            textoEspañol: '',
-            imagen: 'robot.jpeg'
-        },
-    ]
-
-    crearEnglishVocabulary() {
-        const RESPUESTAS_NUM = 3;
-
-        this.juegoActual = Juego.EnglishVocabulary;
-        this.mostrarRecord();
-        this.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
-
-        this.englishWordPregunta = this.englishWords[this.randomNumber(this.englishWords.length)];
-
-        let englishWordsTema = this.englishWords.filter(word => word.tipo === this.englishWordPregunta.tipo);
-
-        let englishWords_elegidas: EnglishWord[] = this.getRandomElements(englishWordsTema, RESPUESTAS_NUM);
-
-        this.englishWordPregunta = englishWords_elegidas[0];
-
-        this.shuffleArray(englishWords_elegidas);
-
-        if (this.englishWordPregunta.imagen) {
-            this.zonaJuego!.innerHTML = `
-            <h3>What is this?</h3>
-            <img src="${this.HOST}/img/englishWords/${this.englishWordPregunta.imagen}" alt="" class="pregunta-imagen" loading="lazy">
-            `
-        } else {
-            this.zonaJuego!.innerHTML = `
-            <h3>Translate to English</h3>
-            <p class="puntos-numero">${this.englishWordPregunta.textoEspañol}</p>
-            `
-        }
-        for (let i = 0; i < RESPUESTAS_NUM; i++) {
-            this.zonaJuego!.innerHTML += `
-            <button type="button" id="calcularBoton${i}" class="boton-calcular">${englishWords_elegidas[i].texto}</button>
-            `
-        }
-        for (let i = 0; i < RESPUESTAS_NUM; i++) {
-            document.getElementById(`calcularBoton${i}`)?.addEventListener("click", () => {
-                this.resolverEnglishVocabulary(i);
-            });
-        }
-    }
-
-    resolverEnglishVocabulary(respuesta: number) {
-        if (this.vidas > 0) {
-            if (document.getElementById('calcularBoton' + respuesta)?.innerHTML === this.englishWordPregunta.texto) {
-                this.acertar();
-                this.crearEnglishVocabulary();
-            } else {
-                this.fallar();
-            }
-        }
     }
 
     // oxidacion
@@ -1122,9 +765,9 @@ class Homework {
     Oxidacion() {
         this.juegoActual = Juego.Oxidacion;
         this.mostrarRecord();
-        this.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
+        generic.mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
 
-        this.elementoPregunta = this.elementos[this.randomNumber(this.elementos.length)];
+        this.elementoPregunta = this.elementos[generic.randomNumber(this.elementos.length)];
 
         this.zonaJuego!.innerHTML = `
         <p>¿Cuál es número de oxidación del <span class="puntos-numero">${this.elementoPregunta.nombre} - ${this.elementoPregunta.simbolo}</span>?</p>
@@ -1172,82 +815,7 @@ class Homework {
     quitarError() {
         (<HTMLInputElement>document.getElementById(`input-respuesta`))?.classList.remove('error');
     }
-
-    randomNumber(lessThan: number, min = 0) {
-        return Math.floor(Math.random() * (lessThan - min)) + min;
-    }
-
-    getRandomElements(array: any, n: number) {
-        var result = new Array(n),
-            len = array.length,
-            taken = new Array(len);
-        if (n > len)
-            throw new RangeError("getRandom: more elements taken than available");
-        while (n--) {
-            var x = this.randomNumber(len);
-            result[n] = array[x in taken ? taken[x] : x];
-            taken[x] = --len in taken ? taken[len] : len;
-        }
-        return result;
-    }
-
-    shuffleArray(array: any) {
-        let currentIndex = array.length, randomIndex;
-
-        // While there remain elements to shuffle.
-        while (currentIndex > 0) {
-
-            // Pick a remaining element.
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-
-            // And swap it with the current element.
-            [array[currentIndex], array[randomIndex]] = [
-                array[randomIndex], array[currentIndex]];
-        }
-
-        return array;
-    }
-
-    esconder(paraEsconder: string[]) {
-        for (let i = 0; i < paraEsconder.length; i++) {
-            document.getElementById(paraEsconder[i])!.style.display = 'none';
-        }
-    }
-
-    mostrar(paraMostrar: string[]) {
-        for (let i = 0; i < paraMostrar.length; i++) {
-            document.getElementById(paraMostrar[i])!.style.display = 'block';
-        }
-    }
-
-    sonar(evento: string) {
-        let random = this.randomNumber(this.AUDIO_CANTIDAD);
-        let audio = new Audio(`/src/sound/${evento}/0${random}.mp3`);
-        audio.play();
-    }
-
-    preloadMP3() {
-        let audioFiles: HTMLAudioElement[] = [];
-
-        for (let i = 0; i <= this.AUDIO_CANTIDAD - 1; i++) {
-            let fileName: string = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
-            let audioAcierto: HTMLAudioElement = new Audio("/src/sound/acierto/" + fileName);
-            let audioError: HTMLAudioElement = new Audio("/src/sound/error/" + fileName);
-            audioAcierto.preload = "auto";
-            audioError.preload = "auto";
-            audioFiles.push(audioAcierto);
-            audioFiles.push(audioError);
-        }
-    }
-
-    borrarHTML(elementoHTML: HTMLElement) {
-        elementoHTML!.innerHTML = '';
-    }
-
-
-
 };
 
-const homeWork = new Homework();
+export const homeWork = new Homework();
 
