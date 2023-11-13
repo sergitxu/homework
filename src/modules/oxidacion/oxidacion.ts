@@ -1,5 +1,5 @@
 import { Juego, homeWork } from '../../main'
-import { mostrar, randomNumber } from '../generic';
+import { mostrar, quitarError, randomNumber } from '../generic';
 import { elementos } from './oxidacionElements';
 import { Elemento, ElementoTipo } from './oxidacionEnums';
 
@@ -14,6 +14,13 @@ export function oxidacion() {
     homeWork.juegoActual = Juego.Oxidacion;
     homeWork.mostrarRecord();
     mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
+
+    addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && homeWork.juegoActual === Juego.Oxidacion) {
+            e.preventDefault();
+            resolverOxidacion();
+        }
+    });
 
     elementoPregunta = elementos[randomNumber(elementos.length)];
 
@@ -32,7 +39,7 @@ export function oxidacion() {
     });
 
     (<HTMLInputElement>document.getElementById(`input-respuesta`))?.addEventListener("input", () => {
-        homeWork.quitarError();
+        quitarError();
     });
 
     (<HTMLInputElement>document.getElementById(`input-respuesta`))?.focus();

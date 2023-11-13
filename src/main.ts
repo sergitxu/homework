@@ -2,20 +2,14 @@
 // TODO organizar juegos por temática / edad.
 
 import { englishWordPregunta, crearEnglishVocabulary } from './modules/english/EnglishVocabulary.ts';
-import { esconder, getRandomElements, mostrar, preloadMP3, sonar, randomNumber } from './modules/generic.ts';
+import { esconder, mostrar, preloadMP3, sonar, animar } from './modules/generic.ts';
+import { calcular, resultado } from './modules/math.ts';
 import { elementoPregunta, oxidacion, resolverOxidacion } from './modules/oxidacion/oxidacion.ts';
+import { crearReto, operacion_reto, valor_a_reto, valor_b_reto } from './modules/reto/reto.ts';
+import { crearOperacion, operacion_sumaresta, valor_a_sumaresta, valor_b_sumaresta } from './modules/sumaResta.ts';
 
 export enum Juego {
     Reto, SumaResta, Oxidacion, EnglishVocabulary
-}
-enum Genero {
-    masculino, femenino
-}
-
-interface Cosa {
-    nombre_singular: string,
-    nombre_plural: string,
-    genero: Genero
 }
 
 class Homework {
@@ -26,11 +20,7 @@ class Homework {
     juegoActual: Juego = Juego.Reto;
     puntos: number = 0;
     vidas: number = this.VIDAS_INICIALES;
-    resultado: number = 0;
     zonaJuego = document.getElementById('zona-juego');
-    valor_a: number = randomNumber(11);
-    valor_b: number = 0;
-    operacion: string = '+';
     gameOverDialog: HTMLDialogElement = (<HTMLDialogElement>document.getElementById('game-over'));
     vidasNumero: HTMLElement | null = document.getElementById('vidas-numero');
     puntosNumero: HTMLElement | null = document.getElementById('puntos-numero');
@@ -39,7 +29,6 @@ class Homework {
     startEnglishVocabulary: HTMLElement | null = document.getElementById('boton-englishVocabulary');
     startOxidacion: HTMLElement | null = document.getElementById('boton-oxidacion');
     closeButton: HTMLElement | null = document.getElementById('close-button');
-    inputRespuesta: HTMLElement | null = document.getElementById('input-respuesta');
     hayNuevoRecordPersonal: boolean = false;
     recordPersonalReto = localStorage.getItem('record-reto');
     recordPersonalSumaResta = localStorage.getItem('record-sumaresta');
@@ -51,26 +40,16 @@ class Homework {
         this.actualizarVidas();
         preloadMP3();
 
-        addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && this.juegoActual !== Juego.Oxidacion) {
-                e.preventDefault();
-                this.calcular();
-            } else if (e.key === 'Enter' && this.juegoActual === Juego.Oxidacion) {
-                e.preventDefault();
-                resolverOxidacion();
-            }
-        });
-
         this.gameOverDialog.addEventListener("close", () => {
             this.reiniciarJuego();
         });
 
         this.startRetos?.addEventListener("click", () => {
-            this.crearReto(); this.resetearVidasPuntos(); esconder(['empezar']); esconder(['boton-oxidacion']);
+            crearReto(); this.resetearVidasPuntos(); esconder(['empezar']); esconder(['boton-oxidacion']);
         });
 
         this.startSumasRestas?.addEventListener("click", () => {
-            this.crearOperacion(); this.resetearVidasPuntos(); esconder(['empezar']); esconder(['boton-oxidacion']);
+            crearOperacion(); this.resetearVidasPuntos(); esconder(['empezar']); esconder(['boton-oxidacion']);
         });
 
         this.startEnglishVocabulary?.addEventListener("click", () => {
@@ -158,45 +137,12 @@ class Homework {
                 break;
             }
         }
-
-    }
-
-    calcular() {
-        (<HTMLInputElement>document.getElementById(`input-respuesta`)).addEventListener("input", () => {
-            this.quitarError();
-        });
-
-        let respuesta: string | number = (<HTMLInputElement>document.getElementById(`input-respuesta`)).value;
-
-        if (this.vidas > 0 && respuesta) {
-
-            respuesta = parseInt(respuesta);
-
-            if (this.operacion === '+') {
-                this.resultado = this.valor_a + this.valor_b;
-            } else if (this.operacion === '-') {
-                this.resultado = this.valor_a - this.valor_b;
-            } else (
-                console.error('No sé que operación es esa.')
-            )
-
-            if (respuesta === this.resultado) {
-                this.acertar();
-                if (this.juegoActual === Juego.SumaResta) {
-                    this.crearOperacion();
-                } else {
-                    this.crearReto();
-                }
-            } else {
-                this.fallar();
-            }
-        }
     }
 
     acertar() {
         this.puntos++;
         this.actualizarPuntos();
-        this.animar(this.puntosNumero);
+        animar(this.puntosNumero);
         sonar('acierto');
     }
 
@@ -204,7 +150,7 @@ class Homework {
         document.getElementById(`input-respuesta`)?.classList.add('error');
         this.vidas--;
         this.actualizarVidas();
-        this.animar(this.vidasNumero);
+        animar(this.vidasNumero);
         sonar('error');
     }
 
@@ -238,7 +184,7 @@ class Homework {
             }
             case Juego.Reto: {
                 this.gameOverDialog!.innerHTML += `
-                <small>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</small><br>
+                <small>La respuesta correcta a ${valor_a_reto} ${operacion_reto} ${valor_b_reto} era <span class="resultado-number">${resultado}</span>.</small><br>
                 <form method="dialog">
                     <button class="empezar">OK</button>
                 </form>
@@ -247,7 +193,7 @@ class Homework {
             }
             case Juego.SumaResta: {
                 this.gameOverDialog!.innerHTML += `
-                <small>La respuesta correcta a ${this.valor_a} ${this.operacion} ${this.valor_b} era <span class="resultado-number">${this.resultado}</span>.</small><br>
+                <small>La respuesta correcta a ${valor_a_sumaresta} ${operacion_sumaresta} ${valor_b_sumaresta} era <span class="resultado-number">${resultado}</span>.</small><br>
                 <form method="dialog">
                     <button class="empezar">OK</button>
                 </form>
@@ -309,178 +255,6 @@ class Homework {
                 break;
             }
         }
-    }
-
-    // Retos
-    crearReto() {
-        this.juegoActual = Juego.Reto;
-        mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
-        this.mostrarRecord();
-
-        let nombres: string[] = ['Jon', 'Adri', 'Yago', 'Jacob', 'Asher', 'Enzo', 'Ginebra', 'Eva', 'Daniela', 'Antonio', 'Maria',
-            'Xabi', 'Alba', 'Sophie', 'Valentina', 'Carla', 'Salomé', 'Jaime', 'Nicholas', 'Eva', 'Boris', 'Diana', 'Marina', 'Alex',
-            'Sergio', 'David', 'Leonor', 'Bruna', 'Alaia', 'Sofía', 'Ángela', 'Nor', 'Sarah', 'Valeria', 'David', 'Manuel', 'Paula',
-            'Fiorella', 'Martín', 'Noha', 'Samuel', 'Gabriel', 'Alicia', 'Sebastián', 'Noa', 'Ignacio', 'Emma'];
-
-        let cosas: Cosa[] = [
-            {
-                nombre_singular: 'carta pokemon',
-                nombre_plural: 'cartas pokemon',
-                genero: Genero.femenino
-            },
-            {
-                nombre_singular: 'balón',
-                nombre_plural: 'balones',
-                genero: Genero.masculino
-            },
-            {
-                nombre_singular: 'Bakugan',
-                nombre_plural: 'Bakugans',
-                genero: Genero.masculino
-            },
-            {
-                nombre_singular: 'cubo de Rubik',
-                nombre_plural: 'cubos de Rubik',
-                genero: Genero.masculino
-            },
-            {
-                nombre_singular: 'Superthing',
-                nombre_plural: 'Superthings',
-                genero: Genero.masculino
-            },
-            {
-                nombre_singular: 'Pokeball',
-                nombre_plural: 'Pokeballs',
-                genero: Genero.femenino
-            },
-            {
-                nombre_singular: 'muñeca',
-                nombre_plural: 'muñecas',
-                genero: Genero.femenino
-            },
-            {
-                nombre_singular: 'Bungee',
-                nombre_plural: 'Bungees',
-                genero: Genero.masculino
-            }
-        ];
-
-        let nombres_elegidos = getRandomElements(nombres, 2);
-
-        let nombre_a = nombres_elegidos[0];
-        let nombre_b = nombres_elegidos[1];
-
-        let cosa_x = cosas[randomNumber(cosas.length)];
-
-        let operacionAzar: number = randomNumber(2);
-        this.valor_a = randomNumber(11);
-
-        if (operacionAzar === 0) {
-            this.operacion = "+";
-            this.valor_b = randomNumber(11);
-        } else {
-            this.operacion = "-";
-            this.valor_a = randomNumber(11, 2);
-            this.valor_b = randomNumber(this.valor_a, 1);
-        }
-
-        this.zonaJuego!.innerHTML = `
-        ${nombre_a} tiene <span class="puntos-numero">${this.valor_a}</span> 
-        `
-        if (this.valor_a === 1) {
-            this.zonaJuego!.innerHTML += `
-            ${cosa_x.nombre_singular}.
-            `
-        } else {
-            this.zonaJuego!.innerHTML += `
-            ${cosa_x.nombre_plural}.
-            `
-        }
-
-        if (this.operacion === '+') {
-            this.zonaJuego!.innerHTML += `
-            <br>
-            ${nombre_b} le da <span class="puntos-numero">${this.valor_b}</span>.
-            `
-        } else if (this.operacion === '-') {
-            this.zonaJuego!.innerHTML += `
-            <br>
-            Pierde <span class="puntos-numero">${this.valor_b}</span>.
-            `
-        } else (
-            console.error('No sé que operación es esa.')
-        )
-
-        if (cosa_x.genero === Genero.masculino) {
-            this.zonaJuego!.innerHTML += `<br>¿Cuántos`
-        } else {
-            this.zonaJuego!.innerHTML += `<br>¿Cuántas`
-        }
-
-        this.zonaJuego!.innerHTML += `
-        ${cosa_x.nombre_plural} tiene ahora ${nombre_a}?
-        
-        <form id="calculo">
-            <input type="number" id="input-respuesta" name="respuesta" class="respuesta">
-            <button type="button" id="boton-calcular" class="boton-calcular">&#9166;</button>
-        </form>
-        `;
-
-        document.getElementById(`boton-calcular`)?.addEventListener("click", () => {
-            this.calcular();
-        });
-
-        document.getElementById(`input-respuesta`)?.focus();
-    }
-
-    // Operacion de sumas y restas
-    crearOperacion() {
-        this.juegoActual = Juego.SumaResta;
-        this.mostrarRecord();
-        mostrar(['vidas-numero', 'puntos', 'close-button', 'zona-juego']);
-        let operacionAzar: number = randomNumber(2);
-        this.valor_a = randomNumber(11);
-
-        if (operacionAzar === 0) {
-            this.operacion = "+";
-            this.valor_b = randomNumber(11);
-        } else {
-            this.operacion = "-";
-            this.valor_a = randomNumber(11, 2);
-            this.valor_b = randomNumber(this.valor_a);
-        }
-
-        this.zonaJuego!.innerHTML = `
-        <form id="calculo">
-            <span id="cifra-a" class="cifra">${this.valor_a}</span>
-            <span id="operacion" class="operacion">${this.operacion}</span>
-            <span id="cifra-b" class="cifra">${this.valor_b}</span>
-            <span class="cifra"> = </span>
-            <br>
-            <input type="number" id="input-respuesta" name="respuesta" class="respuesta">
-            <button type="button" id="boton-calcular" class="boton-calcular">&#9166;</button>
-        </form>
-        `;
-
-        document.getElementById(`boton-calcular`)?.addEventListener("click", () => {
-            this.calcular();
-        });
-
-        (<HTMLInputElement>document.getElementById(`input-respuesta`))?.focus();
-    }
-
-
-    // Métodos genéricos
-    animar(animado: HTMLElement | null) {
-        animado?.classList.add('animar');
-        setTimeout(() => {
-            animado?.classList.remove('animar');
-        }, 1000);
-
-    }
-
-    quitarError() {
-        (<HTMLInputElement>document.getElementById(`input-respuesta`))?.classList.remove('error');
     }
 };
 

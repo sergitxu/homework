@@ -67,3 +67,15 @@ export function preloadMP3() {
         audioFiles.push(audioError);
     }
 }
+
+export function animar(animado: HTMLElement | null) {
+    animado?.classList.add('animar');
+    setTimeout(() => {
+        animado?.classList.remove('animar');
+    }, 1000);
+
+}
+
+export function quitarError() {
+    (<HTMLInputElement>document.getElementById(`input-respuesta`))?.classList.remove('error');
+}
