@@ -1,4 +1,4 @@
-import { EnglishWord, WordTipo } from './EnglishEnums';
+import { EnglishWord, WordTipo } from './English.model';
 
 export let englishWords: EnglishWord[] = [
     {

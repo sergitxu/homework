@@ -1,8 +1,8 @@
 import { Juego, homeWork } from "../../main";
 import { getRandomElements, mostrar, randomNumber } from "../generic";
 import { calcular } from "../math";
-import { cosas } from "./retoData";
-import { Genero } from "./retoEnum";
+import { cosas } from "./reto.data";
+import { Genero } from "./reto.model";
 
 export let valor_a_reto: number;
 export let valor_b_reto: number;

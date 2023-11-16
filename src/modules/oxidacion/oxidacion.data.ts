@@ -1,4 +1,4 @@
-import { Elemento, ElementoTipo } from "./oxidacionEnums";
+import { Elemento, ElementoTipo } from "./oxidacion.model";
 
 export let elementos: Elemento[] = [
     {

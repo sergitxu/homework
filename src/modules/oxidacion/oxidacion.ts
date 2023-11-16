@@ -1,7 +1,7 @@
 import { Juego, homeWork } from '../../main'
 import { mostrar, quitarError, randomNumber } from '../generic';
-import { elementos } from './oxidacionElements';
-import { Elemento, ElementoTipo } from './oxidacionEnums';
+import { elementos } from './oxidacion.data';
+import { Elemento, ElementoTipo } from './oxidacion.model';
 
 export let elementoPregunta: Elemento = {
     tipo: ElementoTipo.metal,

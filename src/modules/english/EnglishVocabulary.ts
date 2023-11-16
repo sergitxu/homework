@@ -1,5 +1,5 @@
-import { EnglishWord, WordTipo } from './EnglishEnums';
-import { englishWords } from './EnglishWords'
+import { EnglishWord, WordTipo } from './English.model';
+import { englishWords } from './English.data'
 import { getRandomElements, mostrar, randomNumber, shuffleArray } from '../generic'
 import { Juego, homeWork } from '../../main';
 

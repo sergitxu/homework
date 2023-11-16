@@ -1,4 +1,4 @@
-import { Cosa, Genero } from './retoEnum'
+import { Cosa, Genero } from './reto.model'
 
 export let cosas: Cosa[] = [
     {
