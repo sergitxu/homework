@@ -10,8 +10,6 @@ export let englishWordPregunta: EnglishWord = {
     imagen: ''
 }
 
-// import imgUrl from '../../img/englishWords/'
-// document.getElementById('hero-img').src = imgUrl
 
 export function crearEnglishVocabulary() {
     const RESPUESTAS_NUM = 3;
@@ -32,7 +30,7 @@ export function crearEnglishVocabulary() {
     if (englishWordPregunta.imagen) {
         homeWork.zonaJuego!.innerHTML = `
         <h3>What is this?</h3>
-        <img src="../../img/englishWords/${englishWordPregunta.imagen}" alt="" class="pregunta-imagen" loading="lazy">
+        <img src="${homeWork.HOST}/public/img/englishWords/${englishWordPregunta.imagen}" alt="" class="pregunta-imagen" loading="lazy">
         `
     } else {
         homeWork.zonaJuego!.innerHTML = `
