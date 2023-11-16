@@ -12,10 +12,11 @@ export enum Juego {
     Reto, SumaResta, Oxidacion, EnglishVocabulary
 }
 
+export const HOST = 'https://sergitxu.github.io/homework';
+export const HOSTLOCAL = '.';
+
 class Homework {
     VIDAS_INICIALES: number = 3;
-    HOST = 'https://sergitxu.github.io/homework';
-    HOSTLOCAL = '.';
 
     juegoActual: Juego = Juego.Reto;
     puntos: number = 0;

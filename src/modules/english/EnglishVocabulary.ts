@@ -1,7 +1,7 @@
 import { EnglishWord, WordTipo } from './English.model';
 import { englishWords } from './English.data'
 import { getRandomElements, mostrar, randomNumber, shuffleArray } from '../generic'
-import { Juego, homeWork } from '../../main';
+import { HOST, Juego, homeWork } from '../../main';
 
 export let englishWordPregunta: EnglishWord = {
     tipo: WordTipo.colegio,
@@ -30,7 +30,7 @@ export function crearEnglishVocabulary() {
     if (englishWordPregunta.imagen) {
         homeWork.zonaJuego!.innerHTML = `
         <h3>What is this?</h3>
-        <img src="${homeWork.HOST}/img/englishWords/${englishWordPregunta.imagen}" alt="" class="pregunta-imagen" loading="lazy">
+        <img src="${HOST}/img/englishWords/${englishWordPregunta.imagen}" alt="" class="pregunta-imagen" loading="lazy">
         `
     } else {
         homeWork.zonaJuego!.innerHTML = `
