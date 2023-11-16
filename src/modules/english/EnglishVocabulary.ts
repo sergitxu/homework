@@ -30,7 +30,7 @@ export function crearEnglishVocabulary() {
     if (englishWordPregunta.imagen) {
         homeWork.zonaJuego!.innerHTML = `
         <h3>What is this?</h3>
-        <img src="${homeWork.HOST}/public/img/englishWords/${englishWordPregunta.imagen}" alt="" class="pregunta-imagen" loading="lazy">
+        <img src="${homeWork.HOST}/img/englishWords/${englishWordPregunta.imagen}" alt="" class="pregunta-imagen" loading="lazy">
         `
     } else {
         homeWork.zonaJuego!.innerHTML = `

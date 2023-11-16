@@ -50,7 +50,7 @@ export function mostrar(paraMostrar: string[]) {
 
 export function sonar(evento: string) {
     let random = randomNumber(AUDIO_CANTIDAD);
-    let audio = new Audio(`/src/sound/${evento}/0${random}.mp3`);
+    let audio = new Audio(`/sound/${evento}/0${random}.mp3`);
     audio.play();
 }
 
@@ -59,8 +59,8 @@ export function preloadMP3() {
 
     for (let i = 0; i <= AUDIO_CANTIDAD - 1; i++) {
         let fileName: string = i < 10 ? "0" + i + ".mp3" : i + ".mp3";
-        let audioAcierto: HTMLAudioElement = new Audio("/src/sound/acierto/" + fileName);
-        let audioError: HTMLAudioElement = new Audio("/src/sound/error/" + fileName);
+        let audioAcierto: HTMLAudioElement = new Audio("/sound/acierto/" + fileName);
+        let audioError: HTMLAudioElement = new Audio("/sound/error/" + fileName);
         audioAcierto.preload = "auto";
         audioError.preload = "auto";
         audioFiles.push(audioAcierto);
