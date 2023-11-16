@@ -10,6 +10,9 @@ export let englishWordPregunta: EnglishWord = {
     imagen: ''
 }
 
+// import imgUrl from '../../img/englishWords/'
+// document.getElementById('hero-img').src = imgUrl
+
 export function crearEnglishVocabulary() {
     const RESPUESTAS_NUM = 3;
 
@@ -22,7 +25,6 @@ export function crearEnglishVocabulary() {
     let englishWordsTema = englishWords.filter(word => word.tipo === englishWordPregunta.tipo);
 
     let englishWords_elegidas: EnglishWord[] = getRandomElements(englishWordsTema, RESPUESTAS_NUM);
-
     englishWordPregunta = englishWords_elegidas[0];
 
     shuffleArray(englishWords_elegidas);
@@ -30,7 +32,7 @@ export function crearEnglishVocabulary() {
     if (englishWordPregunta.imagen) {
         homeWork.zonaJuego!.innerHTML = `
         <h3>What is this?</h3>
-        <img src="${homeWork.HOST}/img/englishWords/${englishWordPregunta.imagen}" alt="" class="pregunta-imagen" loading="lazy">
+        <img src="../../img/englishWords/${englishWordPregunta.imagen}" alt="" class="pregunta-imagen" loading="lazy">
         `
     } else {
         homeWork.zonaJuego!.innerHTML = `
