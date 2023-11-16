@@ -11,7 +11,6 @@ export function calcular(valor_a: number, valor_b: number, operacion: string) {
     });
 
     let respuesta: string | number = (<HTMLInputElement>document.getElementById(`input-respuesta`)).value;
-    console.log(`respuesta: ${respuesta}`);
 
     if (homeWork.vidas > 0 && respuesta) {
 
