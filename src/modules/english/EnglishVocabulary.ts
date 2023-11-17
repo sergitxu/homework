@@ -21,6 +21,7 @@ export function crearEnglishVocabulary() {
     englishWordPregunta = englishWords[randomNumber(englishWords.length)];
 
     let englishWordsTema = englishWords.filter(word => word.tipo === englishWordPregunta.tipo);
+    // let englishWordsTema = englishWords.filter(word => word.tipo === WordTipo.humanBody);
 
     let englishWords_elegidas: EnglishWord[] = getRandomElements(englishWordsTema, RESPUESTAS_NUM);
     englishWordPregunta = englishWords_elegidas[0];

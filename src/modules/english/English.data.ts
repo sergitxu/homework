@@ -274,6 +274,108 @@ export let englishWords: EnglishWord[] = [
         textoEspañol: 'Papá'
     },
     {
+        tipo: WordTipo.humanBody,
+        texto: 'Head',
+        textoEspañol: 'Cabeza',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'Arm',
+        textoEspañol: 'Brazo',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'Hand',
+        textoEspañol: 'Mano',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'Leg',
+        textoEspañol: 'Pierna',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'Foot',
+        textoEspañol: 'Pie',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'Skull',
+        textoEspañol: 'Pie',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'shoulder',
+        textoEspañol: 'Pie',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'elbow',
+        textoEspañol: 'Pie',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'wrist',
+        textoEspañol: 'Pie',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'hip',
+        textoEspañol: 'Pie',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'knee',
+        textoEspañol: 'Pie',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'ankle',
+        textoEspañol: 'Pie',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'see (eyes)',
+        textoEspañol: 'Vista (Ojos)',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'hear (ears)',
+        textoEspañol: 'Oído (orejas)',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'Taste (mouth)',
+        textoEspañol: 'sabor (boca)',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'touch (hands)',
+        textoEspañol: 'tacto (manos)',
+        imagen: ''
+    },
+    {
+        tipo: WordTipo.humanBody,
+        texto: 'smell (nose)',
+        textoEspañol: 'olfato (nariz)',
+        imagen: ''
+    },
+    {
         tipo: WordTipo.otros,
         texto: 'Alien',
         textoEspañol: '',
@@ -290,5 +392,5 @@ export let englishWords: EnglishWord[] = [
         texto: 'Robot',
         textoEspañol: '',
         imagen: 'robot.jpeg'
-    },
+    }
 ]
