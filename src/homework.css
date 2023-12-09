@@ -50,7 +50,7 @@ button {
 }
 
 #boton-oxidacion {
-    visibility: hidden;
+    visibility: visible;
 }
 
 #calculo {
